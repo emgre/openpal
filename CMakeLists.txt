@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.8)
-project (opendnp3)
+project (openpal)
 set(OPENPAL_MAJOR_VERSION 1)
 set(OPENPAL_MINOR_VERSION 0)
 set(OPENPAL_MICRO_VERSION 0)
@@ -25,6 +25,15 @@ set_target_properties(openpal PROPERTIES FOLDER libs)
 if(TEST)
 
   enable_testing()
+
+  include_directories(./cpp/tests)
+  include_directories(./cpp/tests/catch)
+
+  # ----- testlib library ------
+  file(GLOB_RECURSE testlib_SRC ./cpp/tests/testlib/*.cpp ./cpp/tests/testlib/*.h)
+  add_library(testlib ${testlib_SRC})
+  target_link_libraries(testlib openpal)
+  set_target_properties(testlib PROPERTIES FOLDER tests)
   
   # ----- openpal tests -----
   file(GLOB_RECURSE openpal_TESTSRC ./cpp/tests/openpaltests/src/*.cpp ./cpp/tests/openpaltests/src/*.h)
