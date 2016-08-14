@@ -23,7 +23,7 @@
 namespace openpal
 {
 
-TimerRef::TimerRef(openpal::IExecutor& executor) : pExecutor(&executor), pTimer(nullptr)
+TimerRef::TimerRef(openpal::IExecutor& executor) : executor_(&executor), timer_(nullptr)
 {}
 
 TimerRef::~TimerRef()
@@ -34,20 +34,20 @@ TimerRef::~TimerRef()
 
 bool TimerRef::IsActive() const
 {
-	return (pTimer != nullptr);
+	return (timer_ != nullptr);
 }
 
 MonotonicTimestamp TimerRef::ExpiresAt() const
 {
-	return pTimer ? pTimer->ExpiresAt() : MonotonicTimestamp::Max();
+	return timer_ ? timer_->ExpiresAt() : MonotonicTimestamp::Max();
 }
 
 bool TimerRef::Cancel()
 {
-	if (pTimer)
+	if (timer_)
 	{
-		pTimer->Cancel();
-		pTimer = nullptr;
+		timer_->Cancel();
+		timer_ = nullptr;
 		return true;
 	}
 	else
@@ -56,50 +56,50 @@ bool TimerRef::Cancel()
 	}
 }
 
-bool TimerRef::Start(const TimeDuration& timeout, const openpal::Action0& action)
+bool TimerRef::Start(const TimeDuration& timeout, const action_t& action)
 {
-	if (pTimer)
+	if (timer_)
 	{
 		return false;
 	}
 	else
 	{
-		pTimer = pExecutor->Start(timeout, action);
+		timer_ = executor_->Start(timeout, action);
 		return true;
 	}
 }
 
-bool TimerRef::Start(const MonotonicTimestamp& expiration, const openpal::Action0& action)
+bool TimerRef::Start(const MonotonicTimestamp& expiration, const action_t& action)
 {
-	if (pTimer)
+	if (timer_)
 	{
 		return false;
 	}
 	else
 	{
-		pTimer = pExecutor->Start(expiration, action);
+		timer_ = executor_->Start(expiration, action);
 		return true;
 	}
 }
 
-void TimerRef::Restart(const TimeDuration& timeout, const openpal::Action0& action)
+void TimerRef::Restart(const TimeDuration& timeout, const action_t& action)
 {
-	if (pTimer)
+	if (timer_)
 	{
-		pTimer->Cancel();
+		timer_->Cancel();
 	}
 
-	pTimer = pExecutor->Start(timeout, action);
+	timer_ = executor_->Start(timeout, action);
 }
 
-void TimerRef::Restart(const MonotonicTimestamp& expiration, const openpal::Action0& action)
+void TimerRef::Restart(const MonotonicTimestamp& expiration, const action_t& action)
 {
-	if (pTimer)
+	if (timer_)
 	{
-		pTimer->Cancel();
+		timer_->Cancel();
 	}
 
-	pTimer = pExecutor->Start(expiration, action);
+	timer_ = executor_->Start(expiration, action);
 }
 
 }

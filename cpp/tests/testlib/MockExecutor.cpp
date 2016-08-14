@@ -28,7 +28,7 @@ namespace testlib
 {
 
 MockExecutor::MockExecutor() :
-	mPostIsSynchronous(false),
+	post_is_synchronous_(false),
 	mCurrentTime(0)
 {
 
@@ -127,7 +127,7 @@ bool MockExecutor::RunOne()
 	{
 		auto runnable = postQueue.front();
 		postQueue.pop_front();
-		runnable.Apply();
+		runnable();
 		return true;
 	}
 	else
@@ -143,11 +143,11 @@ size_t MockExecutor::RunMany(size_t aMaximum)
 	return num;
 }
 
-void MockExecutor::Post(const openpal::Action0& runnable)
+void MockExecutor::Post(const openpal::action_t& runnable)
 {
-	if (mPostIsSynchronous)
+	if (post_is_synchronous_)
 	{
-		runnable.Apply();
+		runnable();
 	}
 	else
 	{
@@ -160,13 +160,13 @@ openpal::MonotonicTimestamp MockExecutor::GetTime()
 	return mCurrentTime;
 }
 
-ITimer* MockExecutor::Start(const openpal::TimeDuration& aDelay, const openpal::Action0& runnable)
+ITimer* MockExecutor::Start(const openpal::TimeDuration& aDelay, const openpal::action_t& runnable)
 {
 	auto expiration = mCurrentTime.Add(aDelay);
 	return Start(expiration, runnable);
 }
 
-ITimer* MockExecutor::Start(const openpal::MonotonicTimestamp& arTime, const openpal::Action0& runnable)
+ITimer* MockExecutor::Start(const openpal::MonotonicTimestamp& arTime, const openpal::action_t& runnable)
 {
 	MockTimer* pTimer = new MockTimer(this, arTime, runnable);
 	timers.push_back(pTimer);
@@ -186,7 +186,7 @@ void MockExecutor::Cancel(ITimer* pTimer)
 	}
 }
 
-MockTimer::MockTimer(MockExecutor* apSource, const openpal::MonotonicTimestamp& arTime, const openpal::Action0& runnable_) :
+MockTimer::MockTimer(MockExecutor* apSource, const openpal::MonotonicTimestamp& arTime, const openpal::action_t& runnable_) :
 	mTime(arTime),
 	mpSource(apSource),
 	runnable(runnable_)
