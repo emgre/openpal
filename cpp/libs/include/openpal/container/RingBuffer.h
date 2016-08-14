@@ -79,7 +79,7 @@ public:
 		{
 			output[i] = buffer[(tail++) & (N - 1)];
 		}
-		output.Advance(num);
+		output.advance(num);
 		return num;
 	}
 
@@ -90,7 +90,7 @@ public:
 		{
 			buffer[(head++) & (N - 1)] = input[i];
 		}
-		input.Advance(num);
+        input.advance(num);
 		return num;
 	}
 

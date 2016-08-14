@@ -40,7 +40,7 @@ public:
 
 	~SecureBuffer()
 	{
-		this->GetWSlice().SetAllTo(0x00);
+		this->GetWSlice().set_all_to(0x00);
 	}
 
 };

@@ -34,36 +34,36 @@ class WSlice;
 *	Represents a readonly slice of a buffer located elsewhere. Mediates reading from the buffer
 *	to prevent overreads and other errors.
 */
-class RSlice : public HasLength<uint32_t>
+class RSlice final : public HasLength<uint32_t>
 {
 
 public:
 
-	static RSlice Empty();
+	static RSlice empty_slice();
 
 	RSlice();
 
-	RSlice(uint8_t const* pBuffer, uint32_t size);
+	RSlice(uint8_t const* buffer, uint32_t length);
 
-	void Clear();
+	void make_empty();
 
-	RSlice CopyTo(WSlice&) const;
+	RSlice copy_to(WSlice &dest) const;
 
-	RSlice Take(uint32_t count) const;
+	RSlice take(uint32_t count) const;
 
-	RSlice Skip(uint32_t count) const;
+	RSlice skip(uint32_t count) const;
 
-	bool Equals(const RSlice& rhs) const;
+	bool equals(const RSlice &rhs) const;
 
-	void Advance(uint32_t count);
+	void advance(uint32_t count);
 
 	operator uint8_t const* () const
 	{
-		return pBuffer;
+		return buffer_;
 	};
 
 private:
-	uint8_t const* pBuffer;
+	uint8_t const* buffer_;
 
 };
 

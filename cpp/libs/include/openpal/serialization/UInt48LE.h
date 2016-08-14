@@ -43,14 +43,14 @@ public:
 	inline static UInt48Type ReadBuffer(RSlice& buffer)
 	{
 		auto ret = Read(buffer);
-		buffer.Advance(SIZE);
+        buffer.advance(SIZE);
 		return ret;
 	}
 
 	static void WriteBuffer(WSlice& buffer, UInt48Type value)
 	{
 		Write(buffer, value);
-		buffer.Advance(SIZE);
+		buffer.advance(SIZE);
 	}
 
 	const static uint64_t MAX = 281474976710655ULL; // 2^48 -1

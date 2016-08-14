@@ -31,7 +31,7 @@ Buffer::Buffer(uint32_t size) : Array<uint8_t, uint32_t>(size)
 Buffer::Buffer(const RSlice& input) : Array<uint8_t, uint32_t>(input.length())
 {
 	auto dest = this->GetWSlice();
-	input.CopyTo(dest);
+	input.copy_to(dest);
 }
 
 RSlice Buffer::ToRSlice() const

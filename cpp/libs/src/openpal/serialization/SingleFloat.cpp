@@ -40,14 +40,14 @@ union SingleFloatUnion
 float SingleFloat::ReadBuffer(RSlice& buffer)
 {
 	auto ret = Read(buffer);
-	buffer.Advance(SIZE);
+    buffer.advance(SIZE);
 	return ret;
 }
 
 void SingleFloat::WriteBuffer(WSlice& buffer, float value)
 {
 	Write(buffer, value);
-	buffer.Advance(SIZE);
+	buffer.advance(SIZE);
 }
 
 float SingleFloat::Read(const uint8_t* data)

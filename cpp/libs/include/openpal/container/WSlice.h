@@ -38,34 +38,34 @@ class WSlice : public HasLength<uint32_t>
 {
 public:
 
-	static WSlice Empty();
+	static WSlice empty_slice();
 
-	void SetAllTo(uint8_t value);
+	void set_all_to(uint8_t value);
 
 	WSlice();
-	WSlice(uint8_t* pBuffer, uint32_t size);
+	WSlice(uint8_t* buffer, uint32_t length);
 
-	void Clear();
+	void make_empty();
 
-	uint32_t Advance(uint32_t count);
+	uint32_t advance(uint32_t count);
 
-	WSlice Skip(uint32_t count) const;
+	WSlice skip(uint32_t count) const;
 
-	RSlice ToRSlice() const;
+	RSlice as_rslice() const;
 
 	operator uint8_t* ()
 	{
-		return pBuffer;
+		return buffer_;
 	};
 
 	operator uint8_t const* () const
 	{
-		return pBuffer;
+		return buffer_;
 	};
 
 private:
 
-	uint8_t* pBuffer;
+	uint8_t* buffer_;
 };
 
 

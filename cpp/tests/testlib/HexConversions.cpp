@@ -72,13 +72,13 @@ std::string AppendHex(std::initializer_list<std::string> segments)
 std::string SkipBytesHex(const std::string& input, uint32_t bytes)
 {
 	HexSequence buffer(input);
-	return ToHex(buffer.ToRSlice().Skip(bytes));
+	return ToHex(buffer.ToRSlice().skip(bytes));
 }
 
 std::string RepeatHex(uint8_t byte, uint16_t count, bool spaced)
 {
 	Buffer buffer(count);
-	buffer.GetWSlice().SetAllTo(byte);
+	buffer.GetWSlice().set_all_to(byte);
 	return ToHex(buffer.ToRSlice(), spaced);
 }
 

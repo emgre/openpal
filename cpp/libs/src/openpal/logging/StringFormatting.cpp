@@ -65,7 +65,7 @@ void LogHex(Logger& logger, const openpal::LogFilters& filters, const openpal::R
 				rowSize = otherRowSize;
 			}
 		}
-		auto region = copy.Take(rowSize);
+		auto region = copy.take(rowSize);
 		auto pLocation = buffer;
 		for (uint32_t pos = 0; pos < rowSize; ++pos)
 		{
@@ -75,7 +75,7 @@ void LogHex(Logger& logger, const openpal::LogFilters& filters, const openpal::R
 			pLocation += 3;
 		}
 		buffer[3 * rowSize] = '\0';
-		copy.Advance(rowSize);
+		copy.advance(rowSize);
 
 		logger.Log(filters, "", buffer, -1);
 

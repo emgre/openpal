@@ -51,13 +51,13 @@ public:
 	static void WriteBuffer(WSlice& buffer, T aValue)
 	{
 		Write(buffer, aValue);
-		buffer.Advance(SIZE);
+		buffer.advance(SIZE);
 	}
 
 	inline static T ReadBuffer(RSlice& arBuffer)
 	{
 		auto ret = Read(arBuffer);
-		arBuffer.Advance(SIZE);
+        arBuffer.advance(SIZE);
 		return ret;
 	}
 
@@ -103,13 +103,13 @@ public:
 	static void WriteBuffer(WSlice& buffer, T aValue)
 	{
 		Write(buffer, aValue);
-		buffer.Advance(SIZE);
+		buffer.advance(SIZE);
 	}
 
 	inline static T ReadBuffer(RSlice& buffer)
 	{
 		auto ret = Read(buffer);
-		buffer.Advance(SIZE);
+        buffer.advance(SIZE);
 		return ret;
 	}
 

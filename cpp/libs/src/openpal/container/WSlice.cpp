@@ -28,49 +28,49 @@
 namespace openpal
 {
 
-WSlice WSlice::Empty()
+WSlice WSlice::empty_slice()
 {
 	return WSlice();
 }
 
 WSlice::WSlice():
 	HasLength(0),
-	pBuffer(nullptr)
+	buffer_(nullptr)
 {}
 
-void WSlice::SetAllTo(uint8_t value)
+void WSlice::set_all_to(uint8_t value)
 {
-	memset(pBuffer, value, length_);
+	memset(buffer_, value, length_);
 }
 
-WSlice::WSlice(uint8_t* pBuffer_, uint32_t size) :
-	HasLength(size),
-	pBuffer(pBuffer_)
+WSlice::WSlice(uint8_t* buffer, uint32_t length) :
+	HasLength(length),
+	buffer_(buffer)
 {}
 
-void WSlice::Clear()
+void WSlice::make_empty()
 {
-	pBuffer = nullptr;
+	buffer_ = nullptr;
 	length_ = 0;
 }
 
-uint32_t WSlice::Advance(uint32_t count)
+uint32_t WSlice::advance(uint32_t count)
 {
 	auto num = openpal::Min(count, length_);
-	pBuffer += num;
+	buffer_ += num;
 	length_ -= num;
 	return num;
 }
 
-WSlice WSlice::Skip(uint32_t count) const
+WSlice WSlice::skip(uint32_t count) const
 {
 	auto num = openpal::Min(count, length_);
-	return WSlice(pBuffer + num, length_ - num);
+	return WSlice(buffer_ + num, length_ - num);
 }
 
-RSlice WSlice::ToRSlice() const
+RSlice WSlice::as_rslice() const
 {
-	return RSlice(pBuffer, length_);
+	return RSlice(buffer_, length_);
 }
 
 }

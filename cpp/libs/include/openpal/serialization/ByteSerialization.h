@@ -42,14 +42,14 @@ public:
 	inline static uint8_t ReadBuffer(RSlice& buffer)
 	{
 		auto ret = Read(buffer);
-		buffer.Advance(SIZE);
+        buffer.advance(SIZE);
 		return ret;
 	}
 
 	static void WriteBuffer(WSlice& buffer, uint8_t value)
 	{
 		Write(buffer, value);
-		buffer.Advance(SIZE);
+		buffer.advance(SIZE);
 	}
 
 	inline static void Write(uint8_t* pStart, uint8_t value)

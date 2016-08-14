@@ -345,7 +345,7 @@ void LinkedList<ValueType, IndexType>::Remove(ListNode<ValueType>* apNode)
 	{
 		if (apNode->next == nullptr)
 		{
-			pHead = pTail = nullptr; // list is now empty
+			pHead = pTail = nullptr; // list is now empty_slice
 		}
 		else
 		{

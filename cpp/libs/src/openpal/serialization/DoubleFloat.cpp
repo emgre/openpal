@@ -39,14 +39,14 @@ union DoubleFloatUnion
 double DoubleFloat::ReadBuffer(RSlice& buffer)
 {
 	auto ret = Read(buffer);
-	buffer.Advance(SIZE);
+    buffer.advance(SIZE);
 	return ret;
 }
 
 void DoubleFloat::WriteBuffer(WSlice& buffer, double value)
 {
 	Write(buffer, value);
-	buffer.Advance(SIZE);
+	buffer.advance(SIZE);
 }
 
 double DoubleFloat::Read(const uint8_t* data)

@@ -29,56 +29,56 @@
 namespace openpal
 {
 
-RSlice RSlice::Empty()
+RSlice RSlice::empty_slice()
 {
 	return RSlice();
 }
 
-RSlice::RSlice(): HasLength(0), pBuffer(nullptr)
+RSlice::RSlice(): HasLength(0), buffer_(nullptr)
 {}
 
-RSlice::RSlice(uint8_t const* pBuffer, uint32_t size) :
-	HasLength(size),
-	pBuffer(pBuffer)
+RSlice::RSlice(uint8_t const* pBuffer, uint32_t length) :
+	HasLength(length),
+	buffer_(pBuffer)
 {}
 
-RSlice RSlice::CopyTo(WSlice& dest) const
+RSlice RSlice::copy_to(WSlice &dest) const
 {
 	if (dest.length() < length_)
 	{
-		return RSlice::Empty();
+		return RSlice::empty_slice();
 	}
 	else
 	{
 		WSlice copy(dest);
-		memcpy(dest, pBuffer, length_);
-		dest.Advance(length_);
-		return copy.ToRSlice().Take(length_);
+		memcpy(dest, buffer_, length_);
+        dest.advance(length_);
+		return copy.as_rslice().take(length_);
 	}
 }
 
-RSlice RSlice::Take(uint32_t count) const
+RSlice RSlice::take(uint32_t count) const
 {
-	return RSlice(pBuffer, openpal::Min(length_, count));
+	return RSlice(buffer_, openpal::Min(length_, count));
 }
 
-RSlice RSlice::Skip(uint32_t count) const
+RSlice RSlice::skip(uint32_t count) const
 {
 	auto num = openpal::Min(length_, count);
-	return RSlice(pBuffer + num, length_ - num);
+	return RSlice(buffer_ + num, length_ - num);
 }
 
-void RSlice::Clear()
+void RSlice::make_empty()
 {
-	pBuffer = nullptr;
+	buffer_ = nullptr;
 	length_ = 0;
 }
 
-bool RSlice::Equals(const RSlice& rhs) const
+bool RSlice::equals(const RSlice &rhs) const
 {
 	if (this->length() == rhs.length())
 	{
-		return memcmp(pBuffer, rhs.pBuffer, length()) == 0;
+		return memcmp(buffer_, rhs.buffer_, length()) == 0;
 	}
 	else
 	{
@@ -86,10 +86,10 @@ bool RSlice::Equals(const RSlice& rhs) const
 	}
 }
 
-void RSlice::Advance(uint32_t count)
+void RSlice::advance(uint32_t count)
 {
 	auto num = openpal::Min(length_, count);
-	pBuffer += num;
+	buffer_ += num;
 	length_ -= num;
 }
 
