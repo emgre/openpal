@@ -35,11 +35,11 @@ TEST_CASE(SUITE("AddsUntilFull"))
 {
 	Queue<bool, uint16_t> queue(3);
 
-	REQUIRE(queue.Enqueue(true));
-	REQUIRE(queue.Enqueue(false));
-	REQUIRE(queue.Enqueue(true));
+	REQUIRE(queue.enqueue(true));
+	REQUIRE(queue.enqueue(false));
+	REQUIRE(queue.enqueue(true));
 
-	REQUIRE_FALSE(queue.Enqueue(true));
+	REQUIRE_FALSE(queue.enqueue(true));
 }
 
 

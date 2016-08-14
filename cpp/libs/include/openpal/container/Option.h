@@ -18,42 +18,42 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef OPENPAL_SETTABLE_H
-#define OPENPAL_SETTABLE_H
+#ifndef OPENPAL_OPTION_H
+#define OPENPAL_OPTION_H
 
 namespace openpal
 {
 
 // utility class for representing a value that may or may not be set
 template <class T>
-class Settable
+class Option
 {
 public:
 
-	Settable() : valueIsSet(false)
+	Option() : value_is_set_(false)
 	{}
 
 	bool IsSet() const
 	{
-		return valueIsSet;
+		return value_is_set_;
 	}
 
 	bool IsEmpty() const
 	{
-		return !valueIsSet;
+		return !value_is_set_;
 	}
 
 	T Get() const
 	{
-		return value;
+		return value_;
 	}
 
-	bool Pop(T& output)
+	bool pop(T &output)
 	{
-		if (valueIsSet)
+		if (value_is_set_)
 		{
-			valueIsSet = false;
-			output = value;
+			value_is_set_ = false;
+			output = value_;
 			return true;
 		}
 		else
@@ -62,37 +62,37 @@ public:
 		}
 	}
 
-	void Clear()
+	void clear()
 	{
-		valueIsSet = false;
+		value_is_set_ = false;
 	}
 
-	void Set(const T& value_)
+	void set(const T &value)
 	{
-		value = value_;
-		valueIsSet = true;
+		value_ = value;
+		value_is_set_ = true;
 	}
 
 	template <class Action>
-	bool IsSetAnd(Action action);
+	bool is_set_and(Action action);
 
 	template <class Action>
-	void Foreach(Action action);
+	void foreach(Action action);
 
 
 private:
 
-	bool valueIsSet;
-	T value;
+	bool value_is_set_;
+	T value_;
 };
 
 template <class T>
 template <class Action>
-bool Settable<T>::IsSetAnd(Action action)
+bool Option<T>::is_set_and(Action action)
 {
-	if (valueIsSet)
+	if (value_is_set_)
 	{
-		return action(value);
+		return action(value_);
 	}
 	else
 	{
@@ -102,11 +102,11 @@ bool Settable<T>::IsSetAnd(Action action)
 
 template <class T>
 template <class Action>
-void Settable<T>::Foreach(Action action)
+void Option<T>::foreach(Action action)
 {
-	if (valueIsSet)
+	if (value_is_set_)
 	{
-		action(value);
+		action(value_);
 	}
 }
 

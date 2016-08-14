@@ -41,7 +41,7 @@ namespace testlib
 //		//do something on success
 //		if(success) return or break;
 //
-//		//or go back around the loop, the next call to
+//		//or go back around the loop, the next_ call to
 //		//remaining will be guarnteed to be > 0
 // }while(!to.IsExpired());
 class Timeout

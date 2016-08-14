@@ -34,88 +34,88 @@ class Queue
 
 public:
 
-	Queue(IndexType size) : count(0), first(0), nextInsert(0), buffer(size)
+	Queue(IndexType size) : count_(0), first_(0), next_insert_(0), buffer_(size)
 	{}
 
-	IndexType Size() const
+	IndexType size() const
 	{
-		return count;
+		return count_;
 	}
 
-	IndexType Capacity() const
+	IndexType capacity() const
 	{
-		return buffer.length();
+		return buffer_.length();
 	}
 
-	bool IsEmpty() const
+	bool is_empty() const
 	{
-		return count == 0;
+		return count_ == 0;
 	}
 
-	bool IsNotEmpty() const
+	bool is_not_empty() const
 	{
-		return count > 0;
+		return count_ > 0;
 	}
 
-	bool IsFull() const
+	bool is_full() const
 	{
-		return count == buffer.length();
+		return count_ == buffer_.length();
 	}
 
-	void Clear()
+	void clear()
 	{
-		count = first = nextInsert = 0;
+		count_ = first_ = next_insert_ = 0;
 	}
 
-	ValueType* Peek()
+	ValueType* peek()
 	{
-		if (IsEmpty())
+		if (is_empty())
 		{
 			return nullptr;
 		}
 		else
 		{
-			return &buffer[first];
+			return &buffer_[first_];
 		}
 	}
 
-	ValueType* Pop()
+	ValueType* pop()
 	{
-		if (IsEmpty())
+		if (is_empty())
 		{
 			return nullptr;
 		}
 		else
 		{
-			IndexType ret = first;
-			first = (first + 1) % buffer.length();
-			--count;
-			return &buffer[ret];
+			IndexType ret = first_;
+			first_ = (first_ + 1) % buffer_.length();
+			--count_;
+			return &buffer_[ret];
 		}
 	}
 
-	bool Enqueue(const ValueType& value)
+	bool enqueue(const ValueType &value)
 	{
-		if (IsFull())
+		if (is_full())
 		{
 			return false;
 		}
 		else
 		{
-			buffer[nextInsert] = value;
-			nextInsert = (nextInsert + 1) % buffer.length();
-			++count;
+			buffer_[next_insert_] = value;
+			next_insert_ = (next_insert_ + 1) % buffer_.length();
+			++count_;
 			return true;
 		}
 	}
 
 private:
 
-	IndexType count;
-	IndexType first;
-	IndexType nextInsert;
+	IndexType count_;
+	IndexType first_;
+	IndexType next_insert_;
 
-	openpal::Array<ValueType, IndexType> buffer;
+	openpal::Array<ValueType, IndexType> buffer_;
 };
 
 }
