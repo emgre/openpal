@@ -36,7 +36,7 @@ char* AllocateCopy(char const* src)
 	auto size = strlen(src) + 1;
 	char* tmp = new char[size];
 #ifdef WIN32
-	strcpy_s(tmp, size, src);
+	strcpy_s(tmp, length_, src);
 #else
 	strcpy(tmp, src);
 #endif
@@ -48,9 +48,9 @@ void LogHex(Logger& logger, const openpal::LogFilters& filters, const openpal::R
 	char buffer[MAX_LOG_ENTRY_SIZE];
 	RSlice copy(source);
 	uint32_t rowCount = 0;
-	while (copy.IsNotEmpty())
+	while (copy.is_not_empty())
 	{
-		uint32_t rowSize = (copy.Size() < MAX_HEX_PER_LINE) ? copy.Size() : MAX_HEX_PER_LINE;
+		uint32_t rowSize = (copy.length() < MAX_HEX_PER_LINE) ? copy.length() : MAX_HEX_PER_LINE;
 		if (rowCount == 0)
 		{
 			if (firstRowSize < rowSize)

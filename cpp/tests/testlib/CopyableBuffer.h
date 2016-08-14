@@ -42,7 +42,7 @@ class CopyableBuffer
 public:
 	// Construct null buffer
 	CopyableBuffer();
-	// Construct based on starting size of buffer
+	// Construct based on starting length_ of buffer
 	CopyableBuffer(uint32_t aSize);
 	CopyableBuffer(const openpal::RSlice&);
 	CopyableBuffer(const uint8_t* apBuff, uint32_t aSize);

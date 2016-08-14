@@ -32,7 +32,7 @@ union FloatUnion
 	float f;
 };
 
-static_assert(sizeof(FloatUnion) == 4, "Bad float union size");
+static_assert(sizeof(FloatUnion) == 4, "Bad float union length_");
 
 bool FloatByteOrder::IsNormalByteOrder()
 {

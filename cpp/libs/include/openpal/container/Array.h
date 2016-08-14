@@ -36,47 +36,47 @@ namespace openpal
 * Template type for a dynamically allocated array
 */
 template <class ValueType, class IndexType>
-class Array : public HasSize<IndexType>, private openpal::Uncopyable
+class Array : public HasLength<IndexType>, private openpal::Uncopyable
 {
 
 public:
 
 	Array(IndexType size) :
-		HasSize<IndexType>(size),
+		HasLength<IndexType>(size),
 		buffer(new ValueType[size]())
 	{}
 
 	Array() :
-		HasSize<IndexType>(0),
+		HasLength<IndexType>(0),
 		buffer(nullptr)
 	{}
 
 	Array(const Array& copy) :
-		HasSize<IndexType>(copy.Size()),
-		buffer(new ValueType[copy.Size()])
+		HasLength<IndexType>(copy.length()),
+		buffer(new ValueType[copy.length()])
 	{
-		for(IndexType i = 0; i < copy.Size(); ++i) buffer[i] = copy.buffer[i];
+		for(IndexType i = 0; i < copy.length(); ++i) buffer[i] = copy.buffer[i];
 	}
 
 	ArrayView<ValueType, IndexType> ToView() const
 	{
-		return ArrayView<ValueType, IndexType>(buffer, this->size);
+		return ArrayView<ValueType, IndexType>(buffer, this->length_);
 	}
 
 	inline bool Contains(IndexType index) const
 	{
-		return index < this->size;
+		return index < this->length_;
 	}
 
 	inline ValueType& operator[](IndexType index)
 	{
-		assert(index < this->size);
+		assert(index < this->length_);
 		return buffer[index];
 	}
 
 	const ValueType& operator[](IndexType index) const
 	{
-		assert(index < this->size);
+		assert(index < this->length_);
 		return buffer[index];
 	}
 
@@ -84,32 +84,32 @@ public:
 	{
 		delete[] buffer;
 		buffer = new ValueType[aSize];
-		this->size = aSize;
+		this->length_ = aSize;
 	}
 
 	template <class Action>
 	void foreach(const Action& action) const
 	{
-		for(IndexType i = 0; i < this->size; ++i) action(buffer[i]);
+		for(IndexType i = 0; i < this->length_; ++i) action(buffer[i]);
 	}
 
 	template <class Action>
 	void foreach(const Action& action)
 	{
-		for(IndexType i = 0; i < this->size; ++i) action(buffer[i]);
+		for(IndexType i = 0; i < this->length_; ++i) action(buffer[i]);
 	}
 
 	template <class Action>
 	void foreachIndex(const Action& action)
 	{
-		for(IndexType i = 0; i < this->size; ++i) action(buffer[i], i);
+		for(IndexType i = 0; i < this->length_; ++i) action(buffer[i], i);
 	}
 
 
 	template <class Action>
 	void foreachIndex(const Action& action) const
 	{
-		for(uint32_t i = 0; i < this->size; ++i) action(buffer[i], i);
+		for(uint32_t i = 0; i < this->length_; ++i) action(buffer[i], i);
 	}
 
 	virtual ~Array()

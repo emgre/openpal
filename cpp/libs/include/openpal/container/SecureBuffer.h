@@ -35,7 +35,7 @@ public:
 
 	SecureBuffer(uint32_t size) : Buffer(size) {}
 
-	// initialize with the exact size and contents of the view
+	// initialize with the exact length_ and contents of the view
 	SecureBuffer(const RSlice& input) : Buffer(input) {}
 
 	~SecureBuffer()

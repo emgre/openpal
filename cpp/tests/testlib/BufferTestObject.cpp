@@ -53,7 +53,7 @@ void BufferTestObject::ClearBuffer()
 
 bool BufferTestObject::BufferEquals(const openpal::RSlice& arBuffer) const
 {
-	return BufferEquals(arBuffer, arBuffer.Size());
+	return BufferEquals(arBuffer, arBuffer.length());
 }
 
 bool BufferTestObject::BufferEquals(const uint8_t* apData, size_t aNumBytes) const
@@ -106,15 +106,15 @@ bool BufferTestObject::BufferEqualsString(const std::string& arData) const
 
 void BufferTestObject::WriteToBuffer(const RSlice& input)
 {
-	if((mBuffer.size() + input.Size()) > MAX_SIZE )
+	if((mBuffer.size() + input.length()) > MAX_SIZE )
 	{
-		throw std::invalid_argument("Max size exceeded");
+		throw std::invalid_argument("Max length_ exceeded");
 	}
 	else
 	{
 		++mNumWrites;
 
-		for(size_t i = 0; i < input.Size(); ++i)
+		for(size_t i = 0; i < input.length(); ++i)
 		{
 			mBuffer.push_back(input[i]);
 		}

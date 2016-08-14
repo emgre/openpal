@@ -34,7 +34,7 @@ class DoubleFloat : private StaticOnly
 {
 public:
 
-	static_assert(sizeof(double) == 8, "Unexpected size of double float");
+	static_assert(sizeof(double) == 8, "Unexpected length_ of double float");
 
 	typedef double Type;
 

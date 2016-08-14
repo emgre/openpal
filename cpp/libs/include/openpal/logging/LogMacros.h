@@ -30,7 +30,7 @@
 #include <cstdio>
 
 #ifdef WIN32
-#define SAFE_STRING_FORMAT(dest, size, format, ...) _snprintf_s(dest, size, _TRUNCATE, format, ##__VA_ARGS__)
+#define SAFE_STRING_FORMAT(dest, length_, format, ...) _snprintf_s(dest, length_, _TRUNCATE, format, ##__VA_ARGS__)
 #else
 #define SAFE_STRING_FORMAT(dest, size, format, ...) snprintf(dest, size, format, ##__VA_ARGS__)
 #endif
@@ -74,7 +74,7 @@
 
 #else
 
-#define SAFE_STRING_FORMAT(dest, size, format, ...)
+#define SAFE_STRING_FORMAT(dest, length_, format, ...)
 
 #define SIMPLE_LOG_BLOCK_WITH_CODE(logger, filters, code, message)
 

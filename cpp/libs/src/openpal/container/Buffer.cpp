@@ -28,7 +28,7 @@ Buffer::Buffer() : Array<uint8_t, uint32_t>(0)
 Buffer::Buffer(uint32_t size) : Array<uint8_t, uint32_t>(size)
 {}
 
-Buffer::Buffer(const RSlice& input) : Array<uint8_t, uint32_t>(input.Size())
+Buffer::Buffer(const RSlice& input) : Array<uint8_t, uint32_t>(input.length())
 {
 	auto dest = this->GetWSlice();
 	input.CopyTo(dest);
@@ -36,17 +36,17 @@ Buffer::Buffer(const RSlice& input) : Array<uint8_t, uint32_t>(input.Size())
 
 RSlice Buffer::ToRSlice() const
 {
-	return RSlice(this->buffer, this->size);
+	return RSlice(this->buffer, this->length_);
 }
 
 WSlice Buffer::GetWSlice()
 {
-	return WSlice(this->buffer, this->Size());
+	return WSlice(this->buffer, this->length());
 }
 
 WSlice Buffer::GetWSlice(uint32_t maxSize)
 {
-	if (maxSize <= this->Size())
+	if (maxSize <= this->length())
 	{
 		return WSlice(this->buffer, maxSize);
 	}

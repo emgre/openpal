@@ -27,7 +27,7 @@ namespace openpal
 template <class Serializer>
 bool WriteType(WSlice& dest, const typename Serializer::Type& value)
 {
-	if (dest.Size() < Serializer::SIZE)
+	if (dest.length() < Serializer::SIZE)
 	{
 		return false;
 	}

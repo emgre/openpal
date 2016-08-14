@@ -21,7 +21,7 @@
 #ifndef OPENPAL_WSLICE_H
 #define OPENPAL_WSLICE_H
 
-#include "HasSize.h"
+#include "HasLength.h"
 
 #include <cstdint>
 
@@ -34,7 +34,7 @@ class RSlice;
 *	Represents a write-able slice of a buffer located elsewhere. Mediates writing to the buffer
 *	to prevent overruns and other errors.
 */
-class WSlice : public HasSize<uint32_t>
+class WSlice : public HasLength<uint32_t>
 {
 public:
 

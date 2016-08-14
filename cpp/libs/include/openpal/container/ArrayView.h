@@ -21,7 +21,7 @@
 #ifndef OPENPAL_ARRAYVIEW_H
 #define OPENPAL_ARRAYVIEW_H
 
-#include "HasSize.h"
+#include "HasLength.h"
 
 #include <assert.h>
 
@@ -32,7 +32,7 @@ namespace openpal
 * Acts as a safe facade around an underlying array
 */
 template <class ValueType, class IndexType>
-class ArrayView : public HasSize<IndexType>
+class ArrayView : public HasLength<IndexType>
 {
 
 public:
@@ -42,12 +42,12 @@ public:
 		return ArrayView(nullptr, 0);
 	}
 
-	ArrayView(ValueType* start, IndexType aSize) : HasSize<IndexType>(aSize), buffer(start)
+	ArrayView(ValueType* start, IndexType aSize) : HasLength<IndexType>(aSize), buffer(start)
 	{}
 
 	inline bool Contains(IndexType index) const
 	{
-		return index < this->size;
+		return index < this->length_;
 	}
 
 	inline bool Contains(IndexType start, IndexType stop) const
@@ -57,20 +57,20 @@ public:
 
 	inline ValueType& operator[](IndexType index)
 	{
-		assert(index < this->size);
+		assert(index < this->length_);
 		return buffer[index];
 	}
 
 	inline const ValueType& operator[](IndexType index) const
 	{
-		assert(index < this->size);
+		assert(index < this->length_);
 		return buffer[index];
 	}
 
 	template <class Action>
 	void foreach(const Action& action)
 	{
-		for (IndexType i = 0; i < this->size; ++i)
+		for (IndexType i = 0; i < this->length_; ++i)
 		{
 			action(buffer[i]);
 		}
@@ -79,7 +79,7 @@ public:
 	template <class Action>
 	void foreachIndex(const Action& action)
 	{
-		for (IndexType i = 0; i < this->size; ++i)
+		for (IndexType i = 0; i < this->length_; ++i)
 		{
 			action(buffer[i], i);
 		}

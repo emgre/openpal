@@ -53,8 +53,8 @@ CopyableBuffer::CopyableBuffer(uint32_t aSize) :
 }
 
 CopyableBuffer::CopyableBuffer(const openpal::RSlice& buffer) :
-	mpBuff(new uint8_t[buffer.Size()]),
-	mSize(buffer.Size())
+	mpBuff(new uint8_t[buffer.length()]),
+	mSize(buffer.length())
 {
 	openpal::WSlice dest(mpBuff, mSize);
 	buffer.CopyTo(dest);

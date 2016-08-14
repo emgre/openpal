@@ -112,14 +112,14 @@ private:
 
 // A container adapter for a -linked list
 template <class ValueType, class IndexType>
-class LinkedList : public HasSize<IndexType>
+class LinkedList : public HasLength<IndexType>
 {
 public:
 
 	typedef LinkedListIterator<ValueType> Iterator;
 
 	LinkedList(IndexType maxSize) :
-		HasSize<IndexType>(0),
+		HasLength<IndexType>(0),
 		pHead(nullptr),
 		pTail(nullptr),
 		pFree(nullptr),
@@ -130,19 +130,19 @@ public:
 
 	IndexType Capacity() const
 	{
-		return underlying.Size();
+		return underlying.length();
 	}
 
 	void Clear()
 	{
-		if (this->IsNotEmpty())
+		if (this->is_not_empty())
 		{
 			// link the remaining free list to the end of active list
 			this->Link(pTail, pFree);
 			// set the free pointer to the head
 			pFree = pHead;
 			pHead = pTail = nullptr;
-			this->size = 0;
+			this->length_ = 0;
 		}
 	}
 
@@ -297,11 +297,11 @@ ListNode<ValueType>* LinkedList<ValueType, IndexType>::Insert(const ValueType& v
 	}
 	else
 	{
-		// initialize the new node, and increment the size
+		// initialize the new node, and increment the length_
 		auto pNode = pFree;
 		pFree = pFree->next;
 		pNode->value = value;
-		++(this->size);
+		++(this->length_);
 
 		this->Link(pLeft, pNode);
 		this->Link(pNode, pRight);
@@ -365,7 +365,7 @@ void LinkedList<ValueType, IndexType>::Remove(ListNode<ValueType>* apNode)
 	if(pFree != nullptr) pFree->prev = apNode;
 	apNode->prev = nullptr; // it's the head now
 	pFree = apNode;
-	--(this->size);
+	--(this->length_);
 }
 
 template <class ValueType, class IndexType>
@@ -386,10 +386,10 @@ void LinkedList<ValueType, IndexType>::Link(ListNode<ValueType>* first, ListNode
 template <class ValueType, class IndexType>
 void LinkedList<ValueType, IndexType>::Initialize()
 {
-	if(underlying.IsNotEmpty())
+	if(underlying.is_not_empty())
 	{
 		pFree = &underlying[0];
-		for(IndexType i = 1; i < underlying.Size(); ++i)
+		for(IndexType i = 1; i < underlying.length(); ++i)
 		{
 			Link(&underlying[i - 1], &underlying[i]);
 		}

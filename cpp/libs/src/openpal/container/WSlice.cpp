@@ -34,43 +34,43 @@ WSlice WSlice::Empty()
 }
 
 WSlice::WSlice():
-	HasSize(0),
+	HasLength(0),
 	pBuffer(nullptr)
 {}
 
 void WSlice::SetAllTo(uint8_t value)
 {
-	memset(pBuffer, value, size);
+	memset(pBuffer, value, length_);
 }
 
 WSlice::WSlice(uint8_t* pBuffer_, uint32_t size) :
-	HasSize(size),
+	HasLength(size),
 	pBuffer(pBuffer_)
 {}
 
 void WSlice::Clear()
 {
 	pBuffer = nullptr;
-	size = 0;
+	length_ = 0;
 }
 
 uint32_t WSlice::Advance(uint32_t count)
 {
-	auto num = openpal::Min(count, size);
+	auto num = openpal::Min(count, length_);
 	pBuffer += num;
-	size -= num;
+	length_ -= num;
 	return num;
 }
 
 WSlice WSlice::Skip(uint32_t count) const
 {
-	auto num = openpal::Min(count, size);
-	return WSlice(pBuffer + num, size - num);
+	auto num = openpal::Min(count, length_);
+	return WSlice(pBuffer + num, length_ - num);
 }
 
 RSlice WSlice::ToRSlice() const
 {
-	return RSlice(pBuffer, size);
+	return RSlice(pBuffer, length_);
 }
 
 }

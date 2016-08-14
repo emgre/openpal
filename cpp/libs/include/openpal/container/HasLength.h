@@ -18,39 +18,39 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef OPENPAL_HASSIZE_H
-#define OPENPAL_HASSIZE_H
+#ifndef OPENPAL_HASLENGTH_H
+#define OPENPAL_HASLENGTH_H
 
 namespace openpal
 {
 
-template <class SizeType>
-class HasSize
+template <class LengthType>
+class HasLength
 {
 
 public:
 
-	HasSize(SizeType size_) : size(size_)
+	HasLength(LengthType length) : length_(length)
 	{}
 
-	SizeType Size() const
+	LengthType length() const
 	{
-		return size;
+		return length_;
 	}
 
-	bool IsEmpty() const
+	bool is_empty() const
 	{
-		return size == 0;
+		return length_ == 0;
 	}
 
-	bool IsNotEmpty() const
+	bool is_not_empty() const
 	{
-		return size != 0;
+		return length_ != 0;
 	}
 
 protected:
 
-	SizeType size;
+	LengthType length_;
 
 };
 

@@ -40,7 +40,7 @@ public:
 
 	Buffer(uint32_t size);
 
-	// initialize with the exact size and contents of the view
+	// initialize with the exact length_ and contents of the view
 	Buffer(const RSlice& input);
 
 	virtual ~Buffer() {}

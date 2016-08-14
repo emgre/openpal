@@ -44,7 +44,7 @@ public:
 
 	IndexType Capacity() const
 	{
-		return buffer.Size();
+		return buffer.length();
 	}
 
 	bool IsEmpty() const
@@ -59,7 +59,7 @@ public:
 
 	bool IsFull() const
 	{
-		return count == buffer.Size();
+		return count == buffer.length();
 	}
 
 	void Clear()
@@ -88,7 +88,7 @@ public:
 		else
 		{
 			IndexType ret = first;
-			first = (first + 1) % buffer.Size();
+			first = (first + 1) % buffer.length();
 			--count;
 			return &buffer[ret];
 		}
@@ -103,7 +103,7 @@ public:
 		else
 		{
 			buffer[nextInsert] = value;
-			nextInsert = (nextInsert + 1) % buffer.Size();
+			nextInsert = (nextInsert + 1) % buffer.length();
 			++count;
 			return true;
 		}

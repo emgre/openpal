@@ -48,7 +48,7 @@ std::string ToHex(const uint8_t* apBuff, size_t aLength, bool spaced)
 
 std::string ToHex(const RSlice& buffer, bool spaced)
 {
-	return ToHex(buffer, buffer.Size(), spaced);
+	return ToHex(buffer, buffer.length(), spaced);
 }
 
 std::string ByteToHex(uint8_t b)
