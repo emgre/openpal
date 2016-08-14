@@ -24,6 +24,7 @@
 #include "openpal/container/WSlice.h"
 #include "openpal/container/RSlice.h"
 #include "openpal/util/Comparisons.h"
+#include "openpal/util/Uncopyable.h"
 
 #include <cstdint>
 
@@ -31,7 +32,7 @@ namespace openpal
 {
 
 template <uint32_t SIZE>
-class StaticBuffer
+class StaticBuffer final : openpal::Uncopyable
 {
 
 public:
@@ -39,45 +40,43 @@ public:
 	StaticBuffer()
 	{}
 
-	virtual ~StaticBuffer() {}
-
-	RSlice ToRSlice() const
+	RSlice as_rslice() const
 	{
-		return RSlice(buffer, SIZE);
+		return RSlice(buffer_, SIZE);
 	}
 
-	RSlice ToRSlice(uint32_t maxSize) const
+	RSlice as_rslice(uint32_t max_size) const
 	{
-		return RSlice(buffer, openpal::Min(SIZE, maxSize));
+		return RSlice(buffer_, openpal::Min(SIZE, max_size));
 	}
 
-	WSlice GetWSlice()
+	WSlice as_wslice()
 	{
-		return WSlice(buffer, SIZE);
+		return WSlice(buffer_, SIZE);
 	}
 
-	WSlice GetWSlice(uint32_t maxSize)
+	WSlice GetWSlice(uint32_t max_size)
 	{
-		return WSlice(buffer, openpal::Min(SIZE, maxSize));
+		return WSlice(buffer_, openpal::Min(SIZE, max_size));
 	}
 
 	const uint8_t* operator()() const
 	{
-		return buffer;
+		return buffer_;
 	}
 
 	uint8_t* operator()()
 	{
-		return buffer;
+		return buffer_;
 	}
 
-	uint32_t Size() const
+	uint32_t size() const
 	{
 		return SIZE;
 	}
 
 private:
-	uint8_t buffer[SIZE];
+	uint8_t buffer_[SIZE];
 };
 
 }

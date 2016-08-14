@@ -84,7 +84,7 @@
 
 #define FORMAT_LOGGER_BLOCK_WITH_CODE(pLogger, filters, code, format, ...)
 
-#define FORMAT_HEX_BLOCK(logger, filters, buffer, firstSize, otherSize)
+#define FORMAT_HEX_BLOCK(logger, filters, buffer_, firstSize, otherSize)
 
 #endif
 
