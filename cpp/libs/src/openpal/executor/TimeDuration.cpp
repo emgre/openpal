@@ -27,12 +27,12 @@ namespace openpal
 
 TimeDuration TimeDuration::min_value()
 {
-	return TimeDuration(openpal::MinValue<int64_t>());
+	return TimeDuration(openpal::min_value<int64_t>());
 }
 
 TimeDuration TimeDuration::max_value()
 {
-	return TimeDuration(openpal::MaxValue<int64_t>());
+	return TimeDuration(openpal::max_value<int64_t>());
 }
 
 TimeDuration TimeDuration::zero_value()

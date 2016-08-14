@@ -29,97 +29,97 @@ namespace openpal
 {
 
 template <>
-uint8_t MinValue<uint8_t>()
+uint8_t min_value<uint8_t>()
 {
 	return 0;
 }
 
 template <>
-uint8_t MaxValue<uint8_t>()
+uint8_t max_value<uint8_t>()
 {
 	return UINT8_MAX;
 }
 
 template <>
-uint16_t MinValue<uint16_t>()
+uint16_t min_value<uint16_t>()
 {
 	return 0;
 }
 
 template <>
-uint16_t MaxValue<uint16_t>()
+uint16_t max_value<uint16_t>()
 {
 	return UINT16_MAX;
 }
 
 template <>
-float MinValue<float>()
+float min_value<float>()
 {
 	return -FLT_MAX;
 }
 
 template <>
-float MaxValue<float>()
+float max_value<float>()
 {
 	return FLT_MAX ;
 }
 
 template <>
-double MinValue<double>()
+double min_value<double>()
 {
 	return -DBL_MAX;
 }
 
 template <>
-double MaxValue<double>()
+double max_value<double>()
 {
 	return DBL_MAX;
 }
 
 template <>
-int16_t MinValue<int16_t>()
+int16_t min_value<int16_t>()
 {
 	return INT16_MIN;
 }
 
 template <>
-int16_t MaxValue<int16_t>()
+int16_t max_value<int16_t>()
 {
 	return INT16_MAX;
 }
 
 template <>
-int32_t MinValue<int32_t>()
+int32_t min_value<int32_t>()
 {
 	return INT32_MIN;
 }
 
 template <>
-int32_t MaxValue<int32_t>()
+int32_t max_value<int32_t>()
 {
 	return INT32_MAX;
 }
 
 template <>
-uint32_t MinValue<uint32_t>()
+uint32_t min_value<uint32_t>()
 {
 	return 0;
 }
 
 template <>
-uint32_t MaxValue<uint32_t>()
+uint32_t max_value<uint32_t>()
 {
 	return UINT32_MAX;
 }
 
 template <>
-int64_t MinValue<int64_t>()
+int64_t min_value<int64_t>()
 {
 	return INT64_MIN;
 }
 
 template <>
-int64_t MaxValue<int64_t>()
+int64_t max_value<int64_t>()
 {
 	return INT64_MAX;
 }

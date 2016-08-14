@@ -36,19 +36,19 @@ public:
 	/**
 	*  Returns a UTCTimestamp of the current time
 	*/
-	virtual UTCTimestamp Now() = 0;
+	virtual UTCTimestamp now() = 0;
 };
 
 /**
 * Mock usable for testing
 */
-class FixedUTCTimeSource : public IUTCTimeSource
+struct FixedUTCTimeSource : public IUTCTimeSource
 {
 public:
-	FixedUTCTimeSource(int64_t time_): time(time_)
+	FixedUTCTimeSource(int64_t time): time(time)
 	{}
 
-	UTCTimestamp Now()
+	UTCTimestamp now()
 	{
 		return UTCTimestamp (time);
 	}

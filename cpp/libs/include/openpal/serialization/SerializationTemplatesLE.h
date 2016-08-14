@@ -69,10 +69,10 @@ public:
 };
 
 template <class T>
-const T Bit16LE<T>::Max = openpal::MaxValue<T>();
+const T Bit16LE<T>::Max = openpal::max_value<T>();
 
 template <class T>
-const T Bit16LE<T>::Min = openpal::MinValue<T>();
+const T Bit16LE<T>::Min = openpal::min_value<T>();
 
 template <class T>
 class Bit32LE
@@ -121,10 +121,10 @@ public:
 };
 
 template <class T>
-const T Bit32LE<T>::Max = openpal::MaxValue<T>();
+const T Bit32LE<T>::Max = openpal::max_value<T>();
 
 template <class T>
-const T Bit32LE<T>::Min = openpal::MinValue<T>();
+const T Bit32LE<T>::Min = openpal::min_value<T>();
 
 }
 

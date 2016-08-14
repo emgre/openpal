@@ -25,10 +25,10 @@ namespace openpal
 {
 
 template <class T>
-T MinValue();
+T min_value();
 
 template <class T>
-T MaxValue();
+T max_value();
 
 }
 

@@ -34,7 +34,7 @@ public:
 	MockUTCTimeSource() : time(0)
 	{}
 
-	virtual openpal::UTCTimestamp Now() override final
+	virtual openpal::UTCTimestamp now() override final
 	{
 		return openpal::UTCTimestamp(time);
 	}

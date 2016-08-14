@@ -27,8 +27,8 @@
 
 namespace openpal
 {
-const float SingleFloat::Max(openpal::MaxValue<float>());
-const float SingleFloat::Min(openpal::MinValue<float>());
+const float SingleFloat::Max(openpal::max_value<float>());
+const float SingleFloat::Min(openpal::min_value<float>());
 
 union SingleFloatUnion
 {

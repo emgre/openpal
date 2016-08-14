@@ -27,8 +27,8 @@
 
 namespace openpal
 {
-const double DoubleFloat::Max(openpal::MaxValue<double>());
-const double DoubleFloat::Min(openpal::MinValue<double>());
+const double DoubleFloat::Max(openpal::max_value<double>());
+const double DoubleFloat::Min(openpal::min_value<double>());
 
 union DoubleFloatUnion
 {

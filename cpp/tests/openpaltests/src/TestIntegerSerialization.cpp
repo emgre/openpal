@@ -98,7 +98,7 @@ TEST_CASE(SUITE("Int16 read from little endian"))
 	uint8_t arr[2] = { 0x00, 0x80 };
 
 	// 2*256 + 1
-	REQUIRE(Int16::Read(arr) == openpal::MinValue<int16_t>());
+	REQUIRE(Int16::Read(arr) == openpal::min_value<int16_t>());
 }
 
 TEST_CASE(SUITE("UInt32"))
@@ -127,7 +127,7 @@ TEST_CASE(SUITE("Int32 read from little endian"))
 {
 	uint8_t arr[4] = { 0x00, 0x00, 0x00, 0x80 };
 
-	REQUIRE(Int32::Read(arr) == openpal::MinValue<int32_t>());
+	REQUIRE(Int32::Read(arr) == openpal::min_value<int32_t>());
 }
 
 TEST_CASE(SUITE("UInt48"))
