@@ -33,8 +33,8 @@ class ITimer
 {
 public:
 	virtual ~ITimer() {}
-	virtual void Cancel() = 0;
-	virtual MonotonicTimestamp ExpiresAt() = 0;
+	virtual void cancel() = 0;
+	virtual MonotonicTimestamp expires_at() = 0;
 };
 
 }
