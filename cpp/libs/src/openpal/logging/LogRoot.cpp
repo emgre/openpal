@@ -37,80 +37,80 @@ LogRoot::LogRoot(ILogHandler* handler, char const* alias, LogFilters filters) : 
 
 LogRoot::LogRoot(ILogHandler* handler, char const* alias, LogFilters filters, bool reuseAlias) :
 	logger(this),
-	m_handler(handler),
-	m_filters(filters),
-	m_alias((reuseAlias ? alias : AllocateCopy(alias)))
+	handler_(handler),
+	filters_(filters),
+	alias_((reuseAlias ? alias : allocate_copy(alias)))
 {}
 
 LogRoot::LogRoot(const LogRoot& copy, char const* alias) :
 	logger(this),
-	m_handler(copy.m_handler),
-	m_filters(copy.m_filters),
-	m_alias(AllocateCopy(alias))
+	handler_(copy.handler_),
+	filters_(copy.filters_),
+	alias_(allocate_copy(alias))
 {
 
 }
 
-LogRoot::LogRoot(LogRoot&& other) : LogRoot(other.m_handler, other.m_alias, other.m_filters, true)
+LogRoot::LogRoot(LogRoot&& other) : LogRoot(other.handler_, other.alias_, other.filters_, true)
 {
-	other.m_alias = nullptr;
-	other.m_handler = nullptr;
-	other.m_filters = 0;
+	other.alias_ = nullptr;
+	other.handler_ = nullptr;
+	other.filters_ = 0;
 }
 
-LogRoot LogRoot::Clone(char const* alias) const
+LogRoot LogRoot::clone(char const *alias) const
 {
-	return LogRoot(this->m_handler, alias, this->m_filters);
+	return LogRoot(this->handler_, alias, this->filters_);
 }
 
-LogRoot LogRoot::Clone(char const* alias, LogFilters filters) const
+LogRoot LogRoot::clone(char const *alias, LogFilters filters) const
 {
-	return LogRoot(this->m_handler, alias, filters);
+	return LogRoot(this->handler_, alias, filters);
 }
 
 LogRoot::~LogRoot()
 {
-	delete[] m_alias;
+	delete[] alias_;
 }
 
-void LogRoot::Rename(char const* alias)
+void LogRoot::rename(char const *alias)
 {
-	delete[] m_alias;
-	m_alias = AllocateCopy(alias);
+	delete[] alias_;
+	alias_ = allocate_copy(alias);
 }
 
-const char* LogRoot::GetId() const
+const char* LogRoot::get_id() const
 {
-	return m_alias;
+	return alias_;
 }
 
-void LogRoot::Log(const LogFilters& filters, char const* location, char const* message, int errorCode)
+void LogRoot::log(const LogFilters &filters, char const *location, char const *message, int error_code)
 {
-	if (m_handler)
+	if (handler_)
 	{
-		LogEntry le(m_alias, filters, location, message, errorCode);
-		m_handler->Log(le);
+		LogEntry le(alias_, filters, location, message, error_code);
+        handler_->log(le);
 	}
 }
 
-bool LogRoot::IsEnabled(const LogFilters& rhs) const
+bool LogRoot::is_enabled(const LogFilters &rhs) const
 {
-	return m_handler && (this->m_filters & rhs);
+	return handler_ && (this->filters_ & rhs);
 }
 
-bool LogRoot::HasAny(const LogFilters& rhs) const
+bool LogRoot::has_any(const LogFilters &rhs) const
 {
-	return this->m_filters & rhs;
+	return this->filters_ & rhs;
 }
 
-void LogRoot::SetFilters(const LogFilters& filters)
+void LogRoot::set_filters(const LogFilters &filters)
 {
-	m_filters = filters;
+	filters_ = filters;
 }
 
-const LogFilters& LogRoot::GetFilters() const
+const LogFilters& LogRoot::get_filters() const
 {
-	return m_filters;
+	return filters_;
 }
 
 }

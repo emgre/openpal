@@ -42,31 +42,31 @@
 #else
 
 #define SIMPLE_LOG_BLOCK_WITH_CODE(logger, filters, code, message) \
-		if(logger.IsEnabled(filters)){ \
-			logger.Log(filters, LOCATION, message, code); \
+		if(logger.is_enabled(filters)){ \
+			logger.log(filters, LOCATION, message, code); \
 		}
 
 #define SIMPLE_LOGGER_BLOCK_WITH_CODE(pLogger, filters, code, message) \
-		if(pLogger && pLogger->IsEnabled(filters)){ \
-			pLogger->Log(filters, LOCATION, message, code); \
+		if(pLogger && pLogger->is_enabled(filters)){ \
+			pLogger->log(filters, LOCATION, message, code); \
 		}
 
 #define FORMAT_LOG_BLOCK_WITH_CODE(logger, filters, code, format, ...) \
-	if(logger.IsEnabled(filters)){ \
+	if(logger.is_enabled(filters)){ \
 		char message[openpal::MAX_LOG_ENTRY_SIZE]; \
 		SAFE_STRING_FORMAT(message, openpal::MAX_LOG_ENTRY_SIZE, format, ##__VA_ARGS__); \
-		logger.Log(filters, LOCATION, message, code); \
+		logger.log(filters, LOCATION, message, code); \
 	}
 
 #define FORMAT_LOGGER_BLOCK_WITH_CODE(pLogger, filters, code, format, ...) \
-	if(pLogger && pLogger->IsEnabled(filters)){ \
+	if(pLogger && pLogger->is_enabled(filters)){ \
 		char message[openpal::MAX_LOG_ENTRY_SIZE]; \
 		SAFE_STRING_FORMAT(message, openpal::MAX_LOG_ENTRY_SIZE, format, ##__VA_ARGS__); \
-		pLogger->Log(filters, LOCATION, message, code); \
+		pLogger->log(filters, LOCATION, message, code); \
 	}
 
 #define FORMAT_HEX_BLOCK(logger, filters, buffer, firstSize, otherSize) \
-	if(logger.HasAny(filters)){ \
+	if(logger.has_any(filters)){ \
 		LogHex(logger, filters, buffer, firstSize, otherSize); \
 	}
 
@@ -76,15 +76,15 @@
 
 #define SAFE_STRING_FORMAT(dest, length_, format, ...)
 
-#define SIMPLE_LOG_BLOCK_WITH_CODE(logger, filters, code, message)
+#define SIMPLE_LOG_BLOCK_WITH_CODE(logger, filters_, code, message_)
 
-#define SIMPLE_LOGGER_BLOCK_WITH_CODE(pLogger, filters, code, message)
+#define SIMPLE_LOGGER_BLOCK_WITH_CODE(pLogger, filters_, code, message_)
 
-#define FORMAT_LOG_BLOCK_WITH_CODE(logger, filters, code, format, ...)
+#define FORMAT_LOG_BLOCK_WITH_CODE(logger, filters_, code, format, ...)
 
-#define FORMAT_LOGGER_BLOCK_WITH_CODE(pLogger, filters, code, format, ...)
+#define FORMAT_LOGGER_BLOCK_WITH_CODE(pLogger, filters_, code, format, ...)
 
-#define FORMAT_HEX_BLOCK(logger, filters, buffer_, firstSize, otherSize)
+#define FORMAT_HEX_BLOCK(logger, filters_, buffer_, firstSize, otherSize)
 
 #endif
 

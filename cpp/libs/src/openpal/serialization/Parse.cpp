@@ -25,55 +25,55 @@
 namespace openpal
 {
 template <class Serializer>
-bool ParseType(RSlice& input, typename Serializer::Type& output)
+bool ParseType(RSlice& input, typename Serializer::type_t& output)
 {
-	if (input.length() < Serializer::SIZE)
+	if (input.length() < Serializer::size)
 	{
 		return false;
 	}
 	else
 	{
-		output = Serializer::ReadBuffer(input);
+		output = Serializer::read_from_slice(input);
 		return true;
 	}
 }
 
-bool Parse::Read(RSlice& input, uint8_t& output)
+bool Parse::read(RSlice &input, uint8_t &output)
 {
 	return ParseType<UInt8>(input, output);
 }
 
-bool Parse::Read(RSlice& input, uint16_t& output)
+bool Parse::read(RSlice &input, uint16_t &output)
 {
 	return ParseType<UInt16>(input, output);
 }
 
-bool Parse::Read(RSlice& input, uint32_t& output)
+bool Parse::read(RSlice &input, uint32_t &output)
 {
 	return ParseType<UInt32>(input, output);
 }
 
-bool Parse::Read(RSlice& input, UInt48Type& output)
+bool Parse::read(RSlice &input, UInt48Type &output)
 {
 	return ParseType<UInt48>(input, output);
 }
 
-bool Parse::Read(RSlice& input, int16_t& output)
+bool Parse::read(RSlice &input, int16_t &output)
 {
 	return ParseType<Int16>(input, output);
 }
 
-bool Parse::Read(RSlice& input, int32_t& output)
+bool Parse::read(RSlice &input, int32_t &output)
 {
 	return ParseType<Int32>(input, output);
 }
 
-bool Parse::Read(RSlice& input, double& output)
+bool Parse::read(RSlice &input, double &output)
 {
 	return ParseType<DoubleFloat>(input, output);
 }
 
-bool Parse::Read(RSlice& input, float& output)
+bool Parse::read(RSlice &input, float &output)
 {
 	return ParseType<SingleFloat>(input, output);
 }

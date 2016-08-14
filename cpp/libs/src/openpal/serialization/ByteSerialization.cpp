@@ -27,7 +27,7 @@
 namespace openpal
 {
 
-const uint8_t UInt8Simple::Max = openpal::max_value<uint8_t>();
-const uint8_t UInt8Simple::Min = openpal::min_value<uint8_t>();
+const uint8_t UInt8Simple::max_value = openpal::max_value<uint8_t>();
+const uint8_t UInt8Simple::min_value = openpal::min_value<uint8_t>();
 
 }

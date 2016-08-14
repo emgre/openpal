@@ -38,11 +38,11 @@ LogRecord::LogRecord() :
 {}
 
 LogRecord::LogRecord(const LogEntry& entry) :
-	id(entry.GetAlias()),
-	filters(entry.GetFilters()),
-	location(entry.GetLocation()),
-	message(entry.GetMessage()),
-	errorCode(entry.GetErrorCode())
+	id(entry.get_alias()),
+	filters(entry.get_filters()),
+	location(entry.get_location()),
+	message(entry.get_message()),
+	errorCode(entry.get_error_code())
 {
 
 }
@@ -55,11 +55,11 @@ MockLogHandler::MockLogHandler(uint32_t filters) :
 }
 
 
-void MockLogHandler::Log(const LogEntry& entry)
+void MockLogHandler::log(const LogEntry &entry)
 {
 	if (outputToStdIO)
 	{
-		std::cout << entry.GetMessage() << std::endl;
+		std::cout << entry.get_message() << std::endl;
 	}
 
 	messages.push_back(entry);
@@ -69,7 +69,7 @@ int32_t MockLogHandler::PopFilter()
 {
 	if (messages.size() > 0)
 	{
-		auto flags = messages.front().filters.GetBitfield();
+		auto flags = messages.front().filters.get_bitfield();
 		messages.pop_front();
 		return flags;
 	}
@@ -83,7 +83,7 @@ bool MockLogHandler::PopOneEntry(int32_t filter)
 {
 	if (messages.size() == 1)
 	{
-		if (messages.front().filters.IsSet(filter))
+		if (messages.front().filters.is_set(filter))
 		{
 			messages.pop_front();
 			return true;
@@ -112,7 +112,7 @@ bool MockLogHandler::PopUntil(int32_t filter)
 {
 	while (!messages.empty())
 	{
-		bool match = messages.front().filters.IsSet(filter);
+		bool match = messages.front().filters.is_set(filter);
 		messages.pop_front();
 		if (match)
 		{
@@ -129,7 +129,7 @@ int MockLogHandler::ClearLog()
 	LogEntry le;
 	while (!messages.empty())
 	{
-		if (messages.front().errorCode > max) max = le.GetErrorCode();
+		if (messages.front().errorCode > max) max = le.get_error_code();
 		messages.pop_front();
 	}
 
@@ -138,7 +138,7 @@ int MockLogHandler::ClearLog()
 
 void MockLogHandler::Log(const std::string& location, const std::string& message)
 {
-	root.logger.Log(openpal::logflags::EVENT, location.c_str(), message.c_str());
+	root.logger.log(openpal::logflags::EVENT, location.c_str(), message.c_str());
 }
 
 void MockLogHandler::WriteToStdIo()
@@ -178,7 +178,7 @@ void MockLogHandler::Pop(openpal::ILogHandler& log)
 	while (GetNextEntry(record))
 	{
 		LogEntry le(record.id.c_str(), record.filters, record.location.c_str(), record.message.c_str(), record.errorCode);
-		log.Log(le);
+        log.log(le);
 	}
 }
 

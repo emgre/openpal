@@ -24,58 +24,59 @@
 
 namespace openpal
 {
+
 template <class Serializer>
-bool WriteType(WSlice& dest, const typename Serializer::Type& value)
+bool write_type(WSlice &dest, const typename Serializer::type_t& value)
 {
-	if (dest.length() < Serializer::SIZE)
+	if (dest.length() < Serializer::size)
 	{
 		return false;
 	}
 	else
 	{
-		Serializer::WriteBuffer(dest, value);
+		Serializer::write_to_slice(dest, value);
 		return true;
 	}
 }
 
-bool Format::Write(WSlice& dest, const uint8_t& value)
+bool Format::write(WSlice &dest, const uint8_t &value)
 {
-	return WriteType<UInt8>(dest, value);
+	return write_type<UInt8>(dest, value);
 }
 
-bool Format::Write(WSlice& dest, const uint16_t& value)
+bool Format::write(WSlice &dest, const uint16_t &value)
 {
-	return WriteType<UInt16>(dest, value);
+	return write_type<UInt16>(dest, value);
 }
 
-bool Format::Write(WSlice& dest, const uint32_t& value)
+bool Format::write(WSlice &dest, const uint32_t &value)
 {
-	return WriteType<UInt32>(dest, value);
+	return write_type<UInt32>(dest, value);
 }
 
-bool Format::Write(WSlice& dest, const UInt48Type& value)
+bool Format::write(WSlice &dest, const UInt48Type &value)
 {
-	return WriteType<UInt48>(dest, value);
+	return write_type<UInt48>(dest, value);
 }
 
-bool Format::Write(WSlice& dest, const int16_t& value)
+bool Format::write(WSlice &dest, const int16_t &value)
 {
-	return WriteType<Int16>(dest, value);
+	return write_type<Int16>(dest, value);
 }
 
-bool Format::Write(WSlice& dest, const int32_t& value)
+bool Format::write(WSlice &dest, const int32_t &value)
 {
-	return WriteType<Int32>(dest, value);
+	return write_type<Int32>(dest, value);
 }
 
-bool Format::Write(WSlice& dest, const double& value)
+bool Format::write(WSlice &dest, const double &value)
 {
-	return WriteType<DoubleFloat>(dest, value);
+	return write_type<DoubleFloat>(dest, value);
 }
 
-bool Format::Write(WSlice& dest, const float& value)
+bool Format::write(WSlice &dest, const float &value)
 {
-	return WriteType<SingleFloat>(dest, value);
+	return write_type<SingleFloat>(dest, value);
 }
 }
 

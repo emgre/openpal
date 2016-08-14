@@ -53,7 +53,7 @@ public:
 
 	void Log(const std::string& location, const std::string& msg);
 
-	void Log( const openpal::LogEntry& entry);
+	void log(const openpal::LogEntry &entry);
 
 	int32_t PopFilter();
 

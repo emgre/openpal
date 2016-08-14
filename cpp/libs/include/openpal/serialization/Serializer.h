@@ -34,45 +34,45 @@ class Serializer
 {
 public:
 
-	typedef bool (*ReadFunc)(RSlice& buffer, T& output);
-	typedef bool (*WriteFunc)(const T& value, WSlice& buffer);
+	typedef bool (*read_func_t)(RSlice& buffer, T& output);
+	typedef bool (*write_func_t)(const T& value, WSlice& buffer);
 
-	Serializer() : size(0), pReadFunc(nullptr), pWriteFunc(nullptr)
+	Serializer() : size_(0), read_func_(nullptr), write_func(nullptr)
 	{}
 
-	Serializer(uint32_t size_, ReadFunc pReadFunc_, WriteFunc pWriteFunc_) :
-		size(size_), pReadFunc(pReadFunc_), pWriteFunc(pWriteFunc_)
+	Serializer(uint32_t size_, read_func_t read_func, write_func_t write_func) :
+		size_(size_), read_func_(read_func), write_func(write_func)
 	{}
 
 	/**
 	* @return The size (in bytes) required for every call to read/write
 	*/
-	uint32_t Size() const
+	uint32_t size() const
 	{
-		return size;
+		return size_;
 	}
 
 	/**
 	* reads the value and advances the read buffer
 	*/
-	bool Read(RSlice& buffer, T& output) const
+	bool read(RSlice &buffer, T &output) const
 	{
-		return (*pReadFunc)(buffer, output);
+		return (*read_func_)(buffer, output);
 	}
 
 	/**
 	* writes the value and advances the write buffer
 	*/
-	bool Write(const T& value, WSlice& buffer) const
+	bool write(const T &value, WSlice &buffer) const
 	{
-		return (*pWriteFunc)(value, buffer);
+		return (*write_func)(value, buffer);
 	}
 
 private:
 
-	uint32_t size;
-	ReadFunc pReadFunc;
-	WriteFunc pWriteFunc;
+	uint32_t size_;
+	read_func_t read_func_;
+	write_func_t write_func;
 
 };
 

@@ -27,8 +27,8 @@
 
 namespace openpal
 {
-const float SingleFloat::Max(openpal::max_value<float>());
-const float SingleFloat::Min(openpal::min_value<float>());
+const float SingleFloat::max_value(openpal::max_value<float>());
+const float SingleFloat::min_value(openpal::min_value<float>());
 
 union SingleFloatUnion
 {
@@ -37,22 +37,22 @@ union SingleFloatUnion
 };
 
 
-float SingleFloat::ReadBuffer(RSlice& buffer)
+float SingleFloat::read_from_slice(RSlice &slice)
 {
-	auto ret = Read(buffer);
-    buffer.advance(SIZE);
+	auto ret = read(slice);
+    slice.advance(size);
 	return ret;
 }
 
-void SingleFloat::WriteBuffer(WSlice& buffer, float value)
+void SingleFloat::write_to_slice(WSlice &dest, float value)
 {
-	Write(buffer, value);
-	buffer.advance(SIZE);
+	write(dest, value);
+	dest.advance(size);
 }
 
-float SingleFloat::Read(const uint8_t* data)
+float SingleFloat::read(const uint8_t *data)
 {
-	if (FloatByteOrder::ORDER == FloatByteOrder::Value::NORMAL)
+	if (FloatByteOrder::order == FloatByteOrder::Value::normal)
 	{
 		SingleFloatUnion x = {{ data[0], data[1], data[2], data[3] }};
 		return x.value;
@@ -64,17 +64,17 @@ float SingleFloat::Read(const uint8_t* data)
 	}
 }
 
-void SingleFloat::Write(uint8_t* dest, float value)
+void SingleFloat::write(uint8_t *dest, float value)
 {
-	if (FloatByteOrder::ORDER == FloatByteOrder::Value::NORMAL)
+	if (FloatByteOrder::order == FloatByteOrder::Value::normal)
 	{
-		memcpy(dest, &value, SIZE);
+		memcpy(dest, &value, size);
 	}
 	else
 	{
 		auto data = reinterpret_cast<uint8_t*>(&value);
 		uint8_t bytes[4] = { data[3], data[2], data[1], data[0] };
-		memcpy(dest, bytes, SIZE);
+		memcpy(dest, bytes, size);
 	}
 }
 }

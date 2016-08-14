@@ -39,7 +39,7 @@ public:
 	*
 	* @param entry the log message to handle
 	*/
-	virtual void Log( const LogEntry& entry ) = 0;
+	virtual void log(const LogEntry &entry) = 0;
 };
 
 }

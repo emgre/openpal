@@ -34,22 +34,22 @@ class UInt8Simple
 {
 public:
 
-	inline static uint8_t Read(const uint8_t* pStart)
+	inline static uint8_t read(const uint8_t* start)
 	{
-		return (*pStart);
+		return (*start);
 	}
 
-	inline static uint8_t ReadBuffer(RSlice& buffer)
+	inline static uint8_t read_from_slice(RSlice &buffer)
 	{
-		auto ret = Read(buffer);
-        buffer.advance(SIZE);
+		auto ret = read(buffer);
+        buffer.advance(size);
 		return ret;
 	}
 
-	static void WriteBuffer(WSlice& buffer, uint8_t value)
+	static void write_to_slice(WSlice &buffer, uint8_t value)
 	{
 		Write(buffer, value);
-		buffer.advance(SIZE);
+		buffer.advance(size);
 	}
 
 	inline static void Write(uint8_t* pStart, uint8_t value)
@@ -57,11 +57,11 @@ public:
 		*(pStart) = value;
 	}
 
-	const static size_t SIZE = 1;
-	const static uint8_t Max;
-	const static uint8_t Min;
+	const static size_t size = 1;
+	const static uint8_t max_value;
+	const static uint8_t min_value;
 
-	typedef uint8_t Type;
+	typedef uint8_t type_t;
 };
 
 }

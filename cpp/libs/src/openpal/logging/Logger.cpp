@@ -30,24 +30,24 @@ using namespace std;
 namespace openpal
 {
 
-Logger::Logger(LogRoot* pRoot_) : pRoot(pRoot_)
+Logger::Logger(LogRoot* pRoot_) : root_(pRoot_)
 {}
 
-bool Logger::IsEnabled(const LogFilters& filters) const
+bool Logger::is_enabled(const LogFilters &filters) const
 {
-	return pRoot->IsEnabled(filters);
+	return root_->is_enabled(filters);
 }
 
-bool Logger::HasAny(const LogFilters& filters) const
+bool Logger::has_any(const LogFilters &filters) const
 {
-	return pRoot->HasAny(filters);
+	return root_->has_any(filters);
 }
 
-void Logger::Log(const LogFilters& filters, char const* location, char const* message, int errorCode)
+void Logger::log(const LogFilters &filters, char const *location, char const *message, int errorCode)
 {
-	if (pRoot->IsEnabled(filters))
+	if (root_->is_enabled(filters))
 	{
-		pRoot->Log(filters, location, message, errorCode);
+		root_->log(filters, location, message, errorCode);
 	}
 }
 

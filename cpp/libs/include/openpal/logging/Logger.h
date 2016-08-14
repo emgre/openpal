@@ -40,11 +40,11 @@ class Logger
 
 public:
 
-	void Log(const LogFilters& filters, char const* location, char const* message, int errorCode = -1);
+	void log(const LogFilters &filters, char const *location, char const *message, int errorCode = -1);
 
-	bool IsEnabled(const LogFilters& filters) const;
+	bool is_enabled(const LogFilters &filters) const;
 
-	bool HasAny(const LogFilters& filters) const;
+	bool has_any(const LogFilters &filters) const;
 
 private:
 
@@ -52,7 +52,7 @@ private:
 
 	Logger(LogRoot* pRoot);
 
-	LogRoot* pRoot;
+	LogRoot* root_;
 };
 
 }

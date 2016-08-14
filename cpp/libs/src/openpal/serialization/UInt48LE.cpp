@@ -23,7 +23,7 @@
 namespace openpal
 {
 
-UInt48Type UInt48LE::Read(const uint8_t* data)
+UInt48Type UInt48LE::read(const uint8_t *data)
 {
 	return UInt48Type(
 	           (static_cast<uint64_t>(data[0]) << 0) |
@@ -34,11 +34,11 @@ UInt48Type UInt48LE::Read(const uint8_t* data)
 	           (static_cast<uint64_t>(data[5]) << 40));
 }
 
-void UInt48LE::Write(uint8_t* data, UInt48Type value)
+void UInt48LE::write(uint8_t *data, UInt48Type value)
 {
-	if (value > MAX)
+	if (value > max_value)
 	{
-		value = UInt48Type(MAX);
+		value = UInt48Type(max_value);
 	}
 
 	data[0] = static_cast<uint8_t>(value & 0xFF);

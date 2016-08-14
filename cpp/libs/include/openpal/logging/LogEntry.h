@@ -38,45 +38,45 @@ public:
 
 	LogEntry();
 
-	LogEntry(char const* alias, const LogFilters& filters, char const* location, char const* message, int errorCode);
+	LogEntry(char const* alias, const LogFilters& filters, char const* location, char const* message, int error_code);
 
 	/// @return The alias of the logger that recorded the message
-	char const*	GetAlias() const
+	inline char const* get_alias() const
 	{
-		return alias;
+		return alias_;
 	}
 
 	/// @return The place in the source code where the message was recorded
-	char const*	GetLocation() const
+	inline char const* get_location() const
 	{
-		return location;
+		return location_;
 	}
 
 	/// @return body of the log message
-	char const* GetMessage() const
+	inline char const* get_message() const
 	{
-		return message;
+		return message_;
 	}
 
 	/// @return the log level of the message
-	const LogFilters& GetFilters() const
+	inline const LogFilters& get_filters() const
 	{
-		return filters;
+		return filters_;
 	}
 
 	/// @return the error code associated with the message
-	int	GetErrorCode() const
+	inline int	get_error_code() const
 	{
-		return errorCode;
+		return error_code_;
 	}
 
 private:
 
-	char const*		alias;
-	LogFilters		filters;
-	char const*		location;
-	char const*		message;
-	int				errorCode;
+	char const*		alias_;
+	LogFilters		filters_;
+	char const*		location_;
+	char const*		message_;
+	int				error_code_;
 };
 
 }

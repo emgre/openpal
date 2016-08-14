@@ -32,19 +32,19 @@ struct FloatByteOrder : private StaticOnly
 {
 	enum class Value : uint8_t
 	{
-	    NORMAL,
-	    REVERSE,
-	    UNSUPPORTED
+	    normal,
+	    reverse,
+	    unsupported
 	};
 
-	static const Value ORDER;
+	static const Value order;
 
 private:
 
-	static Value GetByteOrder();
+	static Value get_byte_order();
 
-	static bool IsNormalByteOrder();
-	static bool IsReverseByteOrder();
+	static bool is_normal_byte_order();
+	static bool is_reverse_byte_order();
 
 };
 

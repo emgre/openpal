@@ -36,17 +36,17 @@ public:
 
 	static_assert(sizeof(float) == 4, "Unexpected length_ of single float");
 
-	typedef float Type;
+	typedef float type_t;
 
-	static float ReadBuffer(RSlice& buffer);
-	static void WriteBuffer(WSlice& buffer, float value);
+	static float read_from_slice(RSlice& slice);
+	static void write_to_slice(WSlice& dest, float value);
 
-	static float Read(const uint8_t* data);
-	static void Write(uint8_t* data, float value);
+	static float read(const uint8_t *data);
+	static void write(uint8_t *data, float value);
 
-	const static std::size_t SIZE = sizeof(float);
-	const static float Max;
-	const static float Min;
+	const static std::size_t size = sizeof(float);
+	const static float max_value;
+	const static float min_value;
 };
 
 }

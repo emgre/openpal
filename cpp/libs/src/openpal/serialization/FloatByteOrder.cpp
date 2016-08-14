@@ -24,7 +24,7 @@
 namespace openpal
 {
 
-const FloatByteOrder::Value FloatByteOrder::ORDER(GetByteOrder());
+const FloatByteOrder::Value FloatByteOrder::order(get_byte_order());
 
 union FloatUnion
 {
@@ -34,31 +34,31 @@ union FloatUnion
 
 static_assert(sizeof(FloatUnion) == 4, "Bad float union length_");
 
-bool FloatByteOrder::IsNormalByteOrder()
+bool FloatByteOrder::is_normal_byte_order()
 {
 	FloatUnion value = {{ 0x00, 0x00, 0xA0, 0xC1 }};
 	return (value.f == -20.0f);
 }
 
-bool FloatByteOrder::IsReverseByteOrder()
+bool FloatByteOrder::is_reverse_byte_order()
 {
 	FloatUnion value = {{ 0xC1, 0xA0, 0x00, 0x00 }};
 	return (value.f == -20.0f);
 }
 
-FloatByteOrder::Value FloatByteOrder::GetByteOrder()
+FloatByteOrder::Value FloatByteOrder::get_byte_order()
 {
-	if (IsNormalByteOrder())
+	if (is_normal_byte_order())
 	{
-		return FloatByteOrder::Value::NORMAL;
+		return FloatByteOrder::Value::normal;
 	}
-	else if (IsReverseByteOrder())
+	else if (is_reverse_byte_order())
 	{
-		return FloatByteOrder::Value::REVERSE;
+		return FloatByteOrder::Value::reverse;
 	}
 	else
 	{
-		return FloatByteOrder::Value::UNSUPPORTED;
+		return FloatByteOrder::Value::unsupported;
 	}
 }
 

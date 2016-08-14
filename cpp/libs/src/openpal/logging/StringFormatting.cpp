@@ -31,7 +31,7 @@
 
 namespace openpal
 {
-char* AllocateCopy(char const* src)
+char* allocate_copy(char const *src)
 {
 	auto size = strlen(src) + 1;
 	char* tmp = new char[size];
@@ -43,26 +43,26 @@ char* AllocateCopy(char const* src)
 	return tmp;
 }
 
-void LogHex(Logger& logger, const openpal::LogFilters& filters, const openpal::RSlice& source, uint32_t firstRowSize, uint32_t otherRowSize)
+void LogHex(Logger& logger, const openpal::LogFilters& filters, const openpal::RSlice& source, uint32_t first_row_size, uint32_t other_row_size)
 {
-	char buffer[MAX_LOG_ENTRY_SIZE];
+	char buffer[max_log_entry_size];
 	RSlice copy(source);
 	uint32_t rowCount = 0;
 	while (copy.is_not_empty())
 	{
-		uint32_t rowSize = (copy.length() < MAX_HEX_PER_LINE) ? copy.length() : MAX_HEX_PER_LINE;
+		uint32_t rowSize = (copy.length() < max_hex_per_line) ? copy.length() : max_hex_per_line;
 		if (rowCount == 0)
 		{
-			if (firstRowSize < rowSize)
+			if (first_row_size < rowSize)
 			{
-				rowSize = firstRowSize;
+				rowSize = first_row_size;
 			}
 		}
 		else
 		{
-			if (otherRowSize < rowSize)
+			if (other_row_size < rowSize)
 			{
-				rowSize = otherRowSize;
+				rowSize = other_row_size;
 			}
 		}
 		auto region = copy.take(rowSize);
@@ -77,7 +77,7 @@ void LogHex(Logger& logger, const openpal::LogFilters& filters, const openpal::R
 		buffer[3 * rowSize] = '\0';
 		copy.advance(rowSize);
 
-		logger.Log(filters, "", buffer, -1);
+        logger.log(filters, "", buffer, -1);
 
 		++rowCount;
 	}

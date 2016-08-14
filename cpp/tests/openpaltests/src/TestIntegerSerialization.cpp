@@ -45,14 +45,14 @@ bool TestReadWrite(T value)
 	{
 		auto dest = buffer.as_wslice();
 		dest.advance(i);
-		if (!Format::Write(dest, value))
+		if (!Format::write(dest, value))
 		{
 			return false;
 		}
 
 		auto written = buffer.as_rslice().skip(i);
 		T readValue;
-		if (!(Parse::Read(written, readValue) && value == readValue))
+		if (!(Parse::read(written, readValue) && value == readValue))
 		{
 			return false;
 		}
@@ -83,7 +83,7 @@ TEST_CASE(SUITE("UInt16 read from little endian"))
 	uint8_t arr[2] = { 0x01, 0x02 };
 
 	// 2*256 + 1
-	REQUIRE(UInt16::Read(arr) == 513);
+	REQUIRE(UInt16::read(arr) == 513);
 }
 
 TEST_CASE(SUITE("Int16"))
@@ -98,7 +98,7 @@ TEST_CASE(SUITE("Int16 read from little endian"))
 	uint8_t arr[2] = { 0x00, 0x80 };
 
 	// 2*256 + 1
-	REQUIRE(Int16::Read(arr) == openpal::min_value<int16_t>());
+	REQUIRE(Int16::read(arr) == openpal::min_value<int16_t>());
 }
 
 TEST_CASE(SUITE("UInt32"))
@@ -113,7 +113,7 @@ TEST_CASE(SUITE("UInt32 read from little endian"))
 	uint8_t arr[4] = { 0x01, 0x02, 0x00, 0x00 };
 
 	// 2*256 + 1
-	REQUIRE(UInt32::Read(arr) == 513);
+	REQUIRE(UInt32::read(arr) == 513);
 }
 
 TEST_CASE(SUITE("Int32"))
@@ -127,7 +127,7 @@ TEST_CASE(SUITE("Int32 read from little endian"))
 {
 	uint8_t arr[4] = { 0x00, 0x00, 0x00, 0x80 };
 
-	REQUIRE(Int32::Read(arr) == openpal::min_value<int32_t>());
+	REQUIRE(Int32::read(arr) == openpal::min_value<int32_t>());
 }
 
 TEST_CASE(SUITE("UInt48"))
@@ -142,7 +142,7 @@ TEST_CASE(SUITE("UInt48  read from little endian"))
 	uint8_t arr[6] = { 0x01, 0x02, 0x00, 0x00, 0x00, 0x00};
 
 	// 2*256 + 1
-	REQUIRE(UInt48::Read(arr) == 513);
+	REQUIRE(UInt48::read(arr) == 513);
 }
 
 
@@ -156,7 +156,7 @@ TEST_CASE(SUITE("ParseMany"))
 
 	{
 		auto input = hex.ToRSlice();
-		REQUIRE(Parse::Many(input, first, second, third));
+		REQUIRE(Parse::many(input, first, second, third));
 		REQUIRE(first == 255);
 		REQUIRE(second == 0xBAAB);
 		REQUIRE(third == 1);
@@ -165,7 +165,7 @@ TEST_CASE(SUITE("ParseMany"))
 
 	{
 		auto input = hex.ToRSlice().skip(2);
-		REQUIRE_FALSE(Parse::Many(input, first, second, third));
+		REQUIRE_FALSE(Parse::many(input, first, second, third));
 	}
 }
 
@@ -183,7 +183,7 @@ TEST_CASE(SUITE("FormatMany"))
 
 	{
 		auto dest = output.as_wslice();
-		REQUIRE(Format::Many(dest, first, second, third));
+		REQUIRE(Format::many(dest, first, second, third));
 		REQUIRE(dest.length() == (output.length() - SIZE));
 		auto written = ToHex(output.as_rslice().take(SIZE));
 		REQUIRE(written == "FF AB BA 01 00 00 00");
@@ -191,6 +191,6 @@ TEST_CASE(SUITE("FormatMany"))
 
 	{
 		auto dest = output.as_wslice(SIZE - 1);
-		REQUIRE_FALSE(Format::Many(dest, first, second, third));
+		REQUIRE_FALSE(Format::many(dest, first, second, third));
 	}
 }

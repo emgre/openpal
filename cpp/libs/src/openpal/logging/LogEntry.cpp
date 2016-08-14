@@ -24,20 +24,20 @@ namespace openpal
 {
 
 LogEntry::LogEntry() :
-	alias(""),
-	location(""),
-	message(""),
-	errorCode(-1)
+	alias_(""),
+	location_(""),
+	message_(""),
+	error_code_(-1)
 {}
 
 
-LogEntry::LogEntry(char const* alias_, const LogFilters& filters_, char const* location_, char const* message_, int errorCode_)
+LogEntry::LogEntry(char const* alias_, const LogFilters& filters_, char const* location_, char const* message_, int error_code)
 	:
-	alias(alias_),
-	filters(filters_),
-	location(location_),
-	message(message_),
-	errorCode(errorCode_)
+	alias_(alias_),
+	filters_(filters_),
+	location_(location_),
+	message_(message_),
+	error_code_(error_code)
 {
 
 }

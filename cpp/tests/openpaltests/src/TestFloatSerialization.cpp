@@ -46,14 +46,14 @@ bool TestReadWriteFloat(T value)
 	{
 		auto dest = buffer.as_wslice();
 		dest.advance(i);
-		if (!Format::Write(dest, value))
+		if (!Format::write(dest, value))
 		{
 			return false;
 		}
 
 		auto written = buffer.as_rslice().skip(i);
 		T readValue;
-		if (!(Parse::Read(written, readValue) && FloatEqual(value, readValue)))
+		if (!(Parse::read(written, readValue) && FloatEqual(value, readValue)))
 		{
 			return false;
 		}
@@ -63,10 +63,10 @@ bool TestReadWriteFloat(T value)
 }
 
 template <class T>
-bool TestFloatParsing(std::string hex, typename T::Type value)
+bool TestFloatParsing(std::string hex, typename T::type_t value)
 {
 	HexSequence hs(hex);
-	const uint32_t TYPE_SIZE = static_cast<uint32_t>(sizeof(typename T::Type));
+	const uint32_t TYPE_SIZE = static_cast<uint32_t>(sizeof(typename T::type_t));
 	REQUIRE((hs.Size() == TYPE_SIZE));
 
 	Buffer buffer(2 * TYPE_SIZE);
@@ -75,14 +75,14 @@ bool TestFloatParsing(std::string hex, typename T::Type value)
 	{
 		auto dest = buffer.as_wslice();
 		dest.advance(i);
-		if (!Format::Write(dest, value))
+		if (!Format::write(dest, value))
 		{
 			return false;
 		}
 		auto written = buffer.as_rslice().skip(i);
 
-		typename T::Type val = 0;
-		if (!(Parse::Read(written, val) && openpal::FloatEqual(val, value)))
+		typename T::type_t val = 0;
+		if (!(Parse::read(written, val) && openpal::FloatEqual(val, value)))
 		{
 			return false;
 		}
@@ -95,7 +95,7 @@ bool TestFloatParsing(std::string hex, typename T::Type value)
 
 TEST_CASE(SUITE("Float memory byte order is IEEE 754"))
 {
-	REQUIRE(openpal::FloatByteOrder::ORDER != FloatByteOrder::Value::UNSUPPORTED);
+	REQUIRE(openpal::FloatByteOrder::order != FloatByteOrder::Value::unsupported);
 }
 
 TEST_CASE(SUITE("DoublePacking"))

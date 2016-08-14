@@ -33,13 +33,13 @@ class UTCTimestamp
 {
 
 public:
-	UTCTimestamp() : msSinceEpoch(0)
+	UTCTimestamp() : ms_since_epoch(0)
 	{}
 
-	UTCTimestamp(uint64_t msSinceEpoch_) : msSinceEpoch(msSinceEpoch_)
+	explicit UTCTimestamp(uint64_t ms_since_epoch) : ms_since_epoch(ms_since_epoch)
 	{}
 
-	uint64_t msSinceEpoch;
+	uint64_t ms_since_epoch;
 
 };
 

@@ -31,28 +31,28 @@ class Parse : private StaticOnly
 {
 public:
 
-	static bool Read(RSlice& input, uint8_t& output);
-	static bool Read(RSlice& input, uint16_t& output);
+	static bool read(RSlice &input, uint8_t &output);
+	static bool read(RSlice &input, uint16_t &output);
 
-	static bool Read(RSlice& input, uint32_t& output);
-	static bool Read(RSlice& input, UInt48Type& output);
+	static bool read(RSlice &input, uint32_t &output);
+	static bool read(RSlice &input, UInt48Type &output);
 
-	static bool Read(RSlice& input, int16_t& output);
-	static bool Read(RSlice& input, int32_t& output);
+	static bool read(RSlice &input, int16_t &output);
+	static bool read(RSlice &input, int32_t &output);
 
 
-	static bool Read(RSlice& input, double& output);
-	static bool Read(RSlice& input, float& output);
+	static bool read(RSlice &input, double &output);
+	static bool read(RSlice &input, float &output);
 
 	template <typename T, typename... Args>
-	static bool Many(RSlice& input, T& output, Args& ... args)
+	static bool many(RSlice &input, T &output, Args &... args)
 	{
-		return Read(input, output) && Many(input, args...);
+		return read(input, output) && many(input, args...);
 	}
 
 private:
 
-	static bool Many(RSlice& input)
+	static bool many(RSlice &input)
 	{
 		return true;
 	}

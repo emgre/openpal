@@ -34,30 +34,30 @@ class LogFilters
 
 public:
 
-	LogFilters() : filters(0)
+	LogFilters() : filters_(0)
 	{}
 
-	LogFilters(int32_t filters_) : filters(filters_)
+	LogFilters(int32_t filters) : filters_(filters)
 	{}
 
-	inline bool IsSet(int32_t levels) const
+	inline bool is_set(int32_t levels) const
 	{
-		return (levels & filters) != 0;
+		return (levels & filters_) != 0;
 	}
 
 	bool operator &(const LogFilters& rhs) const
 	{
-		return IsSet(rhs.filters);
+		return is_set(rhs.filters_);
 	}
 
-	int32_t GetBitfield() const
+	int32_t get_bitfield() const
 	{
-		return filters;
+		return filters_;
 	}
 
 private:
 
-	int32_t	filters;
+	int32_t	filters_;
 };
 
 }
