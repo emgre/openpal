@@ -137,7 +137,7 @@ public:
 		{
 			// link the remaining free list to the end of active list
 			this->link(tail_, free_);
-			// set the free pointer to the head
+			// set the free pointer to the head_
 			free_ = head_;
 			head_ = tail_ = nullptr;
 			this->length_ = 0;
@@ -305,13 +305,13 @@ ListNode<ValueType>* LinkedList<ValueType, IndexType>::insert(const ValueType &v
 		this->link(pLeft, pNode);
 		this->link(pNode, pRight);
 
-		// change of head
+		// change of head_
 		if (pLeft == nullptr)
 		{
 			head_ = pNode;
 		}
 
-		// change of tail
+		// change of tail_
 		if (pRight == nullptr)
 		{
 			tail_ = pNode;
@@ -340,7 +340,7 @@ ListNode<ValueType>* LinkedList<ValueType, IndexType>::find_first(Selector selec
 template <class ValueType, class IndexType>
 void LinkedList<ValueType, IndexType>::remove(ListNode<ValueType> *node)
 {
-	if(node->prev_ == nullptr) // it's the head
+	if(node->prev_ == nullptr) // it's the head_
 	{
 		if (node->next_ == nullptr)
 		{
@@ -348,12 +348,12 @@ void LinkedList<ValueType, IndexType>::remove(ListNode<ValueType> *node)
 		}
 		else
 		{
-			head_ = node->next_; // head but not tail
+			head_ = node->next_; // head_ but not tail_
 		}
 	}
 	else
 	{
-		if(node->next_ == nullptr) tail_ = node->prev_; // was only the tail
+		if(node->next_ == nullptr) tail_ = node->prev_; // was only the tail_
 	}
 
 	// attach the adjacent nodes to eachother if they exist
@@ -362,7 +362,7 @@ void LinkedList<ValueType, IndexType>::remove(ListNode<ValueType> *node)
 	// Now that the data list is complete, attach the freed node to the front of the free list
 	node->next_ = free_;
 	if(free_ != nullptr) free_->prev_ = node;
-	node->prev_ = nullptr; // it's the head now
+	node->prev_ = nullptr; // it's the head_ now
 	free_ = node;
 	--(this->length_);
 }

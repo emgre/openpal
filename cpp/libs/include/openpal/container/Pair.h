@@ -25,7 +25,7 @@ namespace openpal
 {
 
 template <class A, class B>
-class Pair
+struct Pair
 {
 
 public:

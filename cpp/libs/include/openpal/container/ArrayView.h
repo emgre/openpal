@@ -37,34 +37,34 @@ class ArrayView : public HasLength<IndexType>
 
 public:
 
-	static ArrayView<ValueType, IndexType> Empty()
+	static ArrayView<ValueType, IndexType> empty_view()
 	{
 		return ArrayView(nullptr, 0);
 	}
 
-	ArrayView(ValueType* start, IndexType aSize) : HasLength<IndexType>(aSize), buffer(start)
+	ArrayView(ValueType* start, IndexType length) : HasLength<IndexType>(length), buffer_(start)
 	{}
 
-	inline bool Contains(IndexType index) const
+	inline bool contains(IndexType index) const
 	{
 		return index < this->length_;
 	}
 
-	inline bool Contains(IndexType start, IndexType stop) const
+	inline bool contains(IndexType start, IndexType stop) const
 	{
-		return (start < stop) && Contains(stop);
+		return (start < stop) && contains(stop);
 	}
 
 	inline ValueType& operator[](IndexType index)
 	{
 		assert(index < this->length_);
-		return buffer[index];
+		return buffer_[index];
 	}
 
 	inline const ValueType& operator[](IndexType index) const
 	{
 		assert(index < this->length_);
-		return buffer[index];
+		return buffer_[index];
 	}
 
 	template <class Action>
@@ -72,21 +72,21 @@ public:
 	{
 		for (IndexType i = 0; i < this->length_; ++i)
 		{
-			action(buffer[i]);
+			action(buffer_[i]);
 		}
 	}
 
 	template <class Action>
-	void foreachIndex(const Action& action)
+	void foreach_index(const Action &action)
 	{
 		for (IndexType i = 0; i < this->length_; ++i)
 		{
-			action(buffer[i], i);
+			action(buffer_[i], i);
 		}
 	}
 
 private:
-	ValueType* buffer;
+	ValueType* buffer_;
 };
 
 

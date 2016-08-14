@@ -78,8 +78,8 @@ std::string SkipBytesHex(const std::string& input, uint32_t bytes)
 std::string RepeatHex(uint8_t byte, uint16_t count, bool spaced)
 {
 	Buffer buffer(count);
-	buffer.GetWSlice().set_all_to(byte);
-	return ToHex(buffer.ToRSlice(), spaced);
+	buffer.as_wslice().set_all_to(byte);
+	return ToHex(buffer.as_rslice(), spaced);
 }
 
 std::string IncrementHex(uint8_t start, uint16_t count, bool spaced)
@@ -92,7 +92,7 @@ std::string IncrementHex(uint8_t start, uint16_t count, bool spaced)
 		++start;
 	}
 
-	return ToHex(buffer.ToRSlice(), spaced);
+	return ToHex(buffer.as_rslice(), spaced);
 }
 
 }

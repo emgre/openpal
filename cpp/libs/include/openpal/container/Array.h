@@ -43,27 +43,27 @@ public:
 
 	Array(IndexType size) :
 		HasLength<IndexType>(size),
-		buffer(new ValueType[size]())
+		buffer_(new ValueType[size]())
 	{}
 
 	Array() :
 		HasLength<IndexType>(0),
-		buffer(nullptr)
+		buffer_(nullptr)
 	{}
 
 	Array(const Array& copy) :
 		HasLength<IndexType>(copy.length()),
-		buffer(new ValueType[copy.length()])
+		buffer_(new ValueType[copy.length()])
 	{
-		for(IndexType i = 0; i < copy.length(); ++i) buffer[i] = copy.buffer[i];
+		for(IndexType i = 0; i < copy.length(); ++i) buffer_[i] = copy.buffer_[i];
 	}
 
-	ArrayView<ValueType, IndexType> ToView() const
+	ArrayView<ValueType, IndexType> get_view() const
 	{
-		return ArrayView<ValueType, IndexType>(buffer, this->length_);
+		return ArrayView<ValueType, IndexType>(buffer_, this->length_);
 	}
 
-	inline bool Contains(IndexType index) const
+	inline bool contains(IndexType index) const
 	{
 		return index < this->length_;
 	}
@@ -71,55 +71,55 @@ public:
 	inline ValueType& operator[](IndexType index)
 	{
 		assert(index < this->length_);
-		return buffer[index];
+		return buffer_[index];
 	}
 
 	const ValueType& operator[](IndexType index) const
 	{
 		assert(index < this->length_);
-		return buffer[index];
+		return buffer_[index];
 	}
 
 	void resize(IndexType aSize)
 	{
-		delete[] buffer;
-		buffer = new ValueType[aSize];
+		delete[] buffer_;
+		buffer_ = new ValueType[aSize];
 		this->length_ = aSize;
 	}
 
 	template <class Action>
 	void foreach(const Action& action) const
 	{
-		for(IndexType i = 0; i < this->length_; ++i) action(buffer[i]);
+		for(IndexType i = 0; i < this->length_; ++i) action(buffer_[i]);
 	}
 
 	template <class Action>
 	void foreach(const Action& action)
 	{
-		for(IndexType i = 0; i < this->length_; ++i) action(buffer[i]);
+		for(IndexType i = 0; i < this->length_; ++i) action(buffer_[i]);
 	}
 
 	template <class Action>
 	void foreachIndex(const Action& action)
 	{
-		for(IndexType i = 0; i < this->length_; ++i) action(buffer[i], i);
+		for(IndexType i = 0; i < this->length_; ++i) action(buffer_[i], i);
 	}
 
 
 	template <class Action>
 	void foreachIndex(const Action& action) const
 	{
-		for(uint32_t i = 0; i < this->length_; ++i) action(buffer[i], i);
+		for(uint32_t i = 0; i < this->length_; ++i) action(buffer_[i], i);
 	}
 
 	virtual ~Array()
 	{
-		delete[] buffer;
+		delete[] buffer_;
 	}
 
 protected:
 
-	ValueType* buffer;
+	ValueType* buffer_;
 
 private:
 

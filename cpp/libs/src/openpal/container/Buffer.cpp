@@ -30,29 +30,29 @@ Buffer::Buffer(uint32_t size) : Array<uint8_t, uint32_t>(size)
 
 Buffer::Buffer(const RSlice& input) : Array<uint8_t, uint32_t>(input.length())
 {
-	auto dest = this->GetWSlice();
+	auto dest = this->as_wslice();
 	input.copy_to(dest);
 }
 
-RSlice Buffer::ToRSlice() const
+RSlice Buffer::as_rslice() const
 {
-	return RSlice(this->buffer, this->length_);
+	return RSlice(this->buffer_, this->length_);
 }
 
-WSlice Buffer::GetWSlice()
+WSlice Buffer::as_wslice()
 {
-	return WSlice(this->buffer, this->length());
+	return WSlice(this->buffer_, this->length());
 }
 
-WSlice Buffer::GetWSlice(uint32_t maxSize)
+WSlice Buffer::as_wslice(uint32_t max_size)
 {
-	if (maxSize <= this->length())
+	if (max_size <= this->length())
 	{
-		return WSlice(this->buffer, maxSize);
+		return WSlice(this->buffer_, max_size);
 	}
 	else
 	{
-		return GetWSlice();
+		return as_wslice();
 	}
 }
 }

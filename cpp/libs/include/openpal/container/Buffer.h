@@ -45,20 +45,20 @@ public:
 
 	virtual ~Buffer() {}
 
-	RSlice ToRSlice() const;
+	RSlice as_rslice() const;
 
-	WSlice GetWSlice();
+	WSlice as_wslice();
 
-	WSlice GetWSlice(uint32_t maxSize);
+	WSlice as_wslice(uint32_t max_size);
 
 	const uint8_t* operator()() const
 	{
-		return buffer;
+		return buffer_;
 	}
 
 	uint8_t* operator()()
 	{
-		return buffer;
+		return buffer_;
 	}
 };
 

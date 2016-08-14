@@ -43,14 +43,14 @@ bool TestReadWrite(T value)
 
 	for (uint32_t i = 0; i < sizeof(T); ++i)
 	{
-		auto dest = buffer.GetWSlice();
+		auto dest = buffer.as_wslice();
 		dest.advance(i);
 		if (!Format::Write(dest, value))
 		{
 			return false;
 		}
 
-		auto written = buffer.ToRSlice().skip(i);
+		auto written = buffer.as_rslice().skip(i);
 		T readValue;
 		if (!(Parse::Read(written, readValue) && value == readValue))
 		{
@@ -182,15 +182,15 @@ TEST_CASE(SUITE("FormatMany"))
 	Buffer output(SIZE + 3);
 
 	{
-		auto dest = output.GetWSlice();
+		auto dest = output.as_wslice();
 		REQUIRE(Format::Many(dest, first, second, third));
 		REQUIRE(dest.length() == (output.length() - SIZE));
-		auto written = ToHex(output.ToRSlice().take(SIZE));
+		auto written = ToHex(output.as_rslice().take(SIZE));
 		REQUIRE(written == "FF AB BA 01 00 00 00");
 	}
 
 	{
-		auto dest = output.GetWSlice(SIZE - 1);
+		auto dest = output.as_wslice(SIZE - 1);
 		REQUIRE_FALSE(Format::Many(dest, first, second, third));
 	}
 }
