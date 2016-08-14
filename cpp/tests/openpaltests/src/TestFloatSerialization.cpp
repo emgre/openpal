@@ -45,13 +45,13 @@ bool TestReadWriteFloat(T value)
 	for (uint32_t i = 0; i < sizeof(T); ++i)
 	{
 		auto dest = buffer.GetWSlice();
-		dest.Advance(i);
+		dest.advance(i);
 		if (!Format::Write(dest, value))
 		{
 			return false;
 		}
 
-		auto written = buffer.ToRSlice().Skip(i);
+		auto written = buffer.ToRSlice().skip(i);
 		T readValue;
 		if (!(Parse::Read(written, readValue) && FloatEqual(value, readValue)))
 		{
@@ -74,12 +74,12 @@ bool TestFloatParsing(std::string hex, typename T::Type value)
 	for (uint32_t i = 0; i < TYPE_SIZE; ++i)
 	{
 		auto dest = buffer.GetWSlice();
-		dest.Advance(i);
+		dest.advance(i);
 		if (!Format::Write(dest, value))
 		{
 			return false;
 		}
-		auto written = buffer.ToRSlice().Skip(i);
+		auto written = buffer.ToRSlice().skip(i);
 
 		typename T::Type val = 0;
 		if (!(Parse::Read(written, val) && openpal::FloatEqual(val, value)))

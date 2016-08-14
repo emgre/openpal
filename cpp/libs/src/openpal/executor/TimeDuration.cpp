@@ -25,54 +25,54 @@
 namespace openpal
 {
 
-TimeDuration TimeDuration::Min()
+TimeDuration TimeDuration::min_value()
 {
 	return TimeDuration(openpal::MinValue<int64_t>());
 }
 
-TimeDuration TimeDuration::Max()
+TimeDuration TimeDuration::max_value()
 {
 	return TimeDuration(openpal::MaxValue<int64_t>());
 }
 
-TimeDuration TimeDuration::Zero()
+TimeDuration TimeDuration::zero_value()
 {
 	return TimeDuration(0);
 }
 
-TimeDuration TimeDuration::Milliseconds(int64_t milliseconds)
+TimeDuration TimeDuration::milliseconds(int64_t milliseconds)
 {
 	return TimeDuration(milliseconds);
 }
 
-TimeDuration TimeDuration::Seconds(int64_t seconds)
+TimeDuration TimeDuration::seconds(int64_t seconds)
 {
 	return TimeDuration(1000 * seconds);
 }
 
-TimeDuration TimeDuration::Minutes(int64_t minutes)
+TimeDuration TimeDuration::minutes(int64_t minutes)
 {
 	return TimeDuration(static_cast<int64_t>(1000 * 60) * minutes);
 }
 
-TimeDuration TimeDuration::Hours(int64_t hours)
+TimeDuration TimeDuration::hours(int64_t hours)
 {
 	return TimeDuration(static_cast<int64_t>(1000 * 60 * 60) * hours);
 }
 
-TimeDuration TimeDuration::Days(int64_t days)
+TimeDuration TimeDuration::days(int64_t days)
 {
 	return TimeDuration(static_cast<int64_t>(1000 * 60 * 60 * 24) * days);
 }
 
 TimeDuration::TimeDuration() : TimeDurationBase(0) {}
 
-TimeDuration::TimeDuration(int64_t aMilliseconds) : TimeDurationBase(aMilliseconds)
+TimeDuration::TimeDuration(int64_t milliseconds) : TimeDurationBase(milliseconds)
 {}
 
 bool operator==(const TimeDuration& lhs, const TimeDuration& rhs)
 {
-	return lhs.GetMilliseconds() == rhs.GetMilliseconds();
+	return lhs.get_milliseconds() == rhs.get_milliseconds();
 }
 
 }

@@ -31,20 +31,20 @@ namespace openpal
 /**
 *  Strong typing for millisecond-based monotonic timestamps
 */
-class MonotonicTimestamp
+struct MonotonicTimestamp
 {
 
 public:
 
-	static MonotonicTimestamp Max();
-	static MonotonicTimestamp Min();
+	static MonotonicTimestamp max_value();
+	static MonotonicTimestamp min_value();
 
-	bool IsMax() const;
-	bool IsMin() const;
+	bool is_max_value() const;
+	bool is_min_value() const;
 
 	MonotonicTimestamp();
 	explicit MonotonicTimestamp(int64_t milliseconds);
-	MonotonicTimestamp Add(const TimeDuration& duration) const;
+	MonotonicTimestamp add(const TimeDuration &duration) const;
 
 	int64_t milliseconds;
 };

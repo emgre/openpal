@@ -25,22 +25,22 @@
 namespace openpal
 {
 
-MonotonicTimestamp MonotonicTimestamp::Max()
+MonotonicTimestamp MonotonicTimestamp::max_value()
 {
 	return MonotonicTimestamp(INT64_MAX);
 }
 
-MonotonicTimestamp MonotonicTimestamp::Min()
+MonotonicTimestamp MonotonicTimestamp::min_value()
 {
 	return MonotonicTimestamp(INT64_MIN);
 }
 
-bool MonotonicTimestamp::IsMax() const
+bool MonotonicTimestamp::is_max_value() const
 {
 	return milliseconds == INT64_MAX;
 }
 
-bool MonotonicTimestamp::IsMin() const
+bool MonotonicTimestamp::is_min_value() const
 {
 	return milliseconds == INT64_MIN;
 }
@@ -52,9 +52,9 @@ MonotonicTimestamp::MonotonicTimestamp(int64_t aMilliseconds) : milliseconds(aMi
 {}
 
 
-MonotonicTimestamp MonotonicTimestamp::Add(const TimeDuration& duration) const
+MonotonicTimestamp MonotonicTimestamp::add(const TimeDuration &duration) const
 {
-	return MonotonicTimestamp(milliseconds + duration.GetMilliseconds());
+	return MonotonicTimestamp(milliseconds + duration.get_milliseconds());
 }
 
 bool operator==(const MonotonicTimestamp& first, const MonotonicTimestamp& second)

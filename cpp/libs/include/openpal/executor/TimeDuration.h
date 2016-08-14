@@ -32,29 +32,35 @@ class TimeDurationBase
 
 public:
 
-	TimeDurationBase() : milliseconds(0)
-	{}
-
-	T GetMilliseconds() const
+	T get_milliseconds() const
 	{
-		return milliseconds;
+		return milliseconds_;
 	}
 
-	bool IsNegative() const
+	bool is_negative() const
 	{
-		return milliseconds < 0;
+		return milliseconds_ < 0;
+	}
+
+	bool is_postive() const
+	{
+		return milliseconds_ > 0;
 	}
 
 	operator T() const
 	{
-		return milliseconds;
+		return milliseconds_;
 	}
 
 protected:
-	TimeDurationBase(T aMilliseconds) : milliseconds(aMilliseconds)
+
+	TimeDurationBase() : milliseconds_(0)
 	{}
 
-	T milliseconds;
+	TimeDurationBase(T milliseconds) : milliseconds_(milliseconds)
+	{}
+
+	T milliseconds_;
 };
 
 
@@ -68,31 +74,25 @@ public:
 
 	TimeDuration();
 
-	bool IsPostive() const;
+	static TimeDuration min_value();
 
-	TimeDuration MultiplyBy(int factor) const
-	{
-		return TimeDuration(factor * milliseconds);
-	}
+	static TimeDuration max_value();
 
-	static TimeDuration Min();
+	static TimeDuration zero_value();
 
-	static TimeDuration Max();
+	static TimeDuration milliseconds(int64_t milliseconds);
 
-	static TimeDuration Zero();
+	static TimeDuration seconds(int64_t seconds);
 
-	static TimeDuration Milliseconds(int64_t milliseconds);
+	static TimeDuration minutes(int64_t minutes);
 
-	static TimeDuration Seconds(int64_t seconds);
+	static TimeDuration hours(int64_t hours);
 
-	static TimeDuration Minutes(int64_t minutes);
-
-	static TimeDuration Hours(int64_t hours);
-
-	static TimeDuration Days(int64_t days);
+	static TimeDuration days(int64_t days);
 
 private:
-	TimeDuration(int64_t aMilliseconds);
+
+	TimeDuration(int64_t milliseconds);
 };
 
 bool operator==(const TimeDuration& lhs, const TimeDuration& rhs);

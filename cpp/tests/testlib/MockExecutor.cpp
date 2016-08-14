@@ -48,7 +48,7 @@ openpal::MonotonicTimestamp MockExecutor::NextTimerExpiration()
 	auto min = std::min_element(timers.begin(), timers.end(), lt);
 	if (min == timers.end())
 	{
-		return MonotonicTimestamp::Max();
+		return MonotonicTimestamp::max_value();
 	}
 	else
 	{
@@ -95,7 +95,7 @@ size_t MockExecutor::AdvanceTime(TimeDuration aDuration)
 // doesn't check timers
 void MockExecutor::AddTime(openpal::TimeDuration aDuration)
 {
-	mCurrentTime = mCurrentTime.Add(aDuration);
+	mCurrentTime = mCurrentTime.add(aDuration);
 }
 
 bool MockExecutor::AdvanceToNextTimer()
@@ -143,7 +143,7 @@ size_t MockExecutor::RunMany(size_t aMaximum)
 	return num;
 }
 
-void MockExecutor::Post(const openpal::action_t& runnable)
+void MockExecutor::post(const openpal::action_t &runnable)
 {
 	if (post_is_synchronous_)
 	{
@@ -155,18 +155,18 @@ void MockExecutor::Post(const openpal::action_t& runnable)
 	}
 }
 
-openpal::MonotonicTimestamp MockExecutor::GetTime()
+openpal::MonotonicTimestamp MockExecutor::get_time()
 {
 	return mCurrentTime;
 }
 
-ITimer* MockExecutor::Start(const openpal::TimeDuration& aDelay, const openpal::action_t& runnable)
+ITimer* MockExecutor::start(const openpal::TimeDuration &aDelay, const openpal::action_t &runnable)
 {
-	auto expiration = mCurrentTime.Add(aDelay);
-	return Start(expiration, runnable);
+	auto expiration = mCurrentTime.add(aDelay);
+	return start(expiration, runnable);
 }
 
-ITimer* MockExecutor::Start(const openpal::MonotonicTimestamp& arTime, const openpal::action_t& runnable)
+ITimer* MockExecutor::start(const openpal::MonotonicTimestamp &arTime, const openpal::action_t &runnable)
 {
 	MockTimer* pTimer = new MockTimer(this, arTime, runnable);
 	timers.push_back(pTimer);

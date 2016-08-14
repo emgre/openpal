@@ -55,7 +55,7 @@ public:
 	bool Start(const TimeDuration& timeout, const action_t& action);
 	bool Start(const MonotonicTimestamp& expiration, const action_t& action);
 
-	// Start a new timer, canceling any existing timer
+	// start a new timer, canceling any existing timer
 	void Restart(const TimeDuration& expiration, const action_t& action);
 	void Restart(const MonotonicTimestamp& expiration, const action_t& action);
 

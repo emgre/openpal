@@ -43,10 +43,10 @@ public:
 	~MockExecutor();
 
 	// Implement IExecutor
-	virtual openpal::ITimer* Start(const openpal::MonotonicTimestamp&, const openpal::action_t& action) override;
-	virtual openpal::ITimer* Start(const openpal::TimeDuration&, const openpal::action_t& action) override;
-	virtual void Post(const openpal::action_t& action) override;
-	virtual openpal::MonotonicTimestamp GetTime() override;
+	virtual openpal::ITimer* start(const openpal::MonotonicTimestamp &, const openpal::action_t &action) override;
+	virtual openpal::ITimer* start(const openpal::TimeDuration &, const openpal::action_t &action) override;
+	virtual void post(const openpal::action_t &action) override;
+	virtual openpal::MonotonicTimestamp get_time() override;
 
 	/** Turns the auto-post feature on/off. When Auto post is on, Post() is executed synchronously */
 	void SetAutoPost(bool autoPost)

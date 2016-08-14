@@ -39,7 +39,7 @@ bool TimerRef::IsActive() const
 
 MonotonicTimestamp TimerRef::ExpiresAt() const
 {
-	return timer_ ? timer_->ExpiresAt() : MonotonicTimestamp::Max();
+	return timer_ ? timer_->ExpiresAt() : MonotonicTimestamp::max_value();
 }
 
 bool TimerRef::Cancel()
@@ -64,7 +64,7 @@ bool TimerRef::Start(const TimeDuration& timeout, const action_t& action)
 	}
 	else
 	{
-		timer_ = executor_->Start(timeout, action);
+		timer_ = executor_->start(timeout, action);
 		return true;
 	}
 }
@@ -77,7 +77,7 @@ bool TimerRef::Start(const MonotonicTimestamp& expiration, const action_t& actio
 	}
 	else
 	{
-		timer_ = executor_->Start(expiration, action);
+		timer_ = executor_->start(expiration, action);
 		return true;
 	}
 }
@@ -89,7 +89,7 @@ void TimerRef::Restart(const TimeDuration& timeout, const action_t& action)
 		timer_->Cancel();
 	}
 
-	timer_ = executor_->Start(timeout, action);
+	timer_ = executor_->start(timeout, action);
 }
 
 void TimerRef::Restart(const MonotonicTimestamp& expiration, const action_t& action)
@@ -99,7 +99,7 @@ void TimerRef::Restart(const MonotonicTimestamp& expiration, const action_t& act
 		timer_->Cancel();
 	}
 
-	timer_ = executor_->Start(expiration, action);
+	timer_ = executor_->start(expiration, action);
 }
 
 }

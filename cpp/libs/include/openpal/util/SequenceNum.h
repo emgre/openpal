@@ -21,6 +21,8 @@
 #ifndef OPENPAL_SEQUENCENUM_H
 #define OPENPAL_SEQUENCENUM_H
 
+#include <cstdint>
+
 namespace openpal
 {
 

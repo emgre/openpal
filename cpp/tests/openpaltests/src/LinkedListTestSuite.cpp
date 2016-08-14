@@ -31,9 +31,9 @@ TEST_CASE(SUITE("CorrectInitialState"))
 {
 	LinkedList<int, uint16_t> list(3);
 
-	REQUIRE(list.IsEmpty());
+	REQUIRE(list.is_empty());
 	REQUIRE(!list.IsFull());
-	REQUIRE(0 == list.Size());
+	REQUIRE(0 == list.length());
 }
 
 TEST_CASE(SUITE("AddsUntilFull"))
@@ -60,7 +60,7 @@ TEST_CASE(SUITE("CanRemoveHead"))
 
 	list.Remove(one);
 
-	REQUIRE(2 == list.Size());
+	REQUIRE(2 == list.length());
 
 	auto four = list.Add(4);
 
@@ -77,7 +77,7 @@ TEST_CASE(SUITE("CanRemoveTail"))
 
 	list.Remove(three);
 
-	REQUIRE(2 == list.Size());
+	REQUIRE(2 == list.length());
 
 	auto four = list.Add(4);
 
@@ -94,7 +94,7 @@ TEST_CASE(SUITE("CanRemoveMiddle"))
 
 	list.Remove(two);
 
-	REQUIRE(2 == list.Size());
+	REQUIRE(2 == list.length());
 
 	auto four = list.Add(4);
 
@@ -119,7 +119,7 @@ TEST_CASE(SUITE("RemoveAllComplexQuery"))
 	auto count = list.RemoveAll(isEven);
 
 	REQUIRE(count == 4);
-	REQUIRE(list.Size() == 2);
+	REQUIRE(list.length() == 2);
 
 	std::vector<int> remaining;
 	auto pushToVector = [&](int num)

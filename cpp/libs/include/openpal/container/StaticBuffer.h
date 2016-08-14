@@ -32,7 +32,7 @@ namespace openpal
 {
 
 template <uint32_t SIZE>
-class StaticBuffer final : openpal::Uncopyable
+class StaticBuffer final
 {
 
 public:

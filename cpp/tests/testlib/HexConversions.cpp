@@ -40,7 +40,7 @@ std::string ToHex(const uint8_t* apBuff, size_t aLength, bool spaced)
 	for (size_t i = 0; i < aLength; i++)
 	{
 		char c = apBuff[i];
-		oss << openpal::ToHexChar((c & 0xf0) >> 4) << openpal::ToHexChar(c & 0xf);
+		oss << openpal::to_hex_char((c & 0xf0) >> 4) << openpal::to_hex_char(c & 0xf);
 		if (spaced && i != last)oss << " ";
 	}
 	return oss.str();
@@ -54,7 +54,7 @@ std::string ToHex(const RSlice& buffer, bool spaced)
 std::string ByteToHex(uint8_t b)
 {
 	std::ostringstream oss;
-	oss << openpal::ToHexChar((b & 0xf0) >> 4) << openpal::ToHexChar(b & 0xf);
+	oss << openpal::to_hex_char((b & 0xf0) >> 4) << openpal::to_hex_char(b & 0xf);
 	return oss.str();
 }
 
