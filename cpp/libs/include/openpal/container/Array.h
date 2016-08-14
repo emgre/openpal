@@ -23,7 +23,6 @@
 
 #include "ArrayView.h"
 
-#include "openpal/Configure.h"
 #include "openpal/util/Uncopyable.h"
 
 #include <assert.h>

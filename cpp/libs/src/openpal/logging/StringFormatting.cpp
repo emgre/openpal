@@ -23,9 +23,7 @@
 #include "openpal/logging/LogMacros.h"
 #include "openpal/util/ToHex.h"
 #include "openpal/container/RSlice.h"
-#include "openpal/Configure.h"
 
-#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 
@@ -36,7 +34,7 @@ char* allocate_copy(char const *src)
 	auto size = strlen(src) + 1;
 	char* tmp = new char[size];
 #ifdef WIN32
-	strcpy_s(tmp, length_, src);
+	strcpy_s(tmp, size, src);
 #else
 	strcpy(tmp, src);
 #endif
