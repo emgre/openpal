@@ -22,22 +22,22 @@
 
 using namespace std::chrono;
 
-namespace testlib
+namespace openpal
 {
 
-StopWatch::StopWatch() : mStartTime(std::chrono::steady_clock::now())
+StopWatch::StopWatch() : start_time_(std::chrono::steady_clock::now())
 {
 
 }
 
-std::chrono::steady_clock::duration StopWatch::Elapsed(bool aReset)
+std::chrono::steady_clock::duration StopWatch::elapsed(bool reset)
 {
-	return std::chrono::steady_clock::now() - mStartTime;
+	return std::chrono::steady_clock::now() - start_time_;
 }
 
-void StopWatch :: Restart()
+void StopWatch :: restart()
 {
-	mStartTime = std::chrono::steady_clock::now();
+	start_time_ = std::chrono::steady_clock::now();
 }
 
 }

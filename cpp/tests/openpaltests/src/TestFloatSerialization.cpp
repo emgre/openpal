@@ -33,7 +33,7 @@
 #include <memory>
 
 using namespace openpal;
-using namespace testlib;
+using namespace openpal;
 
 using namespace std;
 

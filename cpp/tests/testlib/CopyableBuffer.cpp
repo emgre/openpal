@@ -27,56 +27,56 @@
 #include <openpal/util/ToHex.h>
 #include <openpal/container/WSlice.h>
 
-using namespace testlib;
+using namespace openpal;
 
-namespace testlib
+namespace openpal
 {
 
 std::ostream& operator<<(std::ostream& output, const CopyableBuffer& arBuff)
 {
-	output << "[" << ToHex(arBuff.ToRSlice(), true) << "]";
+	output << "[" << to_hex(arBuff.as_rslice(), true) << "]";
 	return output;
 }
 
 CopyableBuffer::CopyableBuffer() :
-	mpBuff(nullptr),
-	mSize(0)
+	buffer_(nullptr),
+	length_(0)
 {
 
 }
 
-CopyableBuffer::CopyableBuffer(uint32_t aSize) :
-	mpBuff(new uint8_t[aSize]),
-	mSize(aSize)
+CopyableBuffer::CopyableBuffer(uint32_t size) :
+	buffer_(new uint8_t[size]),
+	length_(size)
 {
-	this->Zero();
+	this->zero();
 }
 
 CopyableBuffer::CopyableBuffer(const openpal::RSlice& buffer) :
-	mpBuff(new uint8_t[buffer.length()]),
-	mSize(buffer.length())
+	buffer_(new uint8_t[buffer.length()]),
+	length_(buffer.length())
 {
-	openpal::WSlice dest(mpBuff, mSize);
+	openpal::WSlice dest(buffer_, length_);
     buffer.copy_to(dest);
 }
 
-CopyableBuffer::CopyableBuffer(const uint8_t* apBuff, uint32_t aSize) :
-	mpBuff(new uint8_t[aSize]),
-	mSize(aSize)
+CopyableBuffer::CopyableBuffer(const uint8_t* buff, uint32_t length) :
+	buffer_(new uint8_t[length]),
+	length_(length)
 {
-	memcpy(mpBuff, apBuff, aSize);
+	memcpy(buffer_, buff, length);
 }
 
 CopyableBuffer::CopyableBuffer(const CopyableBuffer& arBuffer) :
-	mpBuff(new uint8_t[arBuffer.Size()]),
-	mSize(arBuffer.Size())
+	buffer_(new uint8_t[arBuffer.Size()]),
+	length_(arBuffer.Size())
 {
-	memcpy(mpBuff, arBuffer, mSize);
+	memcpy(buffer_, arBuffer, length_);
 }
 
-void CopyableBuffer::Zero()
+void CopyableBuffer::zero()
 {
-	memset(mpBuff, 0, mSize);
+	memset(buffer_, 0, length_);
 }
 
 CopyableBuffer& CopyableBuffer::operator=(const CopyableBuffer& arRHS)
@@ -84,21 +84,21 @@ CopyableBuffer& CopyableBuffer::operator=(const CopyableBuffer& arRHS)
 	//check for assignment to self
 	if(this == &arRHS) return *this;
 
-	if(arRHS.Size() != mSize)
+	if(arRHS.Size() != length_)
 	{
-		mSize = arRHS.Size();
-		delete mpBuff;
-		mpBuff = new uint8_t[mSize];
+		length_ = arRHS.Size();
+		delete buffer_;
+		buffer_ = new uint8_t[length_];
 	}
 
-	memcpy(mpBuff, arRHS, mSize);
+	memcpy(buffer_, arRHS, length_);
 
 	return *this;
 }
 
 CopyableBuffer::~CopyableBuffer()
 {
-	delete [] mpBuff;
+	delete [] buffer_;
 }
 
 bool CopyableBuffer::operator==( const CopyableBuffer& other) const
@@ -108,7 +108,7 @@ bool CopyableBuffer::operator==( const CopyableBuffer& other) const
 	{
 		for(size_t i = 0; i < this->Size(); ++i)
 		{
-			if(this->mpBuff[i] != other.mpBuff[i]) return false;
+			if(this->buffer_[i] != other.buffer_[i]) return false;
 		}
 
 		return true;

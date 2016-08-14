@@ -31,11 +31,11 @@
 
 using namespace openpal;
 
-namespace testlib
+namespace openpal
 {
 
 BufferTestObject::BufferTestObject() :
-	mNumWrites(0)
+	num_writes_(0)
 {
 
 }
@@ -45,78 +45,78 @@ BufferTestObject::~BufferTestObject()
 
 }
 
-void BufferTestObject::ClearBuffer()
+void BufferTestObject::clear_buffer()
 {
-	mNumWrites = 0;
-	mBuffer.clear();
+	num_writes_ = 0;
+	buffer_.clear();
 }
 
-bool BufferTestObject::BufferEquals(const openpal::RSlice& arBuffer) const
+bool BufferTestObject::equals(const openpal::RSlice &slice) const
 {
-	return BufferEquals(arBuffer, arBuffer.length());
+	return equals(slice, slice.length());
 }
 
-bool BufferTestObject::BufferEquals(const uint8_t* apData, size_t aNumBytes) const
+bool BufferTestObject::equals(const uint8_t *apData, size_t aNumBytes) const
 {
 
-	if(aNumBytes != mBuffer.size()) return false;
+	if(aNumBytes != buffer_.size()) return false;
 	for(size_t i = 0; i < aNumBytes; i++)
-		if(apData[i] != mBuffer[i])
+		if(apData[i] != buffer_[i])
 		{
 			return false;
 		}
 	return true;
 }
 
-bool BufferTestObject::BufferContains(const std::string& arPattern) const
+bool BufferTestObject::contains(const std::string &str) const
 {
 	std::string s;
-	for(size_t i = 0; i < mBuffer.size(); ++i)
+	for(size_t i = 0; i < buffer_.size(); ++i)
 	{
-		std::string c(1, static_cast<char>(mBuffer[i]));
+		std::string c(1, static_cast<char>(buffer_[i]));
 		s.append(c);
 	}
-	return s.find(arPattern) != std::string::npos;
+	return s.find(str) != std::string::npos;
 }
 
-std::string BufferTestObject::GetBufferAsHexString(bool spaced) const
+std::string BufferTestObject::as_hex_string(bool spaced) const
 {
-	CopyableBuffer buffer(static_cast<uint32_t>(mBuffer.size()));
-	for(size_t i = 0; i < mBuffer.size(); ++i) buffer[i] = mBuffer[i];
-	return ToHex(buffer.ToRSlice(), spaced);
+	CopyableBuffer buffer(static_cast<uint32_t>(buffer_.size()));
+	for(size_t i = 0; i < buffer_.size(); ++i) buffer[i] = buffer_[i];
+	return to_hex(buffer.as_rslice(), spaced);
 }
 
 
-bool BufferTestObject::BufferEqualsHex(const std::string& arData) const
+bool BufferTestObject::equals_hex(const std::string &hex) const
 {
-	HexSequence hs(arData);
-	return BufferEquals(hs, hs.Size());
+	HexSequence hs(hex);
+	return equals(hs, hs.Size());
 }
 
-bool BufferTestObject::BufferEqualsString(const std::string& arData) const
+bool BufferTestObject::equals(const std::string &str) const
 {
-	if(arData.size() != mBuffer.size()) return false;
-	for(size_t i = 0; i < mBuffer.size(); i++)
-		if(arData[i] != mBuffer[i])
+	if(str.size() != buffer_.size()) return false;
+	for(size_t i = 0; i < buffer_.size(); i++)
+		if(str[i] != buffer_[i])
 		{
 			return false;
 		}
 	return true;
 }
 
-void BufferTestObject::WriteToBuffer(const RSlice& input)
+void BufferTestObject::write_to_buffer(const RSlice &slice)
 {
-	if((mBuffer.size() + input.length()) > MAX_SIZE )
+	if((buffer_.size() + slice.length()) > max_size )
 	{
 		throw std::invalid_argument("Max length_ exceeded");
 	}
 	else
 	{
-		++mNumWrites;
+		++num_writes_;
 
-		for(size_t i = 0; i < input.length(); ++i)
+		for(size_t i = 0; i < slice.length(); ++i)
 		{
-			mBuffer.push_back(input[i]);
+			buffer_.push_back(slice[i]);
 		}
 	}
 }

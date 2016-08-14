@@ -18,25 +18,25 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef TESTLIB_BUFFERHELPERS_H_
-#define TESTLIB_BUFFERHELPERS_H_
+#ifndef TESTLIB_BUFFERHELPERS_H
+#define TESTLIB_BUFFERHELPERS_H
 
 #include "CopyableBuffer.h"
 
 #include <string>
 
-namespace testlib
+namespace openpal
 {
 
 class ByteStr : public CopyableBuffer
 {
 
 public:
-	ByteStr(uint32_t aLength, uint8_t aSeed = 0);
-	ByteStr(const uint8_t* apData, uint32_t aLength);
-	ByteStr(const std::string& aChars);
-	bool operator==(const ByteStr& arRHS) const;
-	std::string ToHex() const;
+	ByteStr(uint32_t length, uint8_t seed = 0);
+	ByteStr(const uint8_t* data, uint32_t length);
+	ByteStr(const std::string& str);
+	bool operator==(const ByteStr& rhs) const;
+	std::string to_hex() const;
 };
 
 /**
@@ -45,17 +45,17 @@ public:
 class HexSequence : public ByteStr
 {
 public:
-	HexSequence(const std::string& aSequence);
+	HexSequence(const std::string& hex);
 
 	operator openpal::RSlice()
 	{
-		return this->ToRSlice();
+		return this->as_rslice();
 	}
 
 private:
-	std::string RemoveSpaces(const std::string& aSequence);
-	void RemoveSpacesInPlace(std::string& aSequence);
-	static uint32_t Validate(const std::string& aSequence);
+	std::string remove_spaces(const std::string& hex);
+	void remove_spaces_in_place(std::string& hex);
+	static uint32_t validate(const std::string& sequence);
 };
 
 }

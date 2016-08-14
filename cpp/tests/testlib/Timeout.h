@@ -18,12 +18,12 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef _TIMEOUT_H__
-#define _TIMEOUT_H__
+#ifndef TESTLIB_TIMEOUT_H
+#define TESTLIB_TIMEOUT_H
 
 #include <chrono>
 
-namespace testlib
+namespace openpal
 {
 
 // Use this class to simplify writing do loops with a timeout
@@ -36,30 +36,30 @@ namespace testlib
 // Timeout to(5000);
 // do{
 //	  //call some subordinate slow function
-//	  bool success = WaitForInput(to.Remaining());
+//	  bool success = WaitForInput(to.remaining());
 //
 //		//do something on success
 //		if(success) return or break;
 //
 //		//or go back around the loop, the next_ call to
 //		//remaining will be guarnteed to be > 0
-// }while(!to.IsExpired());
+// }while(!to.is_expired());
 class Timeout
 {
 public:
 	// constuctor, timeout will expire this many mills in the future
-	Timeout(std::chrono::steady_clock::duration aTimeout);
+	Timeout(std::chrono::steady_clock::duration timeout);
 
 	// returns whether its expired
-	bool IsExpired();
+	bool is_expired() const;
 
 	// returns how much time is left
-	std::chrono::steady_clock::duration Remaining();
+	std::chrono::steady_clock::duration remaining() const;
 
 
 private:
 
-	std::chrono::steady_clock::time_point mExpireTime;
+	std::chrono::steady_clock::time_point expire_time_;
 
 };
 

@@ -18,12 +18,12 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef TESTLIB_RANDOM_H_
-#define TESTLIB_RANDOM_H_
+#ifndef TESTLIB_RANDOM_H
+#define TESTLIB_RANDOM_H
 
 #include <random>
 
-namespace testlib
+namespace openpal
 {
 
 template<class T>
@@ -32,20 +32,20 @@ class Random
 
 public:
 	Random(T min = std::numeric_limits<T>::min(), T max = std::numeric_limits<T>::max()) :
-		rng(),
-		dist(min, max)
+		rng_(),
+		distribution_(min, max)
 	{
 
 	}
 
-	T Next()
+	T next()
 	{
-		return dist(rng);
+		return distribution_(rng_);
 	}
 
 private:
-	std::mt19937 rng;
-	std::uniform_int_distribution<T> dist;
+	std::mt19937 rng_;
+	std::uniform_int_distribution<T> distribution_;
 };
 
 class RandomBool : private Random<uint32_t>
@@ -54,9 +54,9 @@ public:
 	RandomBool() : Random<uint32_t>(0, 1)
 	{}
 
-	bool NextBool()
+	bool next_bool()
 	{
-		return Next() ? true : false;
+		return next() != 0;
 	}
 };
 

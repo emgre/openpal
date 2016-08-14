@@ -32,7 +32,7 @@
 #include <memory>
 
 using namespace openpal;
-using namespace testlib;
+using namespace openpal;
 
 using namespace std;
 
@@ -155,7 +155,7 @@ TEST_CASE(SUITE("ParseMany"))
 	uint32_t third = 0;
 
 	{
-		auto input = hex.ToRSlice();
+		auto input = hex.as_rslice();
 		REQUIRE(Parse::many(input, first, second, third));
 		REQUIRE(first == 255);
 		REQUIRE(second == 0xBAAB);
@@ -164,7 +164,7 @@ TEST_CASE(SUITE("ParseMany"))
 	}
 
 	{
-		auto input = hex.ToRSlice().skip(2);
+		auto input = hex.as_rslice().skip(2);
 		REQUIRE_FALSE(Parse::many(input, first, second, third));
 	}
 }
@@ -185,7 +185,7 @@ TEST_CASE(SUITE("FormatMany"))
 		auto dest = output.as_wslice();
 		REQUIRE(Format::many(dest, first, second, third));
 		REQUIRE(dest.length() == (output.length() - SIZE));
-		auto written = ToHex(output.as_rslice().take(SIZE));
+		auto written = to_hex(output.as_rslice().take(SIZE));
 		REQUIRE(written == "FF AB BA 01 00 00 00");
 	}
 

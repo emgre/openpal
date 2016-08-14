@@ -18,8 +18,8 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef __BUFFER_TEST_OBJECT_H_
-#define __BUFFER_TEST_OBJECT_H_
+#ifndef TESTLIB_BUFFER_TEST_OBJECT_H
+#define TESTLIB_BUFFER_TEST_OBJECT_H
 
 #include <string>
 #include <vector>
@@ -27,49 +27,53 @@
 
 #include <openpal/container/RSlice.h>
 
-namespace testlib
+namespace openpal
 {
 
 class BufferTestObject
 {
-	static const size_t MAX_SIZE = 1024 * 1024;
+	static const size_t max_size = 1024 * 1024;
 
 public:
 	BufferTestObject();
 	~BufferTestObject();
 
-	bool BufferEquals(const openpal::RSlice& arBuffer) const;
-	bool BufferEquals(const uint8_t*, size_t) const;
-	bool BufferEqualsHex(const std::string& arData) const;
-	bool BufferEqualsString(const std::string& arData) const;
-	bool BufferContains(const std::string& arData) const;
+	bool equals(const openpal::RSlice &slice) const;
+	bool equals(const uint8_t*, size_t) const;
+	bool equals_hex(const std::string& hex) const;
+	bool equals(const std::string& str) const;
+	bool contains(const std::string &str) const;
 
-	std::string GetBufferAsHexString(bool spaced = true) const;
+	std::string as_hex_string(bool spaced = true) const;
 
-	bool IsBufferEmpty()
+	bool is_buffer_empty()
 	{
-		return mBuffer.size() == 0;
+		return buffer_.size() == 0;
 	}
-	void ClearBuffer();
-	size_t Size()
+
+	void clear_buffer();
+
+	size_t size() const
 	{
-		return mBuffer.size();
+		return buffer_.size();
 	}
-	bool SizeEquals(size_t aNum)
+
+	bool size_equals(size_t num) const
 	{
-		return aNum == Size();
+		return num == size();
 	}
-	size_t NumWrites()
+	size_t num_writes() const
 	{
-		return mNumWrites;
+		return num_writes_;
 	}
 
 protected:
-	void WriteToBuffer(const openpal::RSlice& arBuffer);
+
+	void write_to_buffer(const openpal::RSlice &slice);
 
 private:
-	size_t mNumWrites;
-	std::vector<uint8_t> mBuffer;
+	size_t num_writes_;
+	std::vector<uint8_t> buffer_;
 };
 
 }

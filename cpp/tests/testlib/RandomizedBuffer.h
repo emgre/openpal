@@ -18,26 +18,26 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef TESTLIB_RANDOMIZED_BUFFER_H_
-#define TESTLIB_RANDOMIZED_BUFFER_H_
+#ifndef TESTLIB_RANDOMIZED_BUFFER_H
+#define TESTLIB_RANDOMIZED_BUFFER_H
 
 #include "CopyableBuffer.h"
 #include "Random.h"
 
-namespace  testlib
+namespace  openpal
 {
 
-class RandomizedBuffer : public testlib::CopyableBuffer
+class RandomizedBuffer : public openpal::CopyableBuffer
 {
 
 public:
 
-	RandomizedBuffer(uint32_t aSize);
+	RandomizedBuffer(uint32_t size);
 
-	void Randomize();
+	void randomize();
 
 private:
-	Random<uint32_t> rand;
+	Random<uint32_t> rand_;
 };
 
 }

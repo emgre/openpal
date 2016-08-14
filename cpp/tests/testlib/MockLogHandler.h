@@ -18,18 +18,18 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef __LOG_TESTER_H_
-#define __LOG_TESTER_H_
+#ifndef TESTLIB_LOG_TESTER_H
+#define TESTLIB_LOG_TESTER_H
 
 #include <openpal/logging/LogRoot.h>
 
 #include <string>
 #include <queue>
 
-namespace testlib
+namespace openpal
 {
 
-class LogRecord
+struct LogRecord
 {
 public:
 
@@ -49,33 +49,33 @@ class MockLogHandler : public openpal::ILogHandler
 public:
 	MockLogHandler(uint32_t filters = ~0);
 
-	void WriteToStdIo();
+	void write_to_stdio();
 
-	void Log(const std::string& location, const std::string& msg);
+	void log(const std::string &location, const std::string &msg);
 
 	void log(const openpal::LogEntry &entry);
 
-	int32_t PopFilter();
+	int32_t pop_filter();
 
-	bool PopOneEntry(int32_t filter);
+	bool pop_one_entry(int32_t filter);
 
-	bool PopUntil(int32_t filter);
+	bool pop_until(int32_t filter);
 
-	bool PopErrorCode(int code);
+	bool pop_error_code(int code);
 
-	int ClearLog();
-	int NextErrorCode();
-	bool GetNextEntry(LogRecord& record);
-	bool IsLogErrorFree();
+	int clear_log();
+	int next_error_code();
+	bool get_next_entry(LogRecord &record);
+	bool is_log_error_free();
 
-	void Pop(openpal::ILogHandler& log);
+	void pop(openpal::ILogHandler &log);
 
 	openpal::LogRoot root;
 
 protected:
 
-	bool outputToStdIO;
-	std::deque<LogRecord> messages;
+	bool output_to_stdio_;
+	std::deque<LogRecord> messages_;
 
 };
 

@@ -18,12 +18,12 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef TESTLIB_RANDOM_DOUBLE_H_
-#define TESTLIB_RANDOM_DOUBLE_H_
+#ifndef TESTLIB_RANDOM_DOUBLE_H
+#define TESTLIB_RANDOM_DOUBLE_H
 
 #include <random>
 
-namespace testlib
+namespace openpal
 {
 
 class RandomDouble
@@ -31,18 +31,18 @@ class RandomDouble
 
 public:
 	RandomDouble() :
-		rng(),
-		dist(0.0, 1.0)
+		rng_(),
+		distribution_(0.0, 1.0)
 	{}
 
-	double Next()
+	double next()
 	{
-		return dist(rng);
+		return distribution_(rng_);
 	}
 
 private:
-	std::mt19937 rng;
-	std::uniform_real_distribution<double> dist;
+	std::mt19937 rng_;
+	std::uniform_real_distribution<double> distribution_;
 };
 
 }

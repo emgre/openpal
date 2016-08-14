@@ -20,19 +20,19 @@
  */
 #include "RandomizedBuffer.h"
 
-namespace testlib
+namespace openpal
 {
 
-RandomizedBuffer::RandomizedBuffer(uint32_t aSize) :
-	testlib::CopyableBuffer(aSize),
-	rand()
+RandomizedBuffer::RandomizedBuffer(uint32_t size) :
+	openpal::CopyableBuffer(size),
+	rand_()
 {
-	Randomize();
+	randomize();
 }
 
-void RandomizedBuffer::Randomize()
+void RandomizedBuffer::randomize()
 {
-	for (uint32_t i = 0; i < this->Size(); ++i) mpBuff[i] = static_cast<uint8_t>(rand.Next() % 256);
+	for (uint32_t i = 0; i < this->Size(); ++i) buffer_[i] = static_cast<uint8_t>(rand_.next() % 256);
 }
 
 }

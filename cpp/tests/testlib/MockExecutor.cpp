@@ -24,7 +24,7 @@
 
 using namespace openpal;
 
-namespace testlib
+namespace openpal
 {
 
 MockExecutor::MockExecutor() :

@@ -18,30 +18,30 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef __HEX_CONVERSIONS_H_
-#define __HEX_CONVERSIONS_H_
+#ifndef TESTLIB_HEX_CONVERSIONS_H
+#define TESTLIB_HEX_CONVERSIONS_H
 
 #include <cstdint>
 #include <string>
 
 #include <openpal/container/RSlice.h>
 
-namespace testlib
+namespace openpal
 {
 
-std::string ByteToHex(uint8_t b);
+std::string byte_to_hex(uint8_t b);
 
-std::string ToHex(const uint8_t* pBuff, size_t length, bool spaced = false);
+std::string to_hex(const uint8_t* buffer, size_t length, bool spaced = false);
 
-std::string ToHex(const openpal::RSlice& buffer, bool spaced = true);
+std::string to_hex(const openpal::RSlice &buffer, bool spaced = true);
 
-std::string AppendHex(std::initializer_list<std::string> segments);
+std::string append_hex(std::initializer_list<std::string> segments);
 
-std::string SkipBytesHex(const std::string& input, uint32_t bytes);
+std::string skip_bytes_hex(const std::string &input, uint32_t bytes);
 
-std::string RepeatHex(uint8_t byte, uint16_t count, bool spaced = true);
+std::string repeat_hex(uint8_t byte, uint16_t count, bool spaced = true);
 
-std::string IncrementHex(uint8_t start, uint16_t count, bool spaced = true);
+std::string increment_hex(uint8_t start, uint16_t count, bool spaced = true);
 
 }
 

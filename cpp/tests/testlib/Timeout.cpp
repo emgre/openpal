@@ -22,23 +22,23 @@
 
 using namespace std::chrono;
 
-namespace testlib
+namespace openpal
 {
 
-Timeout::Timeout(std::chrono::steady_clock::duration aTimeout)
-	: mExpireTime(std::chrono::steady_clock::now() + aTimeout)
+Timeout::Timeout(std::chrono::steady_clock::duration timeout)
+	: expire_time_(std::chrono::steady_clock::now() + timeout)
 {
 
 }
 
-bool Timeout :: IsExpired()
+bool Timeout :: is_expired() const
 {
-	return std::chrono::steady_clock::now() >= mExpireTime;
+	return std::chrono::steady_clock::now() >= expire_time_;
 }
 
-std::chrono::steady_clock::duration Timeout::Remaining()
+std::chrono::steady_clock::duration Timeout::remaining() const
 {
-	return mExpireTime - std::chrono::steady_clock::now();
+	return expire_time_ - std::chrono::steady_clock::now();
 }
 
 }

@@ -18,15 +18,15 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef TESTLIB_MOCKUTCTIMESOURCE_H_
-#define TESTLIB_MOCKUTCTIMESOURCE_H_
+#ifndef TESTLIB_MOCKUTCTIMESOURCE_H
+#define TESTLIB_MOCKUTCTIMESOURCE_H
 
 #include <openpal/executor/IUTCTimeSource.h>
 
-namespace testlib
+namespace openpal
 {
 
-class MockUTCTimeSource : public openpal::IUTCTimeSource
+struct MockUTCTimeSource : public openpal::IUTCTimeSource
 {
 
 public:

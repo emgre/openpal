@@ -18,12 +18,12 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef TESTLIB_STOP_WATCH_H
-#define TESTLIB_STOP_WATCH_H
+#ifndef TESTLIB_STOPWATCH_H
+#define TESTLIB_STOPWATCH_H
 
 #include <chrono>
 
-namespace testlib
+namespace openpal
 {
 
 /**
@@ -36,14 +36,14 @@ public:
 	StopWatch();
 
 	//get the elapsed time since creation or the last restart
-	//by default each call to Elapsed restarts the timer.
-	std::chrono::steady_clock::duration Elapsed(bool aReset = true);
+	//by default each call to elapsed restarts the timer.
+	std::chrono::steady_clock::duration elapsed(bool reset = true);
 
 	//restart or re-zero the StopWatch.
-	void Restart();
+	void restart();
 
 private:
-	std::chrono::steady_clock::time_point mStartTime;
+	std::chrono::steady_clock::time_point start_time_;
 };
 
 

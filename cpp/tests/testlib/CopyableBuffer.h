@@ -18,8 +18,8 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef TESTLIB_COPYABLEBUFFER_H_
-#define TESTLIB_COPYABLEBUFFER_H_
+#ifndef TESTLIB_COPYABLEBUFFER_H
+#define TESTLIB_COPYABLEBUFFER_H
 
 #include <stddef.h>
 #include <memory>
@@ -27,7 +27,7 @@
 
 #include <openpal/container/RSlice.h>
 
-namespace testlib
+namespace openpal
 {
 
 /** Implements a dynamic buffer with a safe
@@ -43,9 +43,9 @@ public:
 	// Construct null buffer_
 	CopyableBuffer();
 	// Construct based on starting length_ of buffer_
-	CopyableBuffer(uint32_t aSize);
+	CopyableBuffer(uint32_t size);
 	CopyableBuffer(const openpal::RSlice&);
-	CopyableBuffer(const uint8_t* apBuff, uint32_t aSize);
+	CopyableBuffer(const uint8_t* buff, uint32_t length);
 	CopyableBuffer(const CopyableBuffer&);
 	CopyableBuffer& operator=(const CopyableBuffer&);
 	~CopyableBuffer();
@@ -56,33 +56,33 @@ public:
 		return ! (*this == other);
 	}
 
-	openpal::RSlice ToRSlice() const
+	openpal::RSlice as_rslice() const
 	{
-		return openpal::RSlice(mpBuff, mSize);
+		return openpal::RSlice(buffer_, length_);
 	}
 
 	operator const uint8_t* () const
 	{
-		return mpBuff;
+		return buffer_;
 	}
 
 	operator uint8_t* ()
 	{
-		return mpBuff;
+		return buffer_;
 	}
 
 	uint32_t Size() const
 	{
-		return mSize;
+		return length_;
 	}
 
-	void Zero();
+	void zero();
 
 protected:
-	uint8_t* mpBuff;
+	uint8_t* buffer_;
 
 private:
-	uint32_t mSize;
+	uint32_t length_;
 };
 
 }

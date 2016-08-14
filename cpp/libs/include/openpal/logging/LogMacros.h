@@ -88,11 +88,11 @@
 
 #endif
 
-//macro to remove boiler-plate code for logging messages
+//macro to remove boiler-plate code for logging messages_
 #define SIMPLE_LOG_BLOCK(logger, severity, message) \
 	SIMPLE_LOG_BLOCK_WITH_CODE(logger, severity, -1, message)
 
-//macro to remove boiler-plate code for logging messages
+//macro to remove boiler-plate code for logging messages_
 #define SIMPLE_LOGGER_BLOCK(pLogger, severity, message) \
 	SIMPLE_LOGGER_BLOCK_WITH_CODE(pLogger, severity, -1, message)
 

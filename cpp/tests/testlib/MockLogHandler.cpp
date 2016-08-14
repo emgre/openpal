@@ -26,7 +26,7 @@
 
 using namespace openpal;
 
-namespace testlib
+namespace openpal
 {
 
 LogRecord::LogRecord() :
@@ -49,7 +49,7 @@ LogRecord::LogRecord(const LogEntry& entry) :
 
 MockLogHandler::MockLogHandler(uint32_t filters) :
 	root(this, "test", filters),
-	outputToStdIO(false)
+	output_to_stdio_(false)
 {
 
 }
@@ -57,20 +57,20 @@ MockLogHandler::MockLogHandler(uint32_t filters) :
 
 void MockLogHandler::log(const LogEntry &entry)
 {
-	if (outputToStdIO)
+	if (output_to_stdio_)
 	{
 		std::cout << entry.get_message() << std::endl;
 	}
 
-	messages.push_back(entry);
+	messages_.push_back(entry);
 }
 
-int32_t MockLogHandler::PopFilter()
+int32_t MockLogHandler::pop_filter()
 {
-	if (messages.size() > 0)
+	if (messages_.size() > 0)
 	{
-		auto flags = messages.front().filters.get_bitfield();
-		messages.pop_front();
+		auto flags = messages_.front().filters.get_bitfield();
+		messages_.pop_front();
 		return flags;
 	}
 	else
@@ -79,13 +79,13 @@ int32_t MockLogHandler::PopFilter()
 	}
 }
 
-bool MockLogHandler::PopOneEntry(int32_t filter)
+bool MockLogHandler::pop_one_entry(int32_t filter)
 {
-	if (messages.size() == 1)
+	if (messages_.size() == 1)
 	{
-		if (messages.front().filters.is_set(filter))
+		if (messages_.front().filters.is_set(filter))
 		{
-			messages.pop_front();
+			messages_.pop_front();
 			return true;
 		}
 		else return false;
@@ -93,12 +93,12 @@ bool MockLogHandler::PopOneEntry(int32_t filter)
 	else return false;
 }
 
-bool MockLogHandler::PopErrorCode(int code)
+bool MockLogHandler::pop_error_code(int code)
 {
-	while (!messages.empty())
+	while (!messages_.empty())
 	{
-		bool match = messages.front().errorCode == code;
-		messages.pop_front();
+		bool match = messages_.front().errorCode == code;
+		messages_.pop_front();
 		if (match)
 		{
 			return true;
@@ -108,12 +108,12 @@ bool MockLogHandler::PopErrorCode(int code)
 	return false;
 }
 
-bool MockLogHandler::PopUntil(int32_t filter)
+bool MockLogHandler::pop_until(int32_t filter)
 {
-	while (!messages.empty())
+	while (!messages_.empty())
 	{
-		bool match = messages.front().filters.is_set(filter);
-		messages.pop_front();
+		bool match = messages_.front().filters.is_set(filter);
+		messages_.pop_front();
 		if (match)
 		{
 			return true;
@@ -123,36 +123,36 @@ bool MockLogHandler::PopUntil(int32_t filter)
 	return false;
 }
 
-int MockLogHandler::ClearLog()
+int MockLogHandler::clear_log()
 {
 	int max = -1;
 	LogEntry le;
-	while (!messages.empty())
+	while (!messages_.empty())
 	{
-		if (messages.front().errorCode > max) max = le.get_error_code();
-		messages.pop_front();
+		if (messages_.front().errorCode > max) max = le.get_error_code();
+		messages_.pop_front();
 	}
 
 	return max;
 }
 
-void MockLogHandler::Log(const std::string& location, const std::string& message)
+void MockLogHandler::log(const std::string &location, const std::string &message)
 {
 	root.logger.log(openpal::logflags::EVENT, location.c_str(), message.c_str());
 }
 
-void MockLogHandler::WriteToStdIo()
+void MockLogHandler::write_to_stdio()
 {
-	this->outputToStdIO = true;
+	this->output_to_stdio_ = true;
 }
 
-int MockLogHandler::NextErrorCode()
+int MockLogHandler::next_error_code()
 {
 	LogRecord rec;
-	while (!messages.empty())
+	while (!messages_.empty())
 	{
-		rec = messages.front();
-		messages.pop_front();
+		rec = messages_.front();
+		messages_.pop_front();
 		if (rec.errorCode >= 0)
 		{
 			return rec.errorCode;
@@ -161,30 +161,30 @@ int MockLogHandler::NextErrorCode()
 	return -1;
 }
 
-bool MockLogHandler::GetNextEntry(LogRecord& record)
+bool MockLogHandler::get_next_entry(LogRecord &record)
 {
-	if (messages.empty()) return false;
+	if (messages_.empty()) return false;
 	else
 	{
-		record = messages.front();
-		messages.pop_front();
+		record = messages_.front();
+		messages_.pop_front();
 		return true;
 	}
 }
 
-void MockLogHandler::Pop(openpal::ILogHandler& log)
+void MockLogHandler::pop(openpal::ILogHandler &log)
 {
 	LogRecord record;
-	while (GetNextEntry(record))
+	while (get_next_entry(record))
 	{
 		LogEntry le(record.id.c_str(), record.filters, record.location.c_str(), record.message.c_str(), record.errorCode);
         log.log(le);
 	}
 }
 
-bool MockLogHandler::IsLogErrorFree()
+bool MockLogHandler::is_log_error_free()
 {
-	return ClearLog() < 0;
+	return clear_log() < 0;
 }
 
 }
