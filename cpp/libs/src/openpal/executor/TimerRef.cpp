@@ -28,21 +28,21 @@ TimerRef::TimerRef(openpal::IExecutor& executor) : executor_(&executor), timer_(
 
 TimerRef::~TimerRef()
 {
-	this->Cancel();
+	this->cancel();
 }
 
 
-bool TimerRef::IsActive() const
+bool TimerRef::is_active() const
 {
 	return (timer_ != nullptr);
 }
 
-MonotonicTimestamp TimerRef::ExpiresAt() const
+Timestamp TimerRef::expires_at() const
 {
-	return timer_ ? timer_->expires_at() : MonotonicTimestamp::max_value();
+	return timer_ ? timer_->expires_at() : Timestamp::max_value();
 }
 
-bool TimerRef::Cancel()
+bool TimerRef::cancel()
 {
 	if (timer_)
 	{
@@ -56,7 +56,7 @@ bool TimerRef::Cancel()
 	}
 }
 
-bool TimerRef::Start(const TimeDuration& timeout, const action_t& action)
+bool TimerRef::start(const TimeDuration &timeout, const action_t &action)
 {
 	if (timer_)
 	{
@@ -69,7 +69,7 @@ bool TimerRef::Start(const TimeDuration& timeout, const action_t& action)
 	}
 }
 
-bool TimerRef::Start(const MonotonicTimestamp& expiration, const action_t& action)
+bool TimerRef::start(const Timestamp &expiration, const action_t &action)
 {
 	if (timer_)
 	{
@@ -82,7 +82,7 @@ bool TimerRef::Start(const MonotonicTimestamp& expiration, const action_t& actio
 	}
 }
 
-void TimerRef::Restart(const TimeDuration& timeout, const action_t& action)
+void TimerRef::restart(const TimeDuration &timeout, const action_t &action)
 {
 	if (timer_)
 	{
@@ -92,7 +92,7 @@ void TimerRef::Restart(const TimeDuration& timeout, const action_t& action)
 	timer_ = executor_->start(timeout, action);
 }
 
-void TimerRef::Restart(const MonotonicTimestamp& expiration, const action_t& action)
+void TimerRef::restart(const Timestamp &expiration, const action_t &action)
 {
 	if (timer_)
 	{

@@ -39,7 +39,7 @@ MockExecutor::~MockExecutor()
 	for(auto pTimer : timers_) delete pTimer;
 }
 
-openpal::MonotonicTimestamp MockExecutor::next_timer_expiration()
+openpal::Timestamp MockExecutor::next_timer_expiration()
 {
 	auto lt = [](MockTimer * pLHS, MockTimer * pRHS)
 	{
@@ -48,7 +48,7 @@ openpal::MonotonicTimestamp MockExecutor::next_timer_expiration()
 	auto min = std::min_element(timers_.begin(), timers_.end(), lt);
 	if (min == timers_.end())
 	{
-		return MonotonicTimestamp::max_value();
+		return Timestamp();
 	}
 	else
 	{
@@ -155,7 +155,7 @@ void MockExecutor::post(const openpal::action_t &runnable)
 	}
 }
 
-openpal::MonotonicTimestamp MockExecutor::get_time()
+openpal::Timestamp MockExecutor::get_time()
 {
 	return current_time_;
 }
@@ -166,7 +166,7 @@ ITimer* MockExecutor::start(const openpal::TimeDuration &aDelay, const openpal::
 	return start(expiration, runnable);
 }
 
-ITimer* MockExecutor::start(const openpal::MonotonicTimestamp &arTime, const openpal::action_t &runnable)
+ITimer* MockExecutor::start(const openpal::Timestamp &arTime, const openpal::action_t &runnable)
 {
 	MockTimer* pTimer = new MockTimer(this, arTime, runnable);
 	timers_.push_back(pTimer);
@@ -186,7 +186,7 @@ void MockExecutor::cancel(ITimer *timer)
 	}
 }
 
-MockTimer::MockTimer(MockExecutor* apSource, const openpal::MonotonicTimestamp& arTime, const openpal::action_t& runnable_) :
+MockTimer::MockTimer(MockExecutor* apSource, const openpal::Timestamp& arTime, const openpal::action_t& runnable_) :
 	time_(arTime),
 	source_(apSource),
 	action_(runnable_)
@@ -199,7 +199,7 @@ void MockTimer::cancel()
 	source_->cancel(this);
 }
 
-openpal::MonotonicTimestamp MockTimer::expires_at()
+openpal::Timestamp MockTimer::expires_at()
 {
 	return time_;
 }

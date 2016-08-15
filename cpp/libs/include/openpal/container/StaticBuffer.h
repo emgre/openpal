@@ -47,7 +47,7 @@ public:
 
 	RSlice as_rslice(uint32_t max_size) const
 	{
-		return RSlice(buffer_, openpal::Min(SIZE, max_size));
+		return RSlice(buffer_, openpal::min(SIZE, max_size));
 	}
 
 	WSlice as_wslice()
@@ -57,7 +57,7 @@ public:
 
 	WSlice GetWSlice(uint32_t max_size)
 	{
-		return WSlice(buffer_, openpal::Min(SIZE, max_size));
+		return WSlice(buffer_, openpal::min(SIZE, max_size));
 	}
 
 	const uint8_t* operator()() const

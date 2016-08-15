@@ -21,7 +21,7 @@
 #ifndef OPENPAL_ITIMER_H
 #define OPENPAL_ITIMER_H
 
-#include "MonotonicTimestamp.h"
+#include "Timestamp.h"
 
 namespace openpal
 {
@@ -34,7 +34,7 @@ class ITimer
 public:
 	virtual ~ITimer() {}
 	virtual void cancel() = 0;
-	virtual MonotonicTimestamp expires_at() = 0;
+	virtual Timestamp expires_at() = 0;
 };
 
 }

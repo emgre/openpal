@@ -74,7 +74,7 @@ public:
 
 	volatile uint8_t get_many(WSlice &output)
 	{
-		uint8_t num = openpal::Min<uint32_t>(count(), output.length());
+		uint8_t num = openpal::min<uint32_t>(count(), output.length());
 		for(uint8_t i = 0; i < num; ++i)
 		{
 			output[i] = buffer_[(tail_++) & (SIZE_POWER_OF_TWO - 1)];
@@ -85,7 +85,7 @@ public:
 
 	volatile uint8_t put_many(RSlice &input)
 	{
-		uint8_t num = openpal::Min<uint32_t>(SIZE_POWER_OF_TWO - count(), input.length());
+		uint8_t num = openpal::min<uint32_t>(SIZE_POWER_OF_TWO - count(), input.length());
 		for(uint8_t i = 0; i < num; ++i)
 		{
 			buffer_[(head_++) & (SIZE_POWER_OF_TWO - 1)] = input[i];

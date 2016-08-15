@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to Green Energy Corp (www.greenenergycorp.com) under one or
  * more contributor license agreements. See the NOTICE file distributed
  * with this work for additional information regarding copyright ownership.
@@ -18,39 +18,41 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef OPENPAL_IPHYSICALLAYERCALLBACKS_H
-#define OPENPAL_IPHYSICALLAYERCALLBACKS_H
+#ifndef OPENPAL_TIMESTAMP_H
+#define OPENPAL_TIMESTAMP_H
 
-#include "openpal/container/RSlice.h"
+#include <cstdint>
+
+#include "TimeDuration.h"
 
 namespace openpal
 {
 
-class IPhysicalLayerCallbacks
+/**
+*  Strong typing for millisecond-based monotonic timestamps
+*/
+struct Timestamp
 {
 
 public:
-	virtual ~IPhysicalLayerCallbacks() {}
 
-	// Called by a lower Layer when it is available to this layer
-	virtual void OnLowerLayerUp() = 0;
+	static Timestamp max_value();
+	static Timestamp min_value();
 
-	// Called by a lower layer when it is no longer available to this layer
-	virtual void OnLowerLayerDown() = 0;
+	bool is_max_value() const;
+	bool is_min_value() const;
 
-	// In addition to all of the IUpperLayer functions, provide a mechanism to receive open failures
-	// For consistency sake, use NVII pattern in case we want pre/post conditions in the future
-	virtual void OnOpenFailure() = 0;
+	Timestamp();
+	explicit Timestamp(int64_t milliseconds);
+	Timestamp add(const TimeDuration &duration) const;
 
-	// Called by the physical layer when data arrives
-	virtual void OnReceive(const RSlice&) = 0;
-
-	// Called by lower layer when a previously requested send operation succeeds or fails.
-	// Layers can only have 1 outstanding send operation. The callback is guaranteed
-	// unless the the OnLowerLayerDown() function is called beforehand
-	virtual void OnSendResult(bool isSucccess) = 0;
-
+	int64_t milliseconds;
 };
+
+bool operator==(const Timestamp& first, const Timestamp& second);
+bool operator<(const Timestamp& first, const Timestamp& second);
+bool operator>(const Timestamp& first, const Timestamp& second);
+
 
 }
 

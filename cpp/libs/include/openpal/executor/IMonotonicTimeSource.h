@@ -21,7 +21,7 @@
 #ifndef OPENPAL_IMONOTONICTIMESOURCE_H
 #define OPENPAL_IMONOTONICTIMESOURCE_H
 
-#include "MonotonicTimestamp.h"
+#include "Timestamp.h"
 
 namespace openpal
 {
@@ -33,7 +33,7 @@ public:
 	virtual ~IMonotonicTimeSource() {}
 
 	/// @return a non-absolute timestamp for the monotonic time source
-	virtual MonotonicTimestamp get_time() = 0;
+	virtual Timestamp get_time() = 0;
 };
 
 }

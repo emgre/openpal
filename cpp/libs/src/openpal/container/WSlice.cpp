@@ -56,7 +56,7 @@ void WSlice::make_empty()
 
 uint32_t WSlice::advance(uint32_t count)
 {
-	auto num = openpal::Min(count, length_);
+	auto num = openpal::min(count, length_);
 	buffer_ += num;
 	length_ -= num;
 	return num;
@@ -64,7 +64,7 @@ uint32_t WSlice::advance(uint32_t count)
 
 WSlice WSlice::skip(uint32_t count) const
 {
-	auto num = openpal::Min(count, length_);
+	auto num = openpal::min(count, length_);
 	return WSlice(buffer_ + num, length_ - num);
 }
 

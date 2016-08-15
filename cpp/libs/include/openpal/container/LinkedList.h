@@ -58,7 +58,7 @@ public:
 		return LinkedListIterator(nullptr);
 	}
 
-	static LinkedListIterator<ValueType> From(ListNode< ValueType>* start)
+	static LinkedListIterator<ValueType> from(ListNode<ValueType> *start)
 	{
 		return LinkedListIterator(start);
 	}
@@ -151,7 +151,7 @@ public:
 
 	Iterator iterate() const
 	{
-		return Iterator::From(head_);
+		return Iterator::from(head_);
 	}
 
 	template <class Selector>

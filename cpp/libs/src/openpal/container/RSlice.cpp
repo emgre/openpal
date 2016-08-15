@@ -59,12 +59,12 @@ RSlice RSlice::copy_to(WSlice &dest) const
 
 RSlice RSlice::take(uint32_t count) const
 {
-	return RSlice(buffer_, openpal::Min(length_, count));
+	return RSlice(buffer_, openpal::min(length_, count));
 }
 
 RSlice RSlice::skip(uint32_t count) const
 {
-	auto num = openpal::Min(length_, count);
+	auto num = openpal::min(length_, count);
 	return RSlice(buffer_ + num, length_ - num);
 }
 
@@ -88,7 +88,7 @@ bool RSlice::equals(const RSlice &rhs) const
 
 void RSlice::advance(uint32_t count)
 {
-	auto num = openpal::Min(length_, count);
+	auto num = openpal::min(length_, count);
 	buffer_ += num;
 	length_ -= num;
 }

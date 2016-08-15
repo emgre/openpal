@@ -31,52 +31,52 @@ namespace openpal
 template <class T, T Modulus>
 class SequenceNum
 {
-	inline static T Next(T seq)
+	inline static T next(T seq)
 	{
 		return (seq + 1) % Modulus;
 	}
 
 public:
 
-	uint8_t Get() const
+	uint8_t get() const
 	{
-		return this->seq;
+		return this->seq_;
 	}
 
 	operator uint8_t() const
 	{
-		return this->seq;
+		return this->seq_;
 	}
 
-	SequenceNum() : seq(0)
+	SequenceNum() : seq_(0)
 	{}
 
-	SequenceNum(T value) : seq(value)
+	SequenceNum(T value) : seq_(value)
 	{}
 
-	bool Equals(T other) const
+	bool equals(T other) const
 	{
-		return other == this->seq;
+		return other == this->seq_;
 	}
 
-	void Increment()
+	void increment()
 	{
-		this->seq = Next(this->seq);
+		this->seq_ = next(this->seq_);
 	}
 
-	void Reset()
+	void reset()
 	{
-		this->seq = 0;
+		this->seq_ = 0;
 	}
 
-	SequenceNum Next() const
+	SequenceNum next() const
 	{
-		return SequenceNum(Next(seq));
+		return SequenceNum(next(seq_));
 	}
 
 protected:
 
-	T seq;
+	T seq_;
 };
 
 }

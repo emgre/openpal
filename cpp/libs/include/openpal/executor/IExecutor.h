@@ -50,7 +50,7 @@ public:
 	virtual ITimer* start(const TimeDuration &duration, const action_t &action) = 0;
 
 	/// @return a new timer based on an absolute timestamp of the monotonic clock
-	virtual ITimer* start(const MonotonicTimestamp &expiration, const action_t &action) = 0;
+	virtual ITimer* start(const Timestamp &expiration, const action_t &action) = 0;
 
 	/// @return Thread-safe way to post an event to be handled asynchronously
 	virtual void post(const action_t &action) = 0;

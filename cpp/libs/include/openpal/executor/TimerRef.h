@@ -43,21 +43,21 @@ public:
 	~TimerRef();
 
 	// Called to see if the timer is currently active
-	bool IsActive() const;
+	bool is_active() const;
 
-	// return the expiration time, MonotonticTimestamp::Max() if not active
-	MonotonicTimestamp ExpiresAt() const;
+	// return the expiration time, Timestamp::max_value() if not active
+	Timestamp expires_at() const;
 
 	// cancels any existing timer, returning true if the timer was active, false otherwise
-	bool Cancel();
+	bool cancel();
 
 	// restart the timer, return false if already active
-	bool Start(const TimeDuration& timeout, const action_t& action);
-	bool Start(const MonotonicTimestamp& expiration, const action_t& action);
+	bool start(const TimeDuration &timeout, const action_t &action);
+	bool start(const Timestamp &expiration, const action_t &action);
 
 	// start a new timer, canceling any existing timer
-	void Restart(const TimeDuration& expiration, const action_t& action);
-	void Restart(const MonotonicTimestamp& expiration, const action_t& action);
+	void restart(const TimeDuration &expiration, const action_t &action);
+	void restart(const Timestamp &expiration, const action_t &action);
 
 private:
 

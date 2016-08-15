@@ -18,56 +18,56 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#include "openpal/executor/MonotonicTimestamp.h"
+#include "openpal/executor/Timestamp.h"
 
 #include <stdint.h>
 
 namespace openpal
 {
 
-MonotonicTimestamp MonotonicTimestamp::max_value()
+Timestamp Timestamp::max_value()
 {
-	return MonotonicTimestamp(INT64_MAX);
+	return Timestamp(INT64_MAX);
 }
 
-MonotonicTimestamp MonotonicTimestamp::min_value()
+Timestamp Timestamp::min_value()
 {
-	return MonotonicTimestamp(INT64_MIN);
+	return Timestamp(INT64_MIN);
 }
 
-bool MonotonicTimestamp::is_max_value() const
+bool Timestamp::is_max_value() const
 {
 	return milliseconds == INT64_MAX;
 }
 
-bool MonotonicTimestamp::is_min_value() const
+bool Timestamp::is_min_value() const
 {
 	return milliseconds == INT64_MIN;
 }
 
-MonotonicTimestamp::MonotonicTimestamp() : milliseconds(0)
+Timestamp::Timestamp() : milliseconds(0)
 {}
 
-MonotonicTimestamp::MonotonicTimestamp(int64_t aMilliseconds) : milliseconds(aMilliseconds)
+Timestamp::Timestamp(int64_t aMilliseconds) : milliseconds(aMilliseconds)
 {}
 
 
-MonotonicTimestamp MonotonicTimestamp::add(const TimeDuration &duration) const
+Timestamp Timestamp::add(const TimeDuration &duration) const
 {
-	return MonotonicTimestamp(milliseconds + duration.get_milliseconds());
+	return Timestamp(milliseconds + duration.get_milliseconds());
 }
 
-bool operator==(const MonotonicTimestamp& first, const MonotonicTimestamp& second)
+bool operator==(const Timestamp& first, const Timestamp& second)
 {
 	return first.milliseconds == second.milliseconds;
 }
 
-bool operator<(const MonotonicTimestamp& first, const MonotonicTimestamp& second)
+bool operator<(const Timestamp& first, const Timestamp& second)
 {
 	return first.milliseconds < second.milliseconds;
 }
 
-bool operator>(const MonotonicTimestamp& first, const MonotonicTimestamp& second)
+bool operator>(const Timestamp& first, const Timestamp& second)
 {
 	return first.milliseconds > second.milliseconds;
 }
