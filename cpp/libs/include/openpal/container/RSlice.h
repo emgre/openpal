@@ -34,7 +34,7 @@ class WSlice;
 *	Represents a readonly slice of a buffer located elsewhere. Mediates reading from the buffer
 *	to prevent overreads and other errors.
 */
-class RSlice final : public HasLength<uint32_t>
+class RSlice : public HasLength<uint32_t>
 {
 
 public:
