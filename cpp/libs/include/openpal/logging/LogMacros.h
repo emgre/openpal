@@ -53,15 +53,15 @@
 
 #define FORMAT_LOG_BLOCK_WITH_CODE(logger, filters, code, format, ...) \
 	if(logger.is_enabled(filters)){ \
-		char message[openpal::MAX_LOG_ENTRY_SIZE]; \
-		SAFE_STRING_FORMAT(message, openpal::MAX_LOG_ENTRY_SIZE, format, ##__VA_ARGS__); \
+		char message[openpal::max_log_entry_size]; \
+		SAFE_STRING_FORMAT(message, openpal::max_log_entry_size, format, ##__VA_ARGS__); \
 		logger.log(filters, LOCATION, message, code); \
 	}
 
 #define FORMAT_LOGGER_BLOCK_WITH_CODE(pLogger, filters, code, format, ...) \
 	if(pLogger && pLogger->is_enabled(filters)){ \
-		char message[openpal::MAX_LOG_ENTRY_SIZE]; \
-		SAFE_STRING_FORMAT(message, openpal::MAX_LOG_ENTRY_SIZE, format, ##__VA_ARGS__); \
+		char message[openpal::max_log_entry_size]; \
+		SAFE_STRING_FORMAT(message, openpal::max_log_entry_size, format, ##__VA_ARGS__); \
 		pLogger->log(filters, LOCATION, message, code); \
 	}
 
