@@ -89,7 +89,7 @@ std::string BufferTestObject::as_hex_string(bool spaced) const
 
 bool BufferTestObject::equals_hex(const std::string &hex) const
 {
-	HexSequence hs(hex);
+	Hex hs(hex);
 	return equals(hs, hs.Size());
 }
 

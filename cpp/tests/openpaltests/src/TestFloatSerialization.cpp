@@ -65,7 +65,7 @@ bool TestReadWriteFloat(T value)
 template <class T>
 bool TestFloatParsing(std::string hex, typename T::type_t value)
 {
-	HexSequence hs(hex);
+	Hex hs(hex);
 	const uint32_t TYPE_SIZE = static_cast<uint32_t>(sizeof(typename T::type_t));
 	REQUIRE((hs.Size() == TYPE_SIZE));
 

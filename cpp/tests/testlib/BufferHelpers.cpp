@@ -67,7 +67,7 @@ std::string ByteStr::to_hex() const
 	return openpal::to_hex(as_rslice());
 }
 
-HexSequence::HexSequence( const std::string& hex) :
+Hex::Hex( const std::string& hex) :
 	ByteStr(validate(remove_spaces(hex)))
 {
 	std::string s = remove_spaces(hex);
@@ -86,14 +86,14 @@ HexSequence::HexSequence( const std::string& hex) :
 	}
 }
 
-std::string HexSequence::remove_spaces(const std::string &hex)
+std::string Hex::remove_spaces(const std::string &hex)
 {
 	std::string copy(hex);
 	remove_spaces_in_place(copy);
 	return copy;
 }
 
-void HexSequence::remove_spaces_in_place(std::string &hex)
+void Hex::remove_spaces_in_place(std::string &hex)
 {
 	size_t pos = hex.find_first_of(' ');
 	if(pos != string::npos)
@@ -103,7 +103,7 @@ void HexSequence::remove_spaces_in_place(std::string &hex)
 	}
 }
 
-uint32_t HexSequence::validate(const std::string &sequence)
+uint32_t Hex::validate(const std::string &sequence)
 {
 	//annoying when you accidentally put an 'O' instead of zero '0'
 	if(sequence.find_first_of( "oO") != string::npos)

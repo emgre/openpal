@@ -148,7 +148,7 @@ TEST_CASE(SUITE("UInt48  read from little endian"))
 
 TEST_CASE(SUITE("ParseMany"))
 {
-	HexSequence hex("FF AB BA 01 00 00 00 CC");
+	Hex hex("FF AB BA 01 00 00 00 CC");
 
 	uint8_t first = 0;
 	uint16_t second = 0;

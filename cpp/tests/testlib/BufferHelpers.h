@@ -42,12 +42,12 @@ public:
 /**
  * A sequence of hex values in the form "01 02 03 04" that are stored as a ByteStr.
  */
-class HexSequence : public ByteStr
+class Hex : public ByteStr
 {
 public:
-	HexSequence(const std::string& hex);
+	Hex(const std::string& hex);
 
-	operator openpal::RSlice()
+	operator openpal::RSlice () const
 	{
 		return this->as_rslice();
 	}

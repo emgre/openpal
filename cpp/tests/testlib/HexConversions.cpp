@@ -65,13 +65,13 @@ std::string append_hex(std::initializer_list<std::string> segments)
 	{
 		oss << str;
 	}
-	HexSequence output(oss.str());
+	Hex output(oss.str());
 	return to_hex(output.as_rslice());
 }
 
 std::string skip_bytes_hex(const std::string &input, uint32_t bytes)
 {
-	HexSequence buffer(input);
+	Hex buffer(input);
 	return to_hex(buffer.as_rslice().skip(bytes));
 }
 
