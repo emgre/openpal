@@ -32,7 +32,7 @@ namespace openpal
 LogRecord::LogRecord() : level(0)		
 {}
 
-LogRecord::LogRecord(LogModule module, char const* id, LogLevel level, char const *location, char const *message) :
+LogRecord::LogRecord(ModuleId module, char const* id, LogLevel level, char const *location, char const *message) :
 	module(module),
 	id(id),
 	level(level),
@@ -43,14 +43,14 @@ LogRecord::LogRecord(LogModule module, char const* id, LogLevel level, char cons
 }
 
 MockLogHandler::MockLogHandler(LogLevels levels) :
-	root(LogModule(0), this, "test", levels),
+	root(ModuleId(0), this, "test", levels),
 	output_to_stdio_(false)
 {
 
 }
 
 
-void MockLogHandler::log(LogModule module, const char* id, LogLevel level, char const *location, char const *message)
+void MockLogHandler::log(ModuleId module, const char* id, LogLevel level, char const *location, char const *message)
 {
 	if (output_to_stdio_)
 	{

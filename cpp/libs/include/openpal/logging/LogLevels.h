@@ -26,15 +26,15 @@
 namespace openpal
 {
 
-struct LogModule
+struct ModuleId
 {
 
 public:
 
-	LogModule() : value(0)
+	ModuleId() : value(0)
 	{}
 
-	explicit LogModule(int32_t level) : value(level)
+	explicit ModuleId(int32_t level) : value(level)
 	{}
 
 	int32_t	value;

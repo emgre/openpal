@@ -38,7 +38,7 @@ class LogRoot : private Uncopyable
 
 public:
 
-	LogRoot(LogModule moduleid, ILogHandler* handler, char const* id, LogLevels levels);
+	LogRoot(ModuleId moduleid, ILogHandler* handler, char const* id, LogLevels levels);
 
 	LogRoot(LogRoot&& other);
 
@@ -70,9 +70,9 @@ public:
 
 private:
 
-	LogRoot(LogModule module, ILogHandler* pHandler, char const* id, LogLevels levels, bool reuseAlias);
+	LogRoot(ModuleId module, ILogHandler* pHandler, char const* id, LogLevels levels, bool reuseAlias);
 
-	LogModule		module_;
+	ModuleId		module_;
 	ILogHandler*	handler_;
 	LogLevels		levels_;
 	const char*     id_;

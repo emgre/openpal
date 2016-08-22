@@ -29,13 +29,13 @@
 namespace openpal
 {
 
-LogRoot::LogRoot(LogModule module, ILogHandler* handler, char const* id, LogLevels levels) :
+LogRoot::LogRoot(ModuleId module, ILogHandler* handler, char const* id, LogLevels levels) :
 	LogRoot(module, handler, id, levels, false)
 {
 
 }
 
-LogRoot::LogRoot(LogModule module, ILogHandler* handler, char const* id, LogLevels levels, bool reuseAlias) :
+LogRoot::LogRoot(ModuleId module, ILogHandler* handler, char const* id, LogLevels levels, bool reuseAlias) :
 	logger(this),
 	module_(module),
 	handler_(handler),

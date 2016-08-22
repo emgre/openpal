@@ -34,9 +34,9 @@ struct LogRecord
 public:
 
 	LogRecord();
-	LogRecord(LogModule module, char const* id, LogLevel level, char const *location, char const *message);
+	LogRecord(ModuleId module, char const* id, LogLevel level, char const *location, char const *message);
 	
-	LogModule		module;
+	ModuleId		module;
 	std::string		id;
 	openpal::LogLevel	level;
 	std::string		location;
@@ -53,7 +53,7 @@ public:
 
 	void log(const std::string &location, const std::string &msg);
 
-	void log(LogModule module, const char* id, LogLevel level, char const *location, char const *message) override;
+	void log(ModuleId module, const char* id, LogLevel level, char const *location, char const *message) override;
 
 	int32_t pop_filter();
 
