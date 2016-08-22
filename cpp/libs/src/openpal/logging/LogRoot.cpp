@@ -29,68 +29,68 @@
 namespace openpal
 {
 
-LogRoot::LogRoot(int moduleid, ILogHandler* handler, char const* alias, LogFilters filters) : 
-	LogRoot(moduleid, handler, alias, filters, false)
+LogRoot::LogRoot(int moduleid, ILogHandler* handler, char const* id, LogFilters filters) : 
+	LogRoot(moduleid, handler, id, filters, false)
 {
 
 }
 
-LogRoot::LogRoot(int moduleid, ILogHandler* handler, char const* alias, LogFilters filters, bool reuseAlias) :	
+LogRoot::LogRoot(int moduleid, ILogHandler* handler, char const* id, LogFilters filters, bool reuseAlias) :	
 	logger(this),
 	moduleid_(moduleid),
 	handler_(handler),
 	filters_(filters),
-	alias_((reuseAlias ? alias : allocate_copy(alias)))
+	id_((reuseAlias ? id : allocate_copy(id)))
 {}
 
-LogRoot::LogRoot(const LogRoot& copy, char const* alias) :	
+LogRoot::LogRoot(const LogRoot& copy, char const* id) :	
 	logger(this),
 	moduleid_(copy.moduleid_),
 	handler_(copy.handler_),
 	filters_(copy.filters_),
-	alias_(allocate_copy(alias))
+	id_(allocate_copy(id))
 {
 
 }
 
-LogRoot::LogRoot(LogRoot&& other) : LogRoot(other.moduleid_, other.handler_, other.alias_, other.filters_, true)
+LogRoot::LogRoot(LogRoot&& other) : LogRoot(other.moduleid_, other.handler_, other.id_, other.filters_, true)
 {
-	other.alias_ = nullptr;
+	other.id_ = nullptr;
 	other.handler_ = nullptr;
 	other.filters_ = 0;
 }
 
-LogRoot LogRoot::clone(char const *alias) const
+LogRoot LogRoot::clone(char const *id) const
 {
-	return LogRoot(this->moduleid_, this->handler_, alias, this->filters_);
+	return LogRoot(this->moduleid_, this->handler_, id, this->filters_);
 }
 
-LogRoot LogRoot::clone(char const *alias, LogFilters filters) const
+LogRoot LogRoot::clone(char const *id, LogFilters filters) const
 {
-	return LogRoot(this->moduleid_, this->handler_, alias, filters);
+	return LogRoot(this->moduleid_, this->handler_, id, filters);
 }
 
 LogRoot::~LogRoot()
 {
-	delete[] alias_;
+	delete[] id_;
 }
 
-void LogRoot::rename(char const *alias)
+void LogRoot::rename(char const *id)
 {
-	delete[] alias_;
-	alias_ = allocate_copy(alias);
+	delete[] id_;
+	id_ = allocate_copy(id);
 }
 
 const char* LogRoot::get_id() const
 {
-	return alias_;
+	return id_;
 }
 
 void LogRoot::log(const LogFilters &filters, char const *location, char const *message)
 {
 	if (handler_)
 	{		
-		handler_->log(moduleid_, alias_, filters, location, message);					
+		handler_->log(moduleid_, id_, filters, location, message);					
 	}
 }
 
@@ -109,7 +109,7 @@ void LogRoot::set_filters(const LogFilters &filters)
 	filters_ = filters;
 }
 
-const LogFilters& LogRoot::get_filters() const
+LogFilters LogRoot::get_filters() const
 {
 	return filters_;
 }

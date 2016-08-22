@@ -38,44 +38,44 @@ class LogRoot : private Uncopyable
 
 public:
 
-	LogRoot(int moduleid, ILogHandler* handler, char const* alias, LogFilters filters);
+	LogRoot(int moduleid, ILogHandler* handler, char const* id, LogFilters filters);
 
 	LogRoot(LogRoot&& other);
 
-	LogRoot(const LogRoot&, char const* alias);
+	LogRoot(const LogRoot&, char const* id);
 
 	~LogRoot();
 
-	void rename(char const *alias);
-
 	const char* get_id() const;
 
-	void log(const LogFilters &filters, char const *location, char const *message);
+	void rename(char const *id);
 
-	// create another log root, but change the alias_
-	LogRoot clone(char const *alias) const;
+	// create another log root, but change the id_
+	LogRoot clone(char const *id) const;
 
-	// create another log root, but change the alias_ and the filters_
-	LogRoot clone(char const *alias, LogFilters filters) const;
+	// create another log root, but change the id_ and the filters_
+	LogRoot clone(char const *id, LogFilters filters) const;
 
 	bool is_enabled(const LogFilters &rhs) const;
 
 	bool has_any(const LogFilters &filters) const;
 
-	void set_filters(const LogFilters &filters_);
+	LogFilters get_filters() const;
+	
+	void log(const LogFilters &filters, char const *location, char const *message);	
 
-	const LogFilters& get_filters() const;
+	void set_filters(const LogFilters &filters);	
 
 	Logger  logger;
 
 private:
 
-	LogRoot(int moduleid, ILogHandler* pHandler, char const* alias, LogFilters filters, bool reuseAlias);
+	LogRoot(int moduleid, ILogHandler* pHandler, char const* id, LogFilters filters, bool reuseAlias);
 
 	int				moduleid_;
 	ILogHandler*	handler_;
 	LogFilters		filters_;   // bit field describing what is being logged
-	const char*     alias_;
+	const char*     id_;
 
 };
 
