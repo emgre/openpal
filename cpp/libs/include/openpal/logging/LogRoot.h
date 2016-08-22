@@ -21,7 +21,6 @@
 #ifndef OPENPAL_LOGROOT_H
 #define OPENPAL_LOGROOT_H
 
-#include "LogEntry.h"
 #include "Logger.h"
 #include "ILogHandler.h"
 
@@ -39,7 +38,7 @@ class LogRoot : private Uncopyable
 
 public:
 
-	LogRoot(ILogHandler* handler, char const* alias, LogFilters filters);
+	LogRoot(int moduleid, ILogHandler* handler, char const* alias, LogFilters filters);
 
 	LogRoot(LogRoot&& other);
 
@@ -71,8 +70,9 @@ public:
 
 private:
 
-	LogRoot(ILogHandler* pHandler, char const* alias, LogFilters filters, bool reuseAlias);
+	LogRoot(int moduleid, ILogHandler* pHandler, char const* alias, LogFilters filters, bool reuseAlias);
 
+	int				moduleid_;
 	ILogHandler*	handler_;
 	LogFilters		filters_;   // bit field describing what is being logged
 	const char*     alias_;

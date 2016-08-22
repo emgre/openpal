@@ -20,7 +20,6 @@
  */
 #include "openpal/logging/LogRoot.h"
 
-#include "openpal/logging/LogEntry.h"
 #include "openpal/logging/LogMacros.h"
 #include "openpal/logging/ILogHandler.h"
 #include "openpal/logging/LogMacros.h"
@@ -30,20 +29,23 @@
 namespace openpal
 {
 
-LogRoot::LogRoot(ILogHandler* handler, char const* alias, LogFilters filters) : LogRoot(handler, alias, filters, false)
+LogRoot::LogRoot(int moduleid, ILogHandler* handler, char const* alias, LogFilters filters) : 
+	LogRoot(moduleid, handler, alias, filters, false)
 {
 
 }
 
-LogRoot::LogRoot(ILogHandler* handler, char const* alias, LogFilters filters, bool reuseAlias) :
+LogRoot::LogRoot(int moduleid, ILogHandler* handler, char const* alias, LogFilters filters, bool reuseAlias) :	
 	logger(this),
+	moduleid_(moduleid),
 	handler_(handler),
 	filters_(filters),
 	alias_((reuseAlias ? alias : allocate_copy(alias)))
 {}
 
-LogRoot::LogRoot(const LogRoot& copy, char const* alias) :
+LogRoot::LogRoot(const LogRoot& copy, char const* alias) :	
 	logger(this),
+	moduleid_(copy.moduleid_),
 	handler_(copy.handler_),
 	filters_(copy.filters_),
 	alias_(allocate_copy(alias))
@@ -51,7 +53,7 @@ LogRoot::LogRoot(const LogRoot& copy, char const* alias) :
 
 }
 
-LogRoot::LogRoot(LogRoot&& other) : LogRoot(other.handler_, other.alias_, other.filters_, true)
+LogRoot::LogRoot(LogRoot&& other) : LogRoot(other.moduleid_, other.handler_, other.alias_, other.filters_, true)
 {
 	other.alias_ = nullptr;
 	other.handler_ = nullptr;
@@ -60,12 +62,12 @@ LogRoot::LogRoot(LogRoot&& other) : LogRoot(other.handler_, other.alias_, other.
 
 LogRoot LogRoot::clone(char const *alias) const
 {
-	return LogRoot(this->handler_, alias, this->filters_);
+	return LogRoot(this->moduleid_, this->handler_, alias, this->filters_);
 }
 
 LogRoot LogRoot::clone(char const *alias, LogFilters filters) const
 {
-	return LogRoot(this->handler_, alias, filters);
+	return LogRoot(this->moduleid_, this->handler_, alias, filters);
 }
 
 LogRoot::~LogRoot()
@@ -88,9 +90,7 @@ void LogRoot::log(const LogFilters &filters, char const *location, char const *m
 {
 	if (handler_)
 	{		
-        handler_->log(
-			LogEntry(alias_, filters, location, message)
-		);
+		handler_->log(moduleid_, alias_, filters, location, message);					
 	}
 }
 

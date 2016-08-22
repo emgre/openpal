@@ -34,10 +34,11 @@ struct LogRecord
 public:
 
 	LogRecord();
-	LogRecord(const openpal::LogEntry& entry);
-
+	LogRecord(int module, char const* id, LogFilters filters, char const *location, char const *message);
+	
+	int				moduleid;
 	std::string		id;
-	openpal::LogFilters		filters;
+	openpal::LogFilters	filters;
 	std::string		location;
 	std::string		message;	
 };
@@ -52,7 +53,7 @@ public:
 
 	void log(const std::string &location, const std::string &msg);
 
-	void log(const openpal::LogEntry &entry);
+	void log(int module, const char* id, LogFilters filters, char const *location, char const *message) override;
 
 	int32_t pop_filter();
 

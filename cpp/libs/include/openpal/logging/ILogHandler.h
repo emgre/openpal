@@ -21,7 +21,7 @@
 #ifndef OPENPAL_ILOGHANDLER_H
 #define OPENPAL_ILOGHANDLER_H
 
-#include "LogEntry.h"
+
 
 namespace openpal
 {
@@ -39,7 +39,7 @@ public:
 	*
 	* @param entry the log message to handle
 	*/
-	virtual void log(const LogEntry &entry) = 0;
+	virtual void log(int module, const char* id, LogFilters filters, char const *location, char const *message) = 0;
 };
 
 }

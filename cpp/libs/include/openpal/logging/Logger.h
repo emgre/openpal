@@ -21,7 +21,6 @@
 #ifndef OPENPAL_LOGGER_H
 #define OPENPAL_LOGGER_H
 
-#include "LogEntry.h"
 #include "LogFilters.h"
 
 #include "openpal/util/Uncopyable.h"

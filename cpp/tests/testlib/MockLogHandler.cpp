@@ -32,31 +32,34 @@ namespace openpal
 LogRecord::LogRecord() : filters(0)		
 {}
 
-LogRecord::LogRecord(const LogEntry& entry) :
-	id(entry.id),
-	filters(entry.filters),
-	location(entry.location),
-	message(entry.message)
+LogRecord::LogRecord(int module, char const* id, LogFilters filters, char const *location, char const *message) :
+	moduleid(moduleid),
+	id(id),
+	filters(filters),
+	location(location),
+	message(message)
 {
 
 }
 
 MockLogHandler::MockLogHandler(uint32_t filters) :
-	root(this, "test", filters),
+	root(0, this, "test", filters),
 	output_to_stdio_(false)
 {
 
 }
 
 
-void MockLogHandler::log(const LogEntry &entry)
+void MockLogHandler::log(int module, const char* id, LogFilters filters, char const *location, char const *message)
 {
 	if (output_to_stdio_)
 	{
-		std::cout << entry.message << std::endl;
+		std::cout << message << std::endl;
 	}
 
-	messages_.push_back(entry);
+	messages_.push_back(
+		LogRecord(module, id, filters, location, message)
+	);
 }
 
 int32_t MockLogHandler::pop_filter()
@@ -125,11 +128,10 @@ bool MockLogHandler::get_next_entry(LogRecord &record)
 
 void MockLogHandler::pop(openpal::ILogHandler &log)
 {
-	LogRecord record;
-	while (get_next_entry(record))
-	{
-		LogEntry le(record.id.c_str(), record.filters, record.location.c_str(), record.message.c_str());
-        log.log(le);
+	LogRecord rec;
+	while (get_next_entry(rec))
+	{		
+		log.log(rec.moduleid, rec.id.c_str(), rec.filters, rec.location.c_str(), rec.message.c_str());
 	}
 }
 
