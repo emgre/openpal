@@ -26,14 +26,42 @@
 namespace openpal
 {
 
+struct LogModule
+{
+
+public:
+
+	LogModule() : value(0)
+	{}
+
+	explicit LogModule(int32_t level) : value(level)
+	{}
+
+	int32_t	value;
+};
+
+struct LogLevel
+{
+
+public:
+
+	LogLevel() : value(0)
+	{}
+
+	explicit LogLevel(int32_t level) : value(level)
+	{}
+
+	int32_t	value;
+};
+
 // some default log flags
 namespace levels
 {
-	const int32_t EVENT =	1 << 0;
-	const int32_t ERR =		1 << 1;
-	const int32_t WARN =	1 << 2;
-	const int32_t INFO =	1 << 3;
-	const int32_t DBG =		1 << 4;
+	const LogLevel EVENT = LogLevel(1 << 0);
+	const LogLevel ERR = LogLevel(1 << 1);
+	const LogLevel WARN = LogLevel(1 << 2);
+	const LogLevel INFO = LogLevel(1 << 3);
+	const LogLevel DBG = LogLevel(1 << 4);
 }
 
 /**
@@ -47,18 +75,17 @@ public:
 	LogLevels() : levels_(0)
 	{}
 
-	LogLevels(int32_t levels) : levels_(levels)
+	explicit LogLevels(int32_t levels) : levels_(levels)
 	{}
 
-	inline bool is_set(int32_t levels) const
-	{
-		return (levels & levels_) != 0;
+	static LogLevels everything() {
+		return LogLevels(~0);
 	}
 
-	bool operator &(const LogLevels& rhs) const
+	inline bool is_set(const LogLevel& level) const
 	{
-		return is_set(rhs.levels_);
-	}
+		return (level.value & levels_) != 0;
+	}	
 
 	int32_t levels() const
 	{

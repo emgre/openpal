@@ -33,21 +33,21 @@ namespace openpal
 Logger::Logger(LogRoot* pRoot_) : root_(pRoot_)
 {}
 
-bool Logger::is_enabled(const LogLevels &levels) const
+bool Logger::is_enabled(const LogLevel& level) const
 {
-	return root_->is_enabled(levels);
+	return root_->is_enabled(level);
 }
 
-bool Logger::has_any(const LogLevels &levels) const
+bool Logger::has_any(const LogLevel& level) const
 {
-	return root_->has_any(levels);
+	return root_->has_any(level);
 }
 
-void Logger::log(const LogLevels &levels, char const *location, char const *message)
+void Logger::log(const LogLevel& level, char const *location, char const *message)
 {
-	if (root_->is_enabled(levels))
+	if (root_->is_enabled(level))
 	{
-		root_->log(levels, location, message);
+		root_->log(level, location, message);
 	}
 }
 

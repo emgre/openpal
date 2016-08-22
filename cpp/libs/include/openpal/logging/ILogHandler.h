@@ -21,7 +21,7 @@
 #ifndef OPENPAL_ILOGHANDLER_H
 #define OPENPAL_ILOGHANDLER_H
 
-
+#include "LogLevels.h"
 
 namespace openpal
 {
@@ -39,7 +39,7 @@ public:
 	*
 	* @param entry the log message to handle
 	*/
-	virtual void log(int module, const char* id, LogLevels level, char const *location, char const *message) = 0;
+	virtual void log(LogModule module, const char* id, LogLevel level, char const *location, char const *message) = 0;
 };
 
 }

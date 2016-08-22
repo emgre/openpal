@@ -34,11 +34,11 @@ struct LogRecord
 public:
 
 	LogRecord();
-	LogRecord(int module, char const* id, LogLevels levels, char const *location, char const *message);
+	LogRecord(LogModule module, char const* id, LogLevel level, char const *location, char const *message);
 	
-	int				moduleid;
+	LogModule		module;
 	std::string		id;
-	openpal::LogLevels	levels;
+	openpal::LogLevel	level;
 	std::string		location;
 	std::string		message;	
 };
@@ -47,13 +47,13 @@ class MockLogHandler : public openpal::ILogHandler
 {
 
 public:
-	MockLogHandler(uint32_t levels = ~0);
+	MockLogHandler(LogLevels levels = LogLevels(~0));
 
 	void write_to_stdio();
 
 	void log(const std::string &location, const std::string &msg);
 
-	void log(int module, const char* id, LogLevels levels, char const *location, char const *message) override;
+	void log(LogModule module, const char* id, LogLevel level, char const *location, char const *message) override;
 
 	int32_t pop_filter();
 

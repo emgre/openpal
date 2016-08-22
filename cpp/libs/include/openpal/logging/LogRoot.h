@@ -38,7 +38,7 @@ class LogRoot : private Uncopyable
 
 public:
 
-	LogRoot(int moduleid, ILogHandler* handler, char const* id, LogLevels levels);
+	LogRoot(LogModule moduleid, ILogHandler* handler, char const* id, LogLevels levels);
 
 	LogRoot(LogRoot&& other);
 
@@ -56,23 +56,23 @@ public:
 	// create another log root, but change the id_ and the levels_
 	LogRoot clone(char const *id, LogLevels levels) const;
 
-	bool is_enabled(const LogLevels &rhs) const;
+	bool is_enabled(const LogLevel& level) const;
 
-	bool has_any(const LogLevels &levels) const;
+	bool has_any(const LogLevel& level) const;
 
 	LogLevels get_levels() const;
 	
-	void log(const LogLevels &levels, char const *location, char const *message);	
+	void log(const LogLevel& level, char const *location, char const *message);	
 
-	void set_levels(const LogLevels &levels);	
+	void set_levels(const LogLevels& levels);	
 
 	Logger  logger;
 
 private:
 
-	LogRoot(int moduleid, ILogHandler* pHandler, char const* id, LogLevels levels, bool reuseAlias);
+	LogRoot(LogModule module, ILogHandler* pHandler, char const* id, LogLevels levels, bool reuseAlias);
 
-	int				moduleid_;
+	LogModule		module_;
 	ILogHandler*	handler_;
 	LogLevels		levels_;
 	const char*     id_;

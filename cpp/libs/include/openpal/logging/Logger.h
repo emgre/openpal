@@ -41,11 +41,11 @@ class Logger
 
 public:
 
-	void log(const LogLevels &levels, char const *location, char const *message);
+	void log(const LogLevel& level, char const *location, char const *message);
 
-	bool is_enabled(const LogLevels &levels) const;
+	bool is_enabled(const LogLevel& level) const;
 
-	bool has_any(const LogLevels &levels) const;
+	bool has_any(const LogLevel& level) const;
 
 private:
 

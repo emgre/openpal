@@ -29,28 +29,28 @@ using namespace openpal;
 namespace openpal
 {
 
-LogRecord::LogRecord() : levels(0)		
+LogRecord::LogRecord() : level(0)		
 {}
 
-LogRecord::LogRecord(int module, char const* id, LogLevels levels, char const *location, char const *message) :
-	moduleid(moduleid),
+LogRecord::LogRecord(LogModule module, char const* id, LogLevel level, char const *location, char const *message) :
+	module(module),
 	id(id),
-	levels(levels),
+	level(level),
 	location(location),
 	message(message)
 {
 
 }
 
-MockLogHandler::MockLogHandler(uint32_t levels) :
-	root(0, this, "test", levels),
+MockLogHandler::MockLogHandler(LogLevels levels) :
+	root(LogModule(0), this, "test", levels),
 	output_to_stdio_(false)
 {
 
 }
 
 
-void MockLogHandler::log(int module, const char* id, LogLevels levels, char const *location, char const *message)
+void MockLogHandler::log(LogModule module, const char* id, LogLevel level, char const *location, char const *message)
 {
 	if (output_to_stdio_)
 	{
@@ -58,7 +58,7 @@ void MockLogHandler::log(int module, const char* id, LogLevels levels, char cons
 	}
 
 	messages_.push_back(
-		LogRecord(module, id, levels, location, message)
+		LogRecord(module, id, level, location, message)
 	);
 }
 
@@ -66,7 +66,7 @@ int32_t MockLogHandler::pop_filter()
 {
 	if (messages_.size() > 0)
 	{
-		auto flags = messages_.front().levels.levels();
+		auto flags = messages_.front().level.value;
 		messages_.pop_front();
 		return flags;
 	}
@@ -80,7 +80,7 @@ bool MockLogHandler::pop_one_entry(int32_t filter)
 {
 	if (messages_.size() == 1)
 	{
-		if (messages_.front().levels.is_set(filter))
+		if ((messages_.front().level.value & filter) != 0)
 		{
 			messages_.pop_front();
 			return true;
@@ -94,7 +94,7 @@ bool MockLogHandler::pop_until(int32_t filter)
 {
 	while (!messages_.empty())
 	{
-		bool match = messages_.front().levels.is_set(filter);
+		bool match = (messages_.front().level.value & filter) != 0;
 		messages_.pop_front();
 		if (match)
 		{
@@ -131,7 +131,7 @@ void MockLogHandler::pop(openpal::ILogHandler &log)
 	LogRecord rec;
 	while (get_next_entry(rec))
 	{		
-		log.log(rec.moduleid, rec.id.c_str(), rec.levels, rec.location.c_str(), rec.message.c_str());
+		log.log(rec.module, rec.id.c_str(), rec.level, rec.location.c_str(), rec.message.c_str());
 	}
 }
 

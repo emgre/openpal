@@ -29,15 +29,15 @@
 namespace openpal
 {
 
-LogRoot::LogRoot(int moduleid, ILogHandler* handler, char const* id, LogLevels levels) : 
-	LogRoot(moduleid, handler, id, levels, false)
+LogRoot::LogRoot(LogModule module, ILogHandler* handler, char const* id, LogLevels levels) :
+	LogRoot(module, handler, id, levels, false)
 {
 
 }
 
-LogRoot::LogRoot(int moduleid, ILogHandler* handler, char const* id, LogLevels levels, bool reuseAlias) :	
+LogRoot::LogRoot(LogModule module, ILogHandler* handler, char const* id, LogLevels levels, bool reuseAlias) :
 	logger(this),
-	moduleid_(moduleid),
+	module_(module),
 	handler_(handler),
 	levels_(levels),
 	id_((reuseAlias ? id : allocate_copy(id)))
@@ -45,7 +45,7 @@ LogRoot::LogRoot(int moduleid, ILogHandler* handler, char const* id, LogLevels l
 
 LogRoot::LogRoot(const LogRoot& copy, char const* id) :	
 	logger(this),
-	moduleid_(copy.moduleid_),
+	module_(copy.module_),
 	handler_(copy.handler_),
 	levels_(copy.levels_),
 	id_(allocate_copy(id))
@@ -53,21 +53,21 @@ LogRoot::LogRoot(const LogRoot& copy, char const* id) :
 
 }
 
-LogRoot::LogRoot(LogRoot&& other) : LogRoot(other.moduleid_, other.handler_, other.id_, other.levels_, true)
+LogRoot::LogRoot(LogRoot&& other) : LogRoot(other.module_, other.handler_, other.id_, other.levels_, true)
 {
 	other.id_ = nullptr;
 	other.handler_ = nullptr;
-	other.levels_ = 0;
+	other.levels_ = LogLevels(0);
 }
 
 LogRoot LogRoot::clone(char const *id) const
 {
-	return LogRoot(this->moduleid_, this->handler_, id, this->levels_);
+	return LogRoot(this->module_, this->handler_, id, this->levels_);
 }
 
 LogRoot LogRoot::clone(char const *id, LogLevels levels) const
 {
-	return LogRoot(this->moduleid_, this->handler_, id, levels);
+	return LogRoot(this->module_, this->handler_, id, levels);
 }
 
 LogRoot::~LogRoot()
@@ -86,22 +86,22 @@ const char* LogRoot::get_id() const
 	return id_;
 }
 
-void LogRoot::log(const LogLevels &levels, char const *location, char const *message)
+void LogRoot::log(const LogLevel& level, char const *location, char const *message)
 {
 	if (handler_)
 	{		
-		handler_->log(moduleid_, id_, levels, location, message);					
+		handler_->log(module_, id_, level, location, message);					
 	}
 }
 
-bool LogRoot::is_enabled(const LogLevels &rhs) const
+bool LogRoot::is_enabled(const LogLevel& level) const
 {
-	return handler_ && (this->levels_ & rhs);
+	return handler_ && (this->levels_.is_set(level));
 }
 
-bool LogRoot::has_any(const LogLevels &rhs) const
+bool LogRoot::has_any(const LogLevel& level) const
 {
-	return this->levels_ & rhs;
+	return this->levels_.is_set(level);
 }
 
 void LogRoot::set_levels(const LogLevels &levels)
