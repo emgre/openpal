@@ -51,17 +51,22 @@ public:
 	explicit LogLevel(int32_t level) : value(level)
 	{}
 
+	LogLevel next() const
+	{
+		return LogLevel(value << 1);
+	}
+
 	int32_t	value;
 };
 
 // some default log flags
 namespace levels
 {
-	const LogLevel EVENT = LogLevel(1 << 0);
-	const LogLevel ERR = LogLevel(1 << 1);
-	const LogLevel WARN = LogLevel(1 << 2);
-	const LogLevel INFO = LogLevel(1 << 3);
-	const LogLevel DBG = LogLevel(1 << 4);
+	const LogLevel event = LogLevel(1);
+	const LogLevel error = event.next();
+	const LogLevel warn = error.next();
+	const LogLevel info = warn.next();
+	const LogLevel debug = debug.next();
 }
 
 /**

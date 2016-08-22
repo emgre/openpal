@@ -107,7 +107,7 @@ bool MockLogHandler::pop_until(int32_t filter)
 
 void MockLogHandler::log(const std::string &location, const std::string &message)
 {
-	root.logger.log(openpal::levels::EVENT, location.c_str(), message.c_str());
+	root.logger.log(openpal::levels::event, location.c_str(), message.c_str());
 }
 
 void MockLogHandler::write_to_stdio()
