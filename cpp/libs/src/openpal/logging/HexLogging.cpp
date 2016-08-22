@@ -23,51 +23,45 @@
 #include "openpal/logging/LogMacros.h"
 #include "openpal/util/ToHex.h"
 #include "openpal/container/RSlice.h"
+#include "openpal/util/Comparisons.h"
 
 namespace openpal
 {
-	namespace hex {
+	void HexLogging::log(Logger& logger, LogFilters filters, const openpal::RSlice& source, char separator, uint32_t first_row_size, uint32_t other_row_size)
+	{		
+		RSlice copy(source);
+		uint32_t row = 0;
 
-		void log(Logger& logger, const openpal::LogFilters& filters, const openpal::RSlice& source, uint32_t first_row_size, uint32_t other_row_size)
+		const auto max_first_size = bounded<uint32_t>(first_row_size, 1, max_hex_per_line);
+		const auto max_other_size = bounded<uint32_t>(other_row_size, 1, max_hex_per_line);
+
+		while (copy.is_not_empty())
 		{
-			char buffer[max_log_entry_size];
-			RSlice copy(source);
-			uint32_t rowCount = 0;
-			while (copy.is_not_empty())
-			{
-				uint32_t rowSize = (copy.length() < max_hex_per_line) ? copy.length() : max_hex_per_line;
-				if (rowCount == 0)
-				{
-					if (first_row_size < rowSize)
-					{
-						rowSize = first_row_size;
-					}
-				}
-				else
-				{
-					if (other_row_size < rowSize)
-					{
-						rowSize = other_row_size;
-					}
-				}
-				auto region = copy.take(rowSize);
-				auto pLocation = buffer;
-				for (uint32_t pos = 0; pos < rowSize; ++pos)
-				{
-					pLocation[0] = to_hex_char((region[pos] & 0xf0) >> 4);
-					pLocation[1] = to_hex_char(region[pos] & 0xf);
-					pLocation[2] = ' ';
-					pLocation += 3;
-				}
-				buffer[3 * rowSize] = '\0';
-				copy.advance(rowSize);
-
-				logger.log(filters, "", buffer, -1);
-
-				++rowCount;
-			}
+			const auto row_size = (row == 0) ? max_first_size : max_other_size;
+			copy = log_line(logger, filters, copy, separator, row_size);
+			++row;
 		}
+	}	
 
+	openpal::RSlice HexLogging::log_line(Logger& logger, LogFilters filters, const openpal::RSlice& data, char separator, uint32_t max_row_size)
+	{
+		char buffer[max_log_entry_size];
+
+		uint32_t count = 0;
+
+		while ((count < max_hex_per_line) && (count < data.length())) {
+			auto pos = count * 3;
+			buffer[pos] = to_hex_char((data[count] & 0xF0) >> 4);
+			buffer[pos + 1] = to_hex_char(data[count] & 0x0F);
+			buffer[pos + 2] = separator;
+			++count;
+		}
+		
+		buffer[(3 * count) - 1] = '\0';
+
+		logger.log(filters, LOCATION, buffer);
+		
+		return data.skip(count);
 	}
 }
 

@@ -24,17 +24,35 @@
 #include "openpal/logging/Logger.h"
 #include "openpal/container/RSlice.h"
 
+#include "openpal/util/Uncopyable.h"
+
 namespace openpal
-{
-	const uint32_t max_log_entry_size = 120;
+{	
+	class HexLogging : private openpal::StaticOnly
+	{
+		static const uint32_t max_hex_per_line = max_log_entry_size / 3;
 
-namespace hex {
-	
-	const uint32_t max_hex_per_line = max_log_entry_size / 3;
+	public:
+		
+		static void log(
+			Logger& logger,
+			LogFilters filters,		
+			const RSlice& source,
+			char separator = ' ',
+			uint32_t first_row_size = max_hex_per_line,
+			uint32_t other_row_size = max_hex_per_line
+		);
 
-	void log(Logger& logger, const openpal::LogFilters& filters, const openpal::RSlice& source, uint32_t first_row_size, uint32_t other_row_size);
+	private:
 
-}
+		static openpal::RSlice log_line(
+			Logger& logger,
+			LogFilters filters, 			
+			const RSlice& data,
+			char separator,
+			uint32_t max_row_size
+		);
+	};
 
 }
 

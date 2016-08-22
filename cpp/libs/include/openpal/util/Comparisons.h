@@ -37,9 +37,9 @@ inline T max(T a, T b)
 }
 
 template <class T>
-inline T bounded(T value, T min, T max)
+inline T bounded(T value, T minimum, T maximum)
 {
-	return min(max(value, min), max);
+	return min(max(value, minimum), maximum);
 }
 
 template <class T>

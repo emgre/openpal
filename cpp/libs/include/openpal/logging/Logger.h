@@ -29,6 +29,8 @@
 namespace openpal
 {
 
+const uint32_t max_log_entry_size = 120;
+
 class LogRoot;
 
 /**
