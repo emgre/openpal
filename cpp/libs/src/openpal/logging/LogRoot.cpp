@@ -25,7 +25,7 @@
 #include "openpal/logging/ILogHandler.h"
 #include "openpal/logging/LogMacros.h"
 
-#include "openpal/logging/StringFormatting.h"
+#include "openpal/logging/StringCopy.h"
 
 namespace openpal
 {

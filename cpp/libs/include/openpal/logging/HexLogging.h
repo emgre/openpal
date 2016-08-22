@@ -18,24 +18,23 @@
  * may have been made to this file. Automatak, LLC licenses these modifications
  * to you under the terms of the License.
  */
-#ifndef OPENPAL_STRINGFORMATTING_H
-#define OPENPAL_STRINGFORMATTING_H
+#ifndef OPENPAL_HEXLOGGING_H
+#define OPENPAL_HEXLOGGING_H
 
-#include "Logger.h"
+#include "openpal/logging/Logger.h"
+#include "openpal/container/RSlice.h"
 
 namespace openpal
 {
-class RSlice;
+	const uint32_t max_log_entry_size = 120;
 
-const uint32_t max_log_entry_size = 120;
-const uint32_t max_hex_per_line = 20;
+namespace hex {
+	
+	const uint32_t max_hex_per_line = max_log_entry_size / 3;
 
-static_assert(max_hex_per_line < (max_log_entry_size / 3), "Each hex byte takes 3 characters");
+	void log(Logger& logger, const openpal::LogFilters& filters, const openpal::RSlice& source, uint32_t first_row_size, uint32_t other_row_size);
 
-void LogHex(Logger& logger, const openpal::LogFilters& filters, const openpal::RSlice& source, uint32_t first_row_size, uint32_t other_row_size);
-
-// Portable allocation of a copy of a cstring
-char* allocate_copy(char const *alias);
+}
 
 }
 

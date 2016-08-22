@@ -25,7 +25,7 @@
 
 #ifndef OPENPAL_STRIP_LOGGING
 
-#include "StringFormatting.h"
+#include "HexLogging.h"
 
 #include <cstdio>
 
@@ -40,6 +40,11 @@
 #include "CustomLogMacros.h"
 
 #else
+
+#define LOG_FORMAT(logger, filters, code, format, ...) { \
+	char message[openpal::max_log_entry_size]; \
+	SAFE_STRING_FORMAT(message, openpal::max_log_entry_size, format, ##__VA_ARGS__); \
+	logger.log(filters, LOCATION, message, code); } \
 
 #define SIMPLE_LOG_BLOCK_WITH_CODE(logger, filters, code, message) \
 		if(logger.is_enabled(filters)){ \
@@ -67,7 +72,7 @@
 
 #define FORMAT_HEX_BLOCK(logger, filters, buffer, firstSize, otherSize) \
 	if(logger.has_any(filters)){ \
-		LogHex(logger, filters, buffer, firstSize, otherSize); \
+		hex::log(logger, filters, buffer, firstSize, otherSize); \
 	}
 
 #endif
