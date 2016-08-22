@@ -41,38 +41,38 @@
 
 #else
 
-#define LOG_FORMAT(logger, filters, format, ...) { \
+#define LOG_FORMAT(logger, levels, format, ...) { \
 	char message[openpal::max_log_entry_size]; \
 	SAFE_STRING_FORMAT(message, openpal::max_log_entry_size, format, ##__VA_ARGS__); \
-	logger.log(filters, LOCATION, message); } \
+	logger.log(levels, LOCATION, message); } \
 
-#define SIMPLE_LOG_BLOCK(logger, filters, message) \
-		if(logger.is_enabled(filters)){ \
-			logger.log(filters, LOCATION, message); \
+#define SIMPLE_LOG_BLOCK(logger, levels, message) \
+		if(logger.is_enabled(levels)){ \
+			logger.log(levels, LOCATION, message); \
 		}
 
-#define SIMPLE_LOGGER_BLOCK(pLogger, filters, message) \
-		if(pLogger && pLogger->is_enabled(filters)){ \
-			pLogger->log(filters, LOCATION, message); \
+#define SIMPLE_LOGGER_BLOCK(pLogger, levels, message) \
+		if(pLogger && pLogger->is_enabled(levels)){ \
+			pLogger->log(levels, LOCATION, message); \
 		}
 
-#define FORMAT_LOG_BLOCK(logger, filters, format, ...) \
-	if(logger.is_enabled(filters)){ \
+#define FORMAT_LOG_BLOCK(logger, levels, format, ...) \
+	if(logger.is_enabled(levels)){ \
 		char message[openpal::max_log_entry_size]; \
 		SAFE_STRING_FORMAT(message, openpal::max_log_entry_size, format, ##__VA_ARGS__); \
-		logger.log(filters, LOCATION, message); \
+		logger.log(levels, LOCATION, message); \
 	}
 
-#define FORMAT_LOGGER_BLOCK(pLogger, filters, format, ...) \
-	if(pLogger && pLogger->is_enabled(filters)){ \
+#define FORMAT_LOGGER_BLOCK(pLogger, levels, format, ...) \
+	if(pLogger && pLogger->is_enabled(levels)){ \
 		char message[openpal::max_log_entry_size]; \
 		SAFE_STRING_FORMAT(message, openpal::max_log_entry_size, format, ##__VA_ARGS__); \
-		pLogger->log(filters, LOCATION, message); \
+		pLogger->log(levels, LOCATION, message); \
 	}
 
-#define FORMAT_HEX_BLOCK(logger, filters, buffer, firstSize, otherSize) \
-	if(logger.has_any(filters)){ \
-		hex::log(logger, filters, buffer, firstSize, otherSize); \
+#define FORMAT_HEX_BLOCK(logger, levels, buffer, firstSize, otherSize) \
+	if(logger.has_any(levels)){ \
+		hex::log(logger, levels, buffer, firstSize, otherSize); \
 	}
 
 #endif
@@ -81,15 +81,15 @@
 
 #define SAFE_STRING_FORMAT(dest, length_, format, ...)
 
-#define SIMPLE_LOG_BLOCK_WITH_CODE(logger, filters_, code, message_)
+#define SIMPLE_LOG_BLOCK_WITH_CODE(logger, levels_, code, message_)
 
-#define SIMPLE_LOGGER_BLOCK_WITH_CODE(pLogger, filters_, code, message_)
+#define SIMPLE_LOGGER_BLOCK_WITH_CODE(pLogger, levels_, code, message_)
 
-#define FORMAT_LOG_BLOCK_WITH_CODE(logger, filters_, code, format, ...)
+#define FORMAT_LOG_BLOCK_WITH_CODE(logger, levels_, code, format, ...)
 
-#define FORMAT_LOGGER_BLOCK_WITH_CODE(pLogger, filters_, code, format, ...)
+#define FORMAT_LOGGER_BLOCK_WITH_CODE(pLogger, levels_, code, format, ...)
 
-#define FORMAT_HEX_BLOCK(logger, filters_, buffer_, firstSize, otherSize)
+#define FORMAT_HEX_BLOCK(logger, levels_, buffer_, firstSize, otherSize)
 
 #endif
 
@@ -102,12 +102,12 @@
 #define SIMPLE_LOGGER_BLOCK(pLogger, severity, message) \
 	SIMPLE_LOGGER_BLOCK_WITH_CODE(pLogger, severity, message)
 
-#define FORMAT_LOGGER_BLOCK(pLogger, filters, format, ...) \
-	FORMAT_LOGGER_BLOCK_WITH_CODE(pLogger, filters, format, ##__VA_ARGS__);
+#define FORMAT_LOGGER_BLOCK(pLogger, levels, format, ...) \
+	FORMAT_LOGGER_BLOCK_WITH_CODE(pLogger, levels, format, ##__VA_ARGS__);
 
 
-#define FORMAT_LOG_BLOCK(logger, filters, format, ...) \
-	FORMAT_LOG_BLOCK_WITH_CODE(logger, filters, format, ##__VA_ARGS__);
+#define FORMAT_LOG_BLOCK(logger, levels, format, ...) \
+	FORMAT_LOG_BLOCK_WITH_CODE(logger, levels, format, ##__VA_ARGS__);
 */
 
 #endif

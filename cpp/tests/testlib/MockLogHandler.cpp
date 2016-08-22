@@ -29,28 +29,28 @@ using namespace openpal;
 namespace openpal
 {
 
-LogRecord::LogRecord() : filters(0)		
+LogRecord::LogRecord() : levels(0)		
 {}
 
-LogRecord::LogRecord(int module, char const* id, LogFilters filters, char const *location, char const *message) :
+LogRecord::LogRecord(int module, char const* id, LogLevels levels, char const *location, char const *message) :
 	moduleid(moduleid),
 	id(id),
-	filters(filters),
+	levels(levels),
 	location(location),
 	message(message)
 {
 
 }
 
-MockLogHandler::MockLogHandler(uint32_t filters) :
-	root(0, this, "test", filters),
+MockLogHandler::MockLogHandler(uint32_t levels) :
+	root(0, this, "test", levels),
 	output_to_stdio_(false)
 {
 
 }
 
 
-void MockLogHandler::log(int module, const char* id, LogFilters filters, char const *location, char const *message)
+void MockLogHandler::log(int module, const char* id, LogLevels levels, char const *location, char const *message)
 {
 	if (output_to_stdio_)
 	{
@@ -58,7 +58,7 @@ void MockLogHandler::log(int module, const char* id, LogFilters filters, char co
 	}
 
 	messages_.push_back(
-		LogRecord(module, id, filters, location, message)
+		LogRecord(module, id, levels, location, message)
 	);
 }
 
@@ -66,7 +66,7 @@ int32_t MockLogHandler::pop_filter()
 {
 	if (messages_.size() > 0)
 	{
-		auto flags = messages_.front().filters.get_bitfield();
+		auto flags = messages_.front().levels.levels();
 		messages_.pop_front();
 		return flags;
 	}
@@ -80,7 +80,7 @@ bool MockLogHandler::pop_one_entry(int32_t filter)
 {
 	if (messages_.size() == 1)
 	{
-		if (messages_.front().filters.is_set(filter))
+		if (messages_.front().levels.is_set(filter))
 		{
 			messages_.pop_front();
 			return true;
@@ -94,7 +94,7 @@ bool MockLogHandler::pop_until(int32_t filter)
 {
 	while (!messages_.empty())
 	{
-		bool match = messages_.front().filters.is_set(filter);
+		bool match = messages_.front().levels.is_set(filter);
 		messages_.pop_front();
 		if (match)
 		{
@@ -107,7 +107,7 @@ bool MockLogHandler::pop_until(int32_t filter)
 
 void MockLogHandler::log(const std::string &location, const std::string &message)
 {
-	root.logger.log(openpal::logflags::EVENT, location.c_str(), message.c_str());
+	root.logger.log(openpal::levels::EVENT, location.c_str(), message.c_str());
 }
 
 void MockLogHandler::write_to_stdio()
@@ -131,7 +131,7 @@ void MockLogHandler::pop(openpal::ILogHandler &log)
 	LogRecord rec;
 	while (get_next_entry(rec))
 	{		
-		log.log(rec.moduleid, rec.id.c_str(), rec.filters, rec.location.c_str(), rec.message.c_str());
+		log.log(rec.moduleid, rec.id.c_str(), rec.levels, rec.location.c_str(), rec.message.c_str());
 	}
 }
 

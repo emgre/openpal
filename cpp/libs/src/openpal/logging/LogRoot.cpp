@@ -29,17 +29,17 @@
 namespace openpal
 {
 
-LogRoot::LogRoot(int moduleid, ILogHandler* handler, char const* id, LogFilters filters) : 
-	LogRoot(moduleid, handler, id, filters, false)
+LogRoot::LogRoot(int moduleid, ILogHandler* handler, char const* id, LogLevels levels) : 
+	LogRoot(moduleid, handler, id, levels, false)
 {
 
 }
 
-LogRoot::LogRoot(int moduleid, ILogHandler* handler, char const* id, LogFilters filters, bool reuseAlias) :	
+LogRoot::LogRoot(int moduleid, ILogHandler* handler, char const* id, LogLevels levels, bool reuseAlias) :	
 	logger(this),
 	moduleid_(moduleid),
 	handler_(handler),
-	filters_(filters),
+	levels_(levels),
 	id_((reuseAlias ? id : allocate_copy(id)))
 {}
 
@@ -47,27 +47,27 @@ LogRoot::LogRoot(const LogRoot& copy, char const* id) :
 	logger(this),
 	moduleid_(copy.moduleid_),
 	handler_(copy.handler_),
-	filters_(copy.filters_),
+	levels_(copy.levels_),
 	id_(allocate_copy(id))
 {
 
 }
 
-LogRoot::LogRoot(LogRoot&& other) : LogRoot(other.moduleid_, other.handler_, other.id_, other.filters_, true)
+LogRoot::LogRoot(LogRoot&& other) : LogRoot(other.moduleid_, other.handler_, other.id_, other.levels_, true)
 {
 	other.id_ = nullptr;
 	other.handler_ = nullptr;
-	other.filters_ = 0;
+	other.levels_ = 0;
 }
 
 LogRoot LogRoot::clone(char const *id) const
 {
-	return LogRoot(this->moduleid_, this->handler_, id, this->filters_);
+	return LogRoot(this->moduleid_, this->handler_, id, this->levels_);
 }
 
-LogRoot LogRoot::clone(char const *id, LogFilters filters) const
+LogRoot LogRoot::clone(char const *id, LogLevels levels) const
 {
-	return LogRoot(this->moduleid_, this->handler_, id, filters);
+	return LogRoot(this->moduleid_, this->handler_, id, levels);
 }
 
 LogRoot::~LogRoot()
@@ -86,32 +86,32 @@ const char* LogRoot::get_id() const
 	return id_;
 }
 
-void LogRoot::log(const LogFilters &filters, char const *location, char const *message)
+void LogRoot::log(const LogLevels &levels, char const *location, char const *message)
 {
 	if (handler_)
 	{		
-		handler_->log(moduleid_, id_, filters, location, message);					
+		handler_->log(moduleid_, id_, levels, location, message);					
 	}
 }
 
-bool LogRoot::is_enabled(const LogFilters &rhs) const
+bool LogRoot::is_enabled(const LogLevels &rhs) const
 {
-	return handler_ && (this->filters_ & rhs);
+	return handler_ && (this->levels_ & rhs);
 }
 
-bool LogRoot::has_any(const LogFilters &rhs) const
+bool LogRoot::has_any(const LogLevels &rhs) const
 {
-	return this->filters_ & rhs;
+	return this->levels_ & rhs;
 }
 
-void LogRoot::set_filters(const LogFilters &filters)
+void LogRoot::set_levels(const LogLevels &levels)
 {
-	filters_ = filters;
+	levels_ = levels;
 }
 
-LogFilters LogRoot::get_filters() const
+LogLevels LogRoot::get_levels() const
 {
-	return filters_;
+	return levels_;
 }
 
 }

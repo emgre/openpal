@@ -27,7 +27,7 @@
 
 namespace openpal
 {
-	void HexLogging::log(Logger& logger, LogFilters filters, const openpal::RSlice& source, char separator, uint32_t first_row_size, uint32_t other_row_size)
+	void HexLogging::log(Logger& logger, LogLevels levels, const openpal::RSlice& source, char separator, uint32_t first_row_size, uint32_t other_row_size)
 	{		
 		RSlice copy(source);
 		uint32_t row = 0;
@@ -38,12 +38,12 @@ namespace openpal
 		while (copy.is_not_empty())
 		{
 			const auto row_size = (row == 0) ? max_first_size : max_other_size;
-			copy = log_line(logger, filters, copy, separator, row_size);
+			copy = log_line(logger, levels, copy, separator, row_size);
 			++row;
 		}
 	}	
 
-	openpal::RSlice HexLogging::log_line(Logger& logger, LogFilters filters, const openpal::RSlice& data, char separator, uint32_t max_row_size)
+	openpal::RSlice HexLogging::log_line(Logger& logger, LogLevels levels, const openpal::RSlice& data, char separator, uint32_t max_row_size)
 	{
 		char buffer[max_log_entry_size];
 
@@ -59,7 +59,7 @@ namespace openpal
 		
 		buffer[(3 * count) - 1] = '\0';
 
-		logger.log(filters, LOCATION, buffer);
+		logger.log(levels, LOCATION, buffer);
 		
 		return data.skip(count);
 	}

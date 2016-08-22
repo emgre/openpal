@@ -36,7 +36,7 @@ namespace openpal
 		
 		static void log(
 			Logger& logger,
-			LogFilters filters,		
+			LogLevels levels,		
 			const RSlice& source,
 			char separator = ' ',
 			uint32_t first_row_size = max_hex_per_line,
@@ -47,7 +47,7 @@ namespace openpal
 
 		static openpal::RSlice log_line(
 			Logger& logger,
-			LogFilters filters, 			
+			LogLevels levels, 			
 			const RSlice& data,
 			char separator,
 			uint32_t max_row_size

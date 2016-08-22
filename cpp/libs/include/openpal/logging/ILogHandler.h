@@ -39,7 +39,7 @@ public:
 	*
 	* @param entry the log message to handle
 	*/
-	virtual void log(int module, const char* id, LogFilters filters, char const *location, char const *message) = 0;
+	virtual void log(int module, const char* id, LogLevels level, char const *location, char const *message) = 0;
 };
 
 }

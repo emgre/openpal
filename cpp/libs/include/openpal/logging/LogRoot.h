@@ -31,14 +31,14 @@ namespace openpal
 
 
 /**
-* Interface that represents a distinct logger with a name and running level
+* Interface that represents a distinct logger with an id, module, and levels
 */
 class LogRoot : private Uncopyable
 {
 
 public:
 
-	LogRoot(int moduleid, ILogHandler* handler, char const* id, LogFilters filters);
+	LogRoot(int moduleid, ILogHandler* handler, char const* id, LogLevels levels);
 
 	LogRoot(LogRoot&& other);
 
@@ -53,28 +53,28 @@ public:
 	// create another log root, but change the id_
 	LogRoot clone(char const *id) const;
 
-	// create another log root, but change the id_ and the filters_
-	LogRoot clone(char const *id, LogFilters filters) const;
+	// create another log root, but change the id_ and the levels_
+	LogRoot clone(char const *id, LogLevels levels) const;
 
-	bool is_enabled(const LogFilters &rhs) const;
+	bool is_enabled(const LogLevels &rhs) const;
 
-	bool has_any(const LogFilters &filters) const;
+	bool has_any(const LogLevels &levels) const;
 
-	LogFilters get_filters() const;
+	LogLevels get_levels() const;
 	
-	void log(const LogFilters &filters, char const *location, char const *message);	
+	void log(const LogLevels &levels, char const *location, char const *message);	
 
-	void set_filters(const LogFilters &filters);	
+	void set_levels(const LogLevels &levels);	
 
 	Logger  logger;
 
 private:
 
-	LogRoot(int moduleid, ILogHandler* pHandler, char const* id, LogFilters filters, bool reuseAlias);
+	LogRoot(int moduleid, ILogHandler* pHandler, char const* id, LogLevels levels, bool reuseAlias);
 
 	int				moduleid_;
 	ILogHandler*	handler_;
-	LogFilters		filters_;   // bit field describing what is being logged
+	LogLevels		levels_;
 	const char*     id_;
 
 };

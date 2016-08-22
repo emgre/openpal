@@ -21,7 +21,7 @@
 #ifndef OPENPAL_LOGGER_H
 #define OPENPAL_LOGGER_H
 
-#include "LogFilters.h"
+#include "LogLevels.h"
 
 #include "openpal/util/Uncopyable.h"
 
@@ -41,11 +41,11 @@ class Logger
 
 public:
 
-	void log(const LogFilters &filters, char const *location, char const *message);
+	void log(const LogLevels &levels, char const *location, char const *message);
 
-	bool is_enabled(const LogFilters &filters) const;
+	bool is_enabled(const LogLevels &levels) const;
 
-	bool has_any(const LogFilters &filters) const;
+	bool has_any(const LogLevels &levels) const;
 
 private:
 
