@@ -49,7 +49,7 @@ namespace openpal
 
 		uint32_t count = 0;
 
-		while ((count < max_hex_per_line) && (count < data.length())) {
+		while ((count < max_row_size) && (count < data.length())) {
 			auto pos = count * 3;
 			buffer[pos] = to_hex_char((data[count] & 0xF0) >> 4);
 			buffer[pos + 1] = to_hex_char(data[count] & 0x0F);
