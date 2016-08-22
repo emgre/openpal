@@ -29,20 +29,14 @@ using namespace openpal;
 namespace openpal
 {
 
-LogRecord::LogRecord() :
-	id(),
-	filters(0),
-	location(),
-	message(),
-	errorCode(-1)
+LogRecord::LogRecord() : filters(0)		
 {}
 
 LogRecord::LogRecord(const LogEntry& entry) :
-	id(entry.get_alias()),
-	filters(entry.get_filters()),
-	location(entry.get_location()),
-	message(entry.get_message()),
-	errorCode(entry.get_error_code())
+	id(entry.id),
+	filters(entry.filters),
+	location(entry.location),
+	message(entry.message)
 {
 
 }
@@ -59,7 +53,7 @@ void MockLogHandler::log(const LogEntry &entry)
 {
 	if (output_to_stdio_)
 	{
-		std::cout << entry.get_message() << std::endl;
+		std::cout << entry.message << std::endl;
 	}
 
 	messages_.push_back(entry);
@@ -93,21 +87,6 @@ bool MockLogHandler::pop_one_entry(int32_t filter)
 	else return false;
 }
 
-bool MockLogHandler::pop_error_code(int code)
-{
-	while (!messages_.empty())
-	{
-		bool match = messages_.front().errorCode == code;
-		messages_.pop_front();
-		if (match)
-		{
-			return true;
-		}
-	}
-
-	return false;
-}
-
 bool MockLogHandler::pop_until(int32_t filter)
 {
 	while (!messages_.empty())
@@ -123,19 +102,6 @@ bool MockLogHandler::pop_until(int32_t filter)
 	return false;
 }
 
-int MockLogHandler::clear_log()
-{
-	int max = -1;
-	LogEntry le;
-	while (!messages_.empty())
-	{
-		if (messages_.front().errorCode > max) max = le.get_error_code();
-		messages_.pop_front();
-	}
-
-	return max;
-}
-
 void MockLogHandler::log(const std::string &location, const std::string &message)
 {
 	root.logger.log(openpal::logflags::EVENT, location.c_str(), message.c_str());
@@ -144,21 +110,6 @@ void MockLogHandler::log(const std::string &location, const std::string &message
 void MockLogHandler::write_to_stdio()
 {
 	this->output_to_stdio_ = true;
-}
-
-int MockLogHandler::next_error_code()
-{
-	LogRecord rec;
-	while (!messages_.empty())
-	{
-		rec = messages_.front();
-		messages_.pop_front();
-		if (rec.errorCode >= 0)
-		{
-			return rec.errorCode;
-		}
-	}
-	return -1;
 }
 
 bool MockLogHandler::get_next_entry(LogRecord &record)
@@ -177,14 +128,9 @@ void MockLogHandler::pop(openpal::ILogHandler &log)
 	LogRecord record;
 	while (get_next_entry(record))
 	{
-		LogEntry le(record.id.c_str(), record.filters, record.location.c_str(), record.message.c_str(), record.errorCode);
+		LogEntry le(record.id.c_str(), record.filters, record.location.c_str(), record.message.c_str());
         log.log(le);
 	}
-}
-
-bool MockLogHandler::is_log_error_free()
-{
-	return clear_log() < 0;
 }
 
 }

@@ -84,12 +84,13 @@ const char* LogRoot::get_id() const
 	return alias_;
 }
 
-void LogRoot::log(const LogFilters &filters, char const *location, char const *message, int error_code)
+void LogRoot::log(const LogFilters &filters, char const *location, char const *message)
 {
 	if (handler_)
-	{
-		LogEntry le(alias_, filters, location, message, error_code);
-        handler_->log(le);
+	{		
+        handler_->log(
+			LogEntry(alias_, filters, location, message)
+		);
 	}
 }
 

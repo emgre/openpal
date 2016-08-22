@@ -39,8 +39,7 @@ public:
 	std::string		id;
 	openpal::LogFilters		filters;
 	std::string		location;
-	std::string		message;
-	int				errorCode;
+	std::string		message;	
 };
 
 class MockLogHandler : public openpal::ILogHandler
@@ -59,15 +58,11 @@ public:
 
 	bool pop_one_entry(int32_t filter);
 
-	bool pop_until(int32_t filter);
-
-	bool pop_error_code(int code);
-
-	int clear_log();
+	bool pop_until(int32_t filter);	
+	
 	int next_error_code();
 	bool get_next_entry(LogRecord &record);
-	bool is_log_error_free();
-
+	
 	void pop(openpal::ILogHandler &log);
 
 	openpal::LogRoot root;

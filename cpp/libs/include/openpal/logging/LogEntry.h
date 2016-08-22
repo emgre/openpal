@@ -31,52 +31,16 @@ namespace openpal
 /**
 * An event recorded by the logging framework
 */
-class LogEntry
+struct LogEntry
 {
-
-public:
-
 	LogEntry();
 
-	LogEntry(char const* alias, const LogFilters& filters, char const* location, char const* message, int error_code);
+	LogEntry(char const* id, LogFilters filters, char const* location, char const* message);	
 
-	/// @return The alias of the logger that recorded the message
-	inline char const* get_alias() const
-	{
-		return alias_;
-	}
-
-	/// @return The place in the source code where the message was recorded
-	inline char const* get_location() const
-	{
-		return location_;
-	}
-
-	/// @return body of the log message
-	inline char const* get_message() const
-	{
-		return message_;
-	}
-
-	/// @return the log level of the message
-	inline const LogFilters& get_filters() const
-	{
-		return filters_;
-	}
-
-	/// @return the error code associated with the message
-	inline int	get_error_code() const
-	{
-		return error_code_;
-	}
-
-private:
-
-	char const*		alias_;
-	LogFilters		filters_;
-	char const*		location_;
-	char const*		message_;
-	int				error_code_;
+	char const*		id;
+	LogFilters		filters;
+	char const*		location;
+	char const*		message;	
 };
 
 }

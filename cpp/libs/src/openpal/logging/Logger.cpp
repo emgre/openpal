@@ -43,11 +43,11 @@ bool Logger::has_any(const LogFilters &filters) const
 	return root_->has_any(filters);
 }
 
-void Logger::log(const LogFilters &filters, char const *location, char const *message, int errorCode)
+void Logger::log(const LogFilters &filters, char const *location, char const *message)
 {
 	if (root_->is_enabled(filters))
 	{
-		root_->log(filters, location, message, errorCode);
+		root_->log(filters, location, message);
 	}
 }
 

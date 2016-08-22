@@ -51,7 +51,7 @@ public:
 
 	const char* get_id() const;
 
-	void log(const LogFilters &filters, char const *location, char const *message, int error_code);
+	void log(const LogFilters &filters, char const *location, char const *message);
 
 	// create another log root, but change the alias_
 	LogRoot clone(char const *alias) const;
