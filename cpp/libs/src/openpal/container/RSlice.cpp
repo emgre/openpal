@@ -66,7 +66,7 @@ RSlice RSlice::move_to(WSlice &dest) const
 	else
 	{
 		WSlice copy(dest);
-		memcpy(dest, buffer_, length_);
+		memmove(dest, buffer_, length_);
 		dest.advance(length_);
 		return copy.as_rslice().take(length_);
 	}
