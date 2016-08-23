@@ -49,6 +49,8 @@ public:
 
 	RSlice copy_to(WSlice &dest) const;
 
+	RSlice move_to(WSlice &dest) const;
+
 	RSlice take(uint32_t count) const;
 
 	RSlice skip(uint32_t count) const;

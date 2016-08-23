@@ -57,6 +57,21 @@ RSlice RSlice::copy_to(WSlice &dest) const
 	}
 }
 
+RSlice RSlice::move_to(WSlice &dest) const
+{
+	if (dest.length() < length_)
+	{
+		return RSlice::empty_slice();
+	}
+	else
+	{
+		WSlice copy(dest);
+		memcpy(dest, buffer_, length_);
+		dest.advance(length_);
+		return copy.as_rslice().take(length_);
+	}
+}
+
 RSlice RSlice::take(uint32_t count) const
 {
 	return RSlice(buffer_, openpal::min(length_, count));
