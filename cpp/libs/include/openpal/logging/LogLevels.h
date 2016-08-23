@@ -66,7 +66,7 @@ namespace levels
 	const LogLevel error = event.next();
 	const LogLevel warn = error.next();
 	const LogLevel info = warn.next();
-	const LogLevel debug = debug.next();
+	const LogLevel debug = info.next();
 }
 
 /**
