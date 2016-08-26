@@ -30,9 +30,11 @@
 #include <openpal/container/Buffer.h>
 #include <openpal/serialization/Parse.h>
 #include <openpal/serialization/Format.h>
-#include <openpal/serialization/Serialization.h>
 #include <openpal/serialization/FloatByteOrder.h>
 #include <openpal/util/Comparisons.h>
+
+#include <openpal/serialization/SingleFloat.h>
+#include <openpal/serialization/DoubleFloat.h>
 
 #include <memory>
 

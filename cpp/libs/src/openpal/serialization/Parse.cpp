@@ -24,7 +24,7 @@
  */
 #include "openpal/serialization/Parse.h"
 
-#include "openpal/serialization/Serialization.h"
+#include "openpal/serialization/LittleEndian.h"
 
 namespace openpal
 {
