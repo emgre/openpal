@@ -52,13 +52,13 @@ public:
 
 	static void write_to_slice(WSlice &buffer, uint8_t value)
 	{
-		Write(buffer, value);
+		write(buffer, value);
 		buffer.advance(size);
 	}
 
-	inline static void Write(uint8_t* pStart, uint8_t value)
+	inline static void write(uint8_t* start, uint8_t value)
 	{
-		*(pStart) = value;
+		*(start) = value;
 	}
 
 	const static size_t size = 1;
