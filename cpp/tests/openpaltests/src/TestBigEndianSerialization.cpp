@@ -25,7 +25,7 @@
 #include <catch.hpp>
 
 #include <openpal/container/Buffer.h>
-#include <openpal/serialization/LittleEndian.h>
+#include <openpal/serialization/BigEndian.h>
 
 
 using namespace openpal;
@@ -56,7 +56,7 @@ bool TestReadWrite(typename T::type_t value, std::initializer_list<uint8_t> expe
 }
 
 
-#define SUITE(name) "LittleEndianSerializationTestSuite - " name
+#define SUITE(name) "BigEndianSerializationTestSuite - " name
 
 TEST_CASE(SUITE("UInt8"))
 {
@@ -68,34 +68,27 @@ TEST_CASE(SUITE("UInt8"))
 TEST_CASE(SUITE("UInt16"))
 {
 	REQUIRE(TestReadWrite<UInt16>(0, { 0, 0 }));
-	REQUIRE(TestReadWrite<UInt16>(123, { 0x7B, 0x00 }));
+	REQUIRE(TestReadWrite<UInt16>(123, { 0x00, 0x7B, }));
 	REQUIRE(TestReadWrite<UInt16>(UInt16::max_value, { 0xFF, 0xFF }));
 }
 
 TEST_CASE(SUITE("Int16"))
 {
 	REQUIRE(TestReadWrite<Int16>(0, { 0, 0 }));
-	REQUIRE(TestReadWrite<Int16>(Int16::min_value, { 0, 0x80 }));
-	REQUIRE(TestReadWrite<Int16>(Int16::max_value, { 0xFF, 0x7F }));
+	REQUIRE(TestReadWrite<Int16>(Int16::min_value, { 0x80, 0x00 }));
+	REQUIRE(TestReadWrite<Int16>(Int16::max_value, { 0x7F, 0xFF }));
 }
 
 TEST_CASE(SUITE("UInt32"))
 {
 	REQUIRE(TestReadWrite<UInt32>(0, { 0x00, 0x00, 0x00 , 0x00 }));
-	REQUIRE(TestReadWrite<UInt32>(123, { 0x7B, 0x00, 0x00 , 0x00 }));
+	REQUIRE(TestReadWrite<UInt32>(123, { 0x00, 0x00, 0x00 , 0x7B }));
 	REQUIRE(TestReadWrite<UInt32>(UInt32::max_value, { 0xFF, 0xFF, 0xFF, 0xFF }));
 }
 
 TEST_CASE(SUITE("Int32"))
 {
 	REQUIRE(TestReadWrite<Int32>(0, { 0x00, 0x00, 0x00 , 0x00 }));
-	REQUIRE(TestReadWrite<Int32>(Int32::min_value, { 0x00, 0x00, 0x00, 0x80 }));
-	REQUIRE(TestReadWrite<Int32>(Int32::max_value, { 0xFF, 0xFF, 0xFF, 0x7F }));
-}
-
-TEST_CASE(SUITE("UInt48"))
-{
-	REQUIRE(TestReadWrite<UInt48>(UInt48Type(0), { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }));
-	REQUIRE(TestReadWrite<UInt48>(UInt48Type(123), { 0x7B, 0x00, 0x00 , 0x00, 0x00, 0x00 }));
-	REQUIRE(TestReadWrite<UInt48>(UInt48Type(UInt48::max_value), { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }));
+	REQUIRE(TestReadWrite<Int32>(Int32::min_value, { 0x80, 0x00, 0x00, 0x00 }));
+	REQUIRE(TestReadWrite<Int32>(Int32::max_value, { 0x7F, 0xFF, 0xFF, 0xFF }));
 }
