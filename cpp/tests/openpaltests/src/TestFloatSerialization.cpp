@@ -28,73 +28,29 @@
 #include <testlib/HexConversions.h>
 
 #include <openpal/container/Buffer.h>
-#include <openpal/serialization/Parse.h>
-#include <openpal/serialization/Format.h>
 #include <openpal/serialization/FloatByteOrder.h>
-#include <openpal/util/Comparisons.h>
 
 #include <openpal/serialization/SingleFloat.h>
 #include <openpal/serialization/DoubleFloat.h>
 
-#include <memory>
-
-using namespace openpal;
 using namespace openpal;
 
 using namespace std;
 
 template <class T>
-bool TestReadWriteFloat(T value)
+bool TestFloatParsing(std::string expected_hex, typename T::type_t value)
 {
-	Buffer buffer(2 * sizeof(T));
+	Buffer buffer(T::size);
 
-	for (uint32_t i = 0; i < sizeof(T); ++i)
-	{
-		auto dest = buffer.as_wslice();
-		dest.advance(i);
-		if (!Format::write(dest, value))
-		{
-			return false;
-		}
+	T::write(buffer.as_wslice(), value);
 
-		auto written = buffer.as_rslice().skip(i);
-		T readValue;
-		if (!(Parse::read(written, readValue) && float_equal(value, readValue)))
-		{
-			return false;
-		}
-	}
+	const auto hex = to_hex(buffer.as_rslice());
 
-	return true;
-}
+	if (expected_hex != hex) return false;
+	
+	const auto read_value = T::read(buffer.as_rslice());
 
-template <class T>
-bool TestFloatParsing(std::string hex, typename T::type_t value)
-{
-	Hex hs(hex);
-	const uint32_t TYPE_SIZE = static_cast<uint32_t>(sizeof(typename T::type_t));
-	REQUIRE((hs.Size() == TYPE_SIZE));
-
-	Buffer buffer(2 * TYPE_SIZE);
-
-	for (uint32_t i = 0; i < TYPE_SIZE; ++i)
-	{
-		auto dest = buffer.as_wslice();
-		dest.advance(i);
-		if (!Format::write(dest, value))
-		{
-			return false;
-		}
-		auto written = buffer.as_rslice().skip(i);
-
-		typename T::type_t val = 0;
-		if (!(Parse::read(written, val) && openpal::float_equal(val, value)))
-		{
-			return false;
-		}
-	}
-
-	return true;
+	return value == read_value;
 }
 
 #define SUITE(name) "FloatSerializationTestSuite - " name
@@ -104,38 +60,20 @@ TEST_CASE(SUITE("Float memory byte order is IEEE 754"))
 	REQUIRE(openpal::FloatByteOrder::order != FloatByteOrder::Value::unsupported);
 }
 
-TEST_CASE(SUITE("DoublePacking"))
+TEST_CASE(SUITE("DoubleFloatSerialization"))
 {
-	REQUIRE(TestFloatParsing<openpal::DoubleFloat>("20 74 85 2F C7 2B A2 C0", -2.3258890344E3));
+	REQUIRE(TestFloatParsing<openpal::DoubleFloat>("0A 52 84 2F C7 2B A2 C0", -2.3258890344E3));
 	REQUIRE(TestFloatParsing<openpal::DoubleFloat>("00 00 00 00 64 89 67 41", 12340000.0));
 	REQUIRE(TestFloatParsing<openpal::DoubleFloat>("00 00 00 00 00 00 34 C0", -20.0));
 	REQUIRE(TestFloatParsing<openpal::DoubleFloat>("8F 81 9C 95 2D F9 64 BB", -13.879E-23));
 	REQUIRE(TestFloatParsing<openpal::DoubleFloat>("00 00 00 00 00 00 59 40", 100.0));
 }
 
-TEST_CASE(SUITE("SinglePacking"))
+TEST_CASE(SUITE("SingleFloatSerialization"))
 {
 	REQUIRE(TestFloatParsing<openpal::SingleFloat>("20 4B 3C 4B", 12340000.0f));
 	REQUIRE(TestFloatParsing<openpal::SingleFloat>("6D C9 27 9B", -13.879E-23f));
 	REQUIRE(TestFloatParsing<openpal::SingleFloat>("00 00 A0 C1", -20.0));
 }
 
-
-TEST_CASE(SUITE("DoubleFloat"))
-{
-	REQUIRE(TestReadWriteFloat<double>(0.0));
-	REQUIRE(TestReadWriteFloat<double>(-100000));
-	REQUIRE(TestReadWriteFloat<double>(-2.3258890344E3));
-	REQUIRE(TestReadWriteFloat<double>(1E20));
-	REQUIRE(TestReadWriteFloat<double>(100.0));
-}
-
-TEST_CASE(SUITE("SingleFloat"))
-{
-	REQUIRE(TestReadWriteFloat<float>(0.0f));
-	REQUIRE(TestReadWriteFloat<float>(-100000.0f));
-	REQUIRE(TestReadWriteFloat<float>(-2.3258890344E3f));
-	REQUIRE(TestReadWriteFloat<float>(1E20f));
-	REQUIRE(TestReadWriteFloat<float>(100.0f));
-}
 
