@@ -40,17 +40,18 @@ public:
 
 	static_assert(sizeof(double) == 8, "Unexpected length_ of double float");
 
-	typedef double type_t;
-
 	static bool read_from(RSlice &buffer, double& out);
 	static bool write_to(WSlice &buffer, double value);
 
-	static double read(const uint8_t *data);
-	static void write(uint8_t *data, double value);
-
+	typedef double type_t;
 	const static std::size_t size = sizeof(double);
 	const static double max_value;
 	const static double min_value;
+
+private:
+
+	static double read(const uint8_t *data);
+	static void write(uint8_t *data, double value);
 };
 
 }

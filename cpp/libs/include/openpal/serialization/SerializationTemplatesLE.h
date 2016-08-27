@@ -41,6 +41,32 @@ class Bit16LE
 {
 public:
 
+	static bool write_to(WSlice &dest, T value)
+	{
+		if (dest.length() < size) return false;
+
+		write(dest, value);
+		dest.advance(size);
+		return true;
+	}
+
+	inline static bool read_from(RSlice& input, T& out)
+	{
+		if (input.length() < size) return false;
+
+		out = read(input);
+        input.advance(size);
+		return true;
+	}
+
+	typedef T type_t;
+
+	const static size_t size = sizeof(T);
+	const static T max_value;
+	const static T min_value;
+
+private:
+
 	static T read(const uint8_t *data)
 	{
 		return (static_cast<T>(data[0]) << 0) | (static_cast<T>(data[1]) << 8);
@@ -52,29 +78,6 @@ public:
 		data[1] = static_cast<uint8_t>((value >> 8) & 0xFF);
 	}
 
-	static bool write_to(WSlice &dest, T value)
-	{
-		if (dest.length() < size) return false;
-
-		write(dest, value);
-		dest.advance(size);
-		return true;
-	}
-
-	inline static bool read_from(RSlice &slice, T& out)
-	{
-		if (dest.length() < size) return false;
-
-		out = read(slice);
-        slice.advance(size);
-		return true;
-	}
-
-	typedef T type_t;
-
-	const static size_t size = sizeof(T);
-	const static T max_value;
-	const static T min_value;
 };
 
 template <class T>
@@ -88,17 +91,38 @@ class Bit32LE
 {
 public:
 
-	// Endianness doesn't apply to everything. If you do bitwise or bitshift operations on an int, you don't notice the endianness.
-	// The machine arranges the multiple bytes, so the least significant byte is still the least significant byte, and the most
-	// significant byte is still the most significant byte
+	static bool write_to(WSlice& dest, T value)
+	{
+		if (dest.length() < size) return false;
 
-	// This is endian independent of the machine order
+		write(dest, value);
+		dest.advance(size);
+		return true;
+	}
+
+	inline static bool read_from(RSlice &input, T& out)
+	{
+		if (input.length() < size) return false;
+
+		out = read(input);
+        input.advance(size);
+		return true;
+	}
+
+	typedef T type_t;
+
+	const static size_t size = sizeof(T);
+	const static T max_value;
+	const static T min_value;
+
+private:
+
 	static T read(const uint8_t *data)
 	{
-		return	(static_cast<T>(data[0]) << 0)	|
-		        (static_cast<T>(data[1]) << 8)	|
-		        (static_cast<T>(data[2]) << 16) |
-		        (static_cast<T>(data[3]) << 24);
+		return	(static_cast<T>(data[0]) << 0) |
+			(static_cast<T>(data[1]) << 8) |
+			(static_cast<T>(data[2]) << 16) |
+			(static_cast<T>(data[3]) << 24);
 	}
 
 	static void write(uint8_t *data, T value)
@@ -108,25 +132,6 @@ public:
 		data[2] = static_cast<uint8_t>((value >> 16) & 0xFF);
 		data[3] = static_cast<uint8_t>((value >> 24) & 0xFF);
 	}
-
-	static void write_to_slice(WSlice& dest, T value)
-	{
-		write(dest, value);
-		dest.advance(size);
-	}
-
-	inline static T read_from_slice(RSlice &buffer)
-	{
-		auto ret = read(buffer);
-        buffer.advance(size);
-		return ret;
-	}
-
-	typedef T type_t;
-
-	const static size_t size = sizeof(T);
-	const static T max_value;
-	const static T min_value;
 };
 
 template <class T>

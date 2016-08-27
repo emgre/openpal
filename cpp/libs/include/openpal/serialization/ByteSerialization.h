@@ -38,11 +38,6 @@ class UInt8Simple
 {
 public:
 
-	inline static uint8_t read(const uint8_t* start)
-	{
-		return (*start);
-	}
-
 	inline static bool read_from(RSlice& input, uint8_t& out)
 	{
 		if (input.length() < size) return false;
@@ -61,16 +56,23 @@ public:
 		return true;
 	}
 
-	inline static void write(uint8_t* start, uint8_t value)
-	{
-		*(start) = value;
-	}
-
 	const static size_t size = 1;
 	const static uint8_t max_value;
 	const static uint8_t min_value;
 
 	typedef uint8_t type_t;
+
+private:
+
+	inline static uint8_t read(const uint8_t* start)
+	{
+		return (*start);
+	}
+
+	inline static void write(uint8_t* start, uint8_t value)
+	{
+		*(start) = value;
+	}
 };
 
 }

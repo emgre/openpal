@@ -42,15 +42,15 @@ bool TestFloatParsing(std::string expected_hex, typename T::type_t value)
 {
 	Buffer buffer(T::size);
 
-	T::write(buffer.as_wslice(), value);
+	if (!T::write_to(buffer.as_wslice(), value)) return false;
 
 	const auto hex = to_hex(buffer.as_rslice());
 
 	if (expected_hex != hex) return false;
 	
-	const auto read_value = T::read(buffer.as_rslice());
+	typename T::type_t read_value;
 
-	return value == read_value;
+	return T::read_from(buffer.as_rslice(), read_value) && (value == read_value);
 }
 
 #define SUITE(name) "FloatSerializationTestSuite - " name

@@ -40,26 +40,32 @@ class UInt48LE
 {
 public:
 
-	static UInt48Type read(const uint8_t *data);
-
-	static void write(uint8_t *data, UInt48Type value);
-
-	inline static UInt48Type read_from_slice(RSlice& slice)
+	inline static bool read_from(RSlice& input, UInt48Type& out)
 	{
-		auto ret = read(slice);
-        slice.advance(size);
-		return ret;
+		if (input.length() < size) return false;
+
+		out = read(input);
+        input.advance(size);
+		return true;
 	}
 
-	static void write_to_slice(WSlice& dest, UInt48Type value)
+	static bool write_to(WSlice& dest, UInt48Type value)
 	{
+		if (dest.length() < size) return false;
+
 		write(dest, value);
 		dest.advance(size);
+		return true;
 	}
 
 	const static uint64_t max_value = 281474976710655ULL; // 2^48 -1
 	const static size_t size = 6;
 	typedef UInt48Type type_t;
+
+public:
+
+	static UInt48Type read(const uint8_t *data);
+	static void write(uint8_t *data, UInt48Type value);
 };
 
 }

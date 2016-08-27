@@ -41,17 +41,6 @@ class Bit16BE
 {
 public:
 
-	static T read(const uint8_t *data)
-	{
-		return (static_cast<T>(data[0]) << 8) | (static_cast<T>(data[1]) << 0);
-	}
-
-	static void write(uint8_t *data, T value)
-	{
-		data[0] = static_cast<uint8_t>((value >> 8) & 0xFF);
-		data[1] = static_cast<uint8_t>(value & 0xFF);
-	}
-
 	static bool write_to(WSlice &dest, T value)
 	{
 		if (dest.length() < size) return false;
@@ -75,6 +64,17 @@ public:
 	const static size_t size = sizeof(T);
 	const static T max_value;
 	const static T min_value;
+
+	inline static T read(const uint8_t *data)
+	{
+		return (static_cast<T>(data[0]) << 8) | (static_cast<T>(data[1]) << 0);
+	}
+
+	inline static void write(uint8_t *data, T value)
+	{
+		data[0] = static_cast<uint8_t>((value >> 8) & 0xFF);
+		data[1] = static_cast<uint8_t>(value & 0xFF);
+	}
 };
 
 template <class T>
@@ -87,27 +87,6 @@ template <class T>
 class Bit32BE
 {
 public:
-
-	// Endianness doesn't apply to everything. If you do bitwise or bitshift operations on an int, you don't notice the endianness.
-	// The machine arranges the multiple bytes, so the least significant byte is still the least significant byte, and the most
-	// significant byte is still the most significant byte
-
-	// This is endian independent of the machine order
-	static T read(const uint8_t *data)
-	{
-		return	(static_cast<T>(data[0]) << 24)	|
-		        (static_cast<T>(data[1]) << 16)	|
-		        (static_cast<T>(data[2]) << 8) |
-		        (static_cast<T>(data[3]) << 0);
-	}
-
-	static void write(uint8_t *data, T value)
-	{
-		data[0] = static_cast<uint8_t>((value >> 24) & 0xFF);
-		data[1] = static_cast<uint8_t>((value >> 16) & 0xFF);
-		data[2] = static_cast<uint8_t>((value >> 8) & 0xFF);
-		data[3] = static_cast<uint8_t>(value & 0xFF);
-	}
 
 	static bool write_to(WSlice& dest, T value)
 	{
@@ -132,6 +111,22 @@ public:
 	const static size_t size = sizeof(T);
 	const static T max_value;
 	const static T min_value;
+
+	inline static T read(const uint8_t *data)
+	{
+		return	(static_cast<T>(data[0]) << 24) |
+			(static_cast<T>(data[1]) << 16) |
+			(static_cast<T>(data[2]) << 8) |
+			(static_cast<T>(data[3]) << 0);
+	}
+
+	inline static void write(uint8_t *data, T value)
+	{
+		data[0] = static_cast<uint8_t>((value >> 24) & 0xFF);
+		data[1] = static_cast<uint8_t>((value >> 16) & 0xFF);
+		data[2] = static_cast<uint8_t>((value >> 8) & 0xFF);
+		data[3] = static_cast<uint8_t>(value & 0xFF);
+	}
 };
 
 template <class T>
