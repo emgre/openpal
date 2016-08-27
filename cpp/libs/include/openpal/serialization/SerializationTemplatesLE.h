@@ -52,17 +52,22 @@ public:
 		data[1] = static_cast<uint8_t>((value >> 8) & 0xFF);
 	}
 
-	static void write_to_slice(WSlice &dest, T value)
+	static bool write_to(WSlice &dest, T value)
 	{
+		if (dest.length() < size) return false;
+
 		write(dest, value);
 		dest.advance(size);
+		return true;
 	}
 
-	inline static T read_from_slice(RSlice &slice)
+	inline static bool read_from(RSlice &slice, T& out)
 	{
-		auto ret = read(slice);
+		if (dest.length() < size) return false;
+
+		out = read(slice);
         slice.advance(size);
-		return ret;
+		return true;
 	}
 
 	typedef T type_t;

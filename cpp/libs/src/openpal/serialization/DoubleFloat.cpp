@@ -40,17 +40,22 @@ union DoubleFloatUnion
 	double value;
 };
 
-double DoubleFloat::read_from_slice(RSlice &buffer)
+bool DoubleFloat::read_from(RSlice& input, double& out)
 {
-	auto ret = read(buffer);
-    buffer.advance(size);
-	return ret;
+	if (input.length() < size) return false;
+
+	out = read(input);
+    input.advance(size);
+	return true;
 }
 
-void DoubleFloat::write_to_slice(WSlice &buffer, double value)
+bool DoubleFloat::write_to(WSlice& dest, double value)
 {
-	write(buffer, value);
-	buffer.advance(size);
+	if (dest.length() < size) return false;
+
+	write(dest, value);
+	dest.advance(size);
+	return true;
 }
 
 double DoubleFloat::read(const uint8_t *data)

@@ -42,8 +42,8 @@ public:
 
 	typedef double type_t;
 
-	static double read_from_slice(RSlice &buffer);
-	static void write_to_slice(WSlice &buffer, double value);
+	static bool read_from(RSlice &buffer, double& out);
+	static bool write_to(WSlice &buffer, double value);
 
 	static double read(const uint8_t *data);
 	static void write(uint8_t *data, double value);

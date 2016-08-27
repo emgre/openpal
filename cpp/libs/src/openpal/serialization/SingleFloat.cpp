@@ -41,17 +41,22 @@ union SingleFloatUnion
 };
 
 
-float SingleFloat::read_from_slice(RSlice &slice)
+bool SingleFloat::read_from(RSlice& input, float& out)
 {
-	auto ret = read(slice);
-    slice.advance(size);
-	return ret;
+	if (input.length() < size) return false;
+
+	out = read(input);
+    input.advance(size);
+	return true;
 }
 
-void SingleFloat::write_to_slice(WSlice &dest, float value)
+bool SingleFloat::write_to(WSlice &dest, float value)
 {
+	if (dest.length() < size) return false;
+
 	write(dest, value);
 	dest.advance(size);
+	return true;
 }
 
 float SingleFloat::read(const uint8_t *data)

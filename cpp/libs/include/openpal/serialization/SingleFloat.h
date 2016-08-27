@@ -42,8 +42,8 @@ public:
 
 	typedef float type_t;
 
-	static float read_from_slice(RSlice& slice);
-	static void write_to_slice(WSlice& dest, float value);
+	static bool read_from(RSlice& slice, float& out);
+	static bool write_to(WSlice& dest, float value);
 
 	static float read(const uint8_t *data);
 	static void write(uint8_t *data, float value);

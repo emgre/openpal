@@ -43,17 +43,22 @@ public:
 		return (*start);
 	}
 
-	inline static uint8_t read_from_slice(RSlice &buffer)
+	inline static bool read_from(RSlice& input, uint8_t& out)
 	{
-		auto ret = read(buffer);
-        buffer.advance(size);
-		return ret;
+		if (input.length() < size) return false;
+
+		out = read(input);
+        input.advance(size);
+		return true;
 	}
 
-	static void write_to_slice(WSlice &buffer, uint8_t value)
+	static bool write_to(WSlice &dest, uint8_t value)
 	{
-		write(buffer, value);
-		buffer.advance(size);
+		if (dest.length() < size) return false;
+
+		write(dest, value);
+		dest.advance(size);
+		return true;
 	}
 
 	inline static void write(uint8_t* start, uint8_t value)
