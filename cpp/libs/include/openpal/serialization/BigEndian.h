@@ -25,11 +25,10 @@
 #ifndef OPENPAL_BIGENDIAN_H
 #define OPENPAL_BIGENDIAN_H
 
-#include "SerializationTemplatesBE.h"
 #include "ByteSerialization.h"
+#include "SerializationTemplatesBE.h"
 
-#include "SingleFloat.h"
-#include "DoubleFloat.h"
+#include "openpal/util/Uncopyable.h"
 
 namespace openpal
 {
@@ -39,6 +38,60 @@ typedef Bit16BE<uint16_t>	UInt16;
 typedef Bit32BE<int32_t>	Int32;
 typedef Bit32BE<uint32_t>	UInt32;
 typedef UInt8Simple			UInt8;
+
+class BigEndian : private StaticOnly
+{
+
+public:
+
+	template <class T, typename... Args>
+	static bool read(openpal::RSlice& input, T& value, Args& ... args)
+	{
+		return read_one(input, value) && read(input, args...);
+	}
+
+	template <class T, typename... Args>
+	static bool write(openpal::WSlice& dest, const T& value, const Args& ... args)
+	{
+		return write_one(dest, value) && write(dest, args...);
+	}
+
+private:
+
+	static inline bool read(openpal::RSlice& input) { return true; }
+
+	static inline bool read_one(openpal::RSlice& input, uint8_t& out) 
+	{ 
+		return UInt8::read_from(input, out);
+	}
+
+	static inline bool read_one(openpal::RSlice& input, uint16_t& out)
+	{
+		return UInt16::read_from(input, out);
+	}
+
+	static inline bool read_one(openpal::RSlice& input, uint32_t& out)
+	{
+		return UInt32::read_from(input, out);
+	}
+
+	static inline bool write(openpal::WSlice& dest) { return true; }
+
+	static inline bool write_one(openpal::WSlice& dest, const uint8_t& value) 
+	{ 
+		return UInt8::write_to(dest, value);
+	}
+
+	static inline bool write_one(openpal::WSlice& dest, const uint16_t& value)
+	{
+		return UInt16::write_to(dest, value);
+	}
+
+	static inline bool write_one(openpal::WSlice& dest, const uint32_t& value)
+	{
+		return UInt32::write_to(dest, value);
+	}
+};
 
 }
 
