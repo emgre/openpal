@@ -24,7 +24,7 @@
  */
 #include <catch.hpp>
 
-#include <testlib/BufferHelpers.h>
+#include <testlib/Hex.h>
 #include <testlib/HexConversions.h>
 
 #include <openpal/container/Buffer.h>

@@ -24,7 +24,7 @@
  */
 #include "HexConversions.h"
 
-#include "BufferHelpers.h"
+#include "Hex.h"
 
 #include <openpal/util/ToHex.h>
 #include <openpal/container/Buffer.h>

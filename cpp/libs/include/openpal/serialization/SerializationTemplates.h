@@ -83,7 +83,8 @@ template <class T, uint8_t B0, uint8_t B1>
 class Bit16
 {
 
-	static_assert((B0 < 2) && (B1 < 2) && (B0 != B1), "bad config");
+	static_assert(sizeof(T) == 2, "bad size");
+	static_assert((B0 < sizeof(T)) && (B1 < sizeof(T)) && (B0 != B1), "bad config");
 
 public:
 
@@ -135,7 +136,8 @@ const T Bit16<T, B0, B1>::min_value = openpal::min_value<T>();
 template <class T, uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3>
 class Bit32
 {
-	static_assert((B0 < 4) && (B1 < 4) && (B2 < 4) && (B3 < 4), "bad config");
+	static_assert(sizeof(T) == 4, "bad size");
+	static_assert((B0 < sizeof(T)) && (B1 < sizeof(T)) && (B2 < sizeof(T)) && (B3 < sizeof(T)), "bad config");
 
 public:
 

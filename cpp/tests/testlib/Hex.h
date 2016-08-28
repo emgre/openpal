@@ -22,22 +22,43 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "RandomizedBuffer.h"
+#ifndef TESTLIB_HEX_H
+#define TESTLIB_HEX_H
+
+#include "openpal/container/Buffer.h"
+
+#include <string>
 
 namespace openpal
 {
 
-RandomizedBuffer::RandomizedBuffer(uint32_t size) :
-	openpal::CopyableBuffer(size),
-	rand_()
+/**
+ * A sequence of hex values in the form "01 02 03 04" that are stored as a ByteStr.
+ */
+class Hex
 {
-	randomize();
+public:
+	Hex(const std::string& hex);
+
+	openpal::RSlice as_rslice() const
+	{
+		return buffer_.as_rslice();
+	}
+
+	operator openpal::RSlice () const
+	{
+		return this->as_rslice();
+	}
+
+private:
+
+	openpal::Buffer buffer_;
+
+	std::string remove_spaces(const std::string& hex);
+	void remove_spaces_in_place(std::string& hex);
+	static uint32_t validate(const std::string& sequence);
+};
+
 }
 
-void RandomizedBuffer::randomize()
-{
-	for (uint32_t i = 0; i < this->Size(); ++i) buffer_[i] = static_cast<uint8_t>(rand_.next() % 256);
-}
-
-}
-
+#endif

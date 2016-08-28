@@ -22,75 +22,75 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef TESTLIB_COPYABLEBUFFER_H
-#define TESTLIB_COPYABLEBUFFER_H
+#include "Hex.h"
 
-#include <stddef.h>
-#include <memory>
+#include <openpal/util/ToHex.h>
+
+#include "HexConversions.h"
+
+#include <exception>
+#include <stdexcept>
 #include <sstream>
 
-#include <openpal/container/RSlice.h>
+using namespace std;
 
 namespace openpal
 {
 
-/** Implements a dynamic buffer with a safe
-	copy constructor. This makes it easier to compose with
-	classes without requiring an explicit copy constructor
-*/
-class CopyableBuffer
+
+
+Hex::Hex( const std::string& hex) :
+	buffer_(validate(remove_spaces(hex)))
 {
-	friend std::ostream& operator<<(std::ostream& output, const CopyableBuffer& arBuff);
+	std::string s = remove_spaces(hex);
 
-
-public:
-	// Construct null buffer_
-	CopyableBuffer();
-	// Construct based on starting length_ of buffer_
-	CopyableBuffer(uint32_t size);
-	CopyableBuffer(const openpal::RSlice&);
-	CopyableBuffer(const uint8_t* buff, uint32_t length);
-	CopyableBuffer(const CopyableBuffer&);
-	CopyableBuffer& operator=(const CopyableBuffer&);
-	~CopyableBuffer();
-
-	bool operator==( const CopyableBuffer& other) const;
-	bool operator!=( const CopyableBuffer& other) const
+	size_t size = s.size();
+	for(size_t index = 0, pos = 0; pos < size; ++index, pos += 2)
 	{
-		return ! (*this == other);
+		uint32_t val;
+		std::stringstream ss;
+		ss << std::hex << s.substr(pos, 2);
+		if((ss >> val).fail())
+		{
+			throw std::invalid_argument(hex);
+		}
+		buffer_[index] = static_cast<uint8_t>(val);
 	}
-
-	openpal::RSlice as_rslice() const
-	{
-		return openpal::RSlice(buffer_, length_);
-	}
-
-	operator const uint8_t* () const
-	{
-		return buffer_;
-	}
-
-	operator uint8_t* ()
-	{
-		return buffer_;
-	}
-
-	uint32_t Size() const
-	{
-		return length_;
-	}
-
-	void zero();
-
-protected:
-	uint8_t* buffer_;
-
-private:
-	uint32_t length_;
-};
-
 }
 
-#endif
+std::string Hex::remove_spaces(const std::string &hex)
+{
+	std::string copy(hex);
+	remove_spaces_in_place(copy);
+	return copy;
+}
+
+void Hex::remove_spaces_in_place(std::string &hex)
+{
+	size_t pos = hex.find_first_of(' ');
+	if(pos != string::npos)
+	{
+		hex.replace(pos, 1, "");
+		remove_spaces_in_place(hex);
+	}
+}
+
+uint32_t Hex::validate(const std::string &sequence)
+{
+	//annoying when you accidentally put an 'O' instead of zero '0'
+	if(sequence.find_first_of( "oO") != string::npos)
+	{
+		throw std::invalid_argument("Sequence contains 'o' or 'O'");
+	}
+
+	if(sequence.size() % 2 != 0)
+	{
+		throw std::invalid_argument(sequence);
+	}
+
+	return static_cast<uint32_t>(sequence.size() / 2);
+}
+
+}
 
 
