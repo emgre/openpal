@@ -39,6 +39,8 @@ bool TestReadWrite(typename T::type_t value, std::initializer_list<uint8_t> expe
 	auto dest = buffer.as_wslice();
 	if (!T::write_to(dest, value)) return false;
 
+	if(dest.is_not_empty()) return false;
+
 	if (expected.size() != T::size) {
 		return false;
 	}
@@ -54,7 +56,9 @@ bool TestReadWrite(typename T::type_t value, std::initializer_list<uint8_t> expe
 
 	typename T::type_t read_value;
 
-	return T::read_from(buffer.as_rslice(), read_value) && (read_value == value);
+	auto input = buffer.as_rslice();
+
+	return T::read_from(input, read_value) && input.is_empty() && (read_value == value);
 
 }
 
