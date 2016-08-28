@@ -26,18 +26,18 @@
 #define OPENPAL_BIGENDIAN_H
 
 #include "ByteSerialization.h"
-#include "SerializationTemplatesBE.h"
+#include "SerializationTemplates.h"
 
 #include "openpal/util/Uncopyable.h"
 
 namespace openpal
 {
 
-typedef Bit16BE<int16_t>	Int16;
-typedef Bit16BE<uint16_t>	UInt16;
-typedef Bit32BE<int32_t>	Int32;
-typedef Bit32BE<uint32_t>	UInt32;
-typedef UInt8Simple			UInt8;
+typedef Bit16<int16_t, 1, 0>			Int16;
+typedef Bit16<uint16_t, 1, 0>			UInt16;
+typedef Bit32<int32_t, 3, 2, 1, 0>		Int32;
+typedef Bit32<uint32_t, 3, 2, 1, 0>		UInt32;
+typedef UInt8Simple						UInt8;
 
 class BigEndian : private StaticOnly
 {

@@ -22,8 +22,8 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef OPENPAL_SERIALIZATIONTEMPLATESBE_H
-#define OPENPAL_SERIALIZATIONTEMPLATESBE_H
+#ifndef OPENPAL_SERIALIZATIONTEMPLATES_H
+#define OPENPAL_SERIALIZATIONTEMPLATES_H
 
 #include <cstdint>
 #include <cstring>
@@ -36,15 +36,18 @@
 namespace openpal
 {
 
-template <class T>
-class Bit16BE
+template <class T, uint8_t B0, uint8_t B1>
+class Bit16
 {
+
+	static_assert((B0 < 2) && (B1 < 2) && (B0 != B1), "bad config");
+
 public:
 
 	static bool write_to(WSlice &dest, T value)
 	{
 		if (dest.length() < size) return false;
-		
+
 		write(dest, value);
 		dest.advance(size);
 		return true;
@@ -67,27 +70,30 @@ public:
 
 private:
 
-	inline static T read(const uint8_t *data)
+	static T read(const uint8_t *data)
 	{
-		return (static_cast<T>(data[0]) << 8) | (static_cast<T>(data[1]) << 0);
+		return (static_cast<T>(data[B0]) << 0) | (static_cast<T>(data[B1]) << 8);
 	}
 
-	inline static void write(uint8_t *data, T value)
+	static void write(uint8_t *data, T value)
 	{
-		data[0] = static_cast<uint8_t>((value >> 8) & 0xFF);
-		data[1] = static_cast<uint8_t>(value & 0xFF);
+		data[B0] = static_cast<uint8_t>(value & 0xFF);
+		data[B1] = static_cast<uint8_t>((value >> 8) & 0xFF);
 	}
+
 };
 
-template <class T>
-const T Bit16BE<T>::max_value = openpal::max_value<T>();
+template <class T, uint8_t B0, uint8_t B1>
+const T Bit16<T, B0, B1>::max_value = openpal::max_value<T>();
 
-template <class T>
-const T Bit16BE<T>::min_value = openpal::min_value<T>();
+template <class T, uint8_t B0, uint8_t B1>
+const T Bit16<T, B0, B1>::min_value = openpal::min_value<T>();
 
-template <class T>
-class Bit32BE
+template <class T, uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3>
+class Bit32
 {
+	static_assert((B0 < 4) && (B1 < 4) && (B2 < 4) && (B3 < 4), "bad config");
+
 public:
 
 	static bool write_to(WSlice& dest, T value)
@@ -99,7 +105,7 @@ public:
 		return true;
 	}
 
-	inline static bool read_from(RSlice& input, T& out)
+	inline static bool read_from(RSlice &input, T& out)
 	{
 		if (input.length() < size) return false;
 
@@ -116,28 +122,28 @@ public:
 
 private:
 
-	inline static T read(const uint8_t *data)
+	static T read(const uint8_t *data)
 	{
-		return	(static_cast<T>(data[0]) << 24) |
-			(static_cast<T>(data[1]) << 16) |
-			(static_cast<T>(data[2]) << 8) |
-			(static_cast<T>(data[3]) << 0);
+		return	(static_cast<T>(data[B0]) << 0) |
+			(static_cast<T>(data[B1]) << 8) |
+			(static_cast<T>(data[B2]) << 16) |
+			(static_cast<T>(data[B3]) << 24);
 	}
 
-	inline static void write(uint8_t *data, T value)
+	static void write(uint8_t *data, T value)
 	{
-		data[0] = static_cast<uint8_t>((value >> 24) & 0xFF);
-		data[1] = static_cast<uint8_t>((value >> 16) & 0xFF);
-		data[2] = static_cast<uint8_t>((value >> 8) & 0xFF);
-		data[3] = static_cast<uint8_t>(value & 0xFF);
+		data[B0] = static_cast<uint8_t>(value & 0xFF);
+		data[B1] = static_cast<uint8_t>((value >> 8) & 0xFF);
+		data[B2] = static_cast<uint8_t>((value >> 16) & 0xFF);
+		data[B3] = static_cast<uint8_t>((value >> 24) & 0xFF);
 	}
 };
 
-template <class T>
-const T Bit32BE<T>::max_value = openpal::max_value<T>();
+template <class T, uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3>
+const T Bit32<T, B0, B1, B2, B3>::max_value = openpal::max_value<T>();
 
-template <class T>
-const T Bit32BE<T>::min_value = openpal::min_value<T>();
+template <class T, uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3>
+const T Bit32<T, B0, B1, B2, B3>::min_value = openpal::min_value<T>();
 
 }
 

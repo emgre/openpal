@@ -26,18 +26,18 @@
 #define OPENPAL_LITTLEENDIAN_H
 
 #include "UInt48LE.h"
-#include "SerializationTemplatesLE.h"
+#include "SerializationTemplates.h"
 #include "ByteSerialization.h"
 
 namespace openpal
 {
 
-typedef Bit16LE<int16_t>	Int16;
-typedef Bit16LE<uint16_t>	UInt16;
-typedef Bit32LE<int32_t>	Int32;
-typedef Bit32LE<uint32_t>	UInt32;
-typedef UInt48LE			UInt48;
-typedef UInt8Simple			UInt8;
+typedef Bit16<int16_t, 0, 1>			Int16;
+typedef Bit16<uint16_t, 0, 1>			UInt16;
+typedef Bit32<int32_t, 0, 1, 2, 3>		Int32;
+typedef Bit32<uint32_t, 0, 1, 2, 3>		UInt32;
+typedef UInt48LE						UInt48;
+typedef UInt8Simple						UInt8;
 
 
 }
