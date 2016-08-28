@@ -25,9 +25,7 @@
 #ifndef OPENPAL_LITTLEENDIAN_H
 #define OPENPAL_LITTLEENDIAN_H
 
-#include "UInt48LE.h"
-#include "SerializationTemplates.h"
-#include "ByteSerialization.h"
+#include "EndianHelpers.h"
 
 namespace openpal
 {
@@ -36,9 +34,9 @@ typedef Bit16<int16_t, 0, 1>			Int16;
 typedef Bit16<uint16_t, 0, 1>			UInt16;
 typedef Bit32<int32_t, 0, 1, 2, 3>		Int32;
 typedef Bit32<uint32_t, 0, 1, 2, 3>		UInt32;
-typedef UInt48LE						UInt48;
-typedef UInt8Simple						UInt8;
+typedef UBit48<	0, 1, 2, 3, 4, 5>		UInt48;
 
+typedef EndianHelpers<Int16, UInt16, Int32, UInt32>	BigEndian;
 
 }
 
