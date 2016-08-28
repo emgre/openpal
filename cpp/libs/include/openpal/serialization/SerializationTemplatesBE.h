@@ -65,6 +65,8 @@ public:
 	const static T max_value;
 	const static T min_value;
 
+private:
+
 	inline static T read(const uint8_t *data)
 	{
 		return (static_cast<T>(data[0]) << 8) | (static_cast<T>(data[1]) << 0);
@@ -111,6 +113,8 @@ public:
 	const static size_t size = sizeof(T);
 	const static T max_value;
 	const static T min_value;
+
+private:
 
 	inline static T read(const uint8_t *data)
 	{

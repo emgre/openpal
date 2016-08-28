@@ -29,9 +29,6 @@
 #include "SerializationTemplatesLE.h"
 #include "ByteSerialization.h"
 
-#include "SingleFloat.h"
-#include "DoubleFloat.h"
-
 namespace openpal
 {
 
