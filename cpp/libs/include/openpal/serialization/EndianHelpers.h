@@ -31,80 +31,86 @@
 namespace openpal
 {
 
-template <class Int16Type, class UInt16Type, class Int32Type, class UInt32Type>
-class EndianHelpers : private StaticOnly
-{
+    template <class Int16Type, class UInt16Type, class Int32Type, class UInt32Type>
+    class EndianHelpers : private StaticOnly
+    {
 
-public:
+    public:
 
-	template <class T, typename... Args>
-	static bool read(openpal::RSlice& input, T& value, Args& ... args)
-	{
-		return read_one(input, value) && read(input, args...);
-	}
+        template <class T, typename... Args>
+        static bool read(openpal::RSlice& input, T& value, Args& ... args)
+        {
+            return read_one(input, value) && read(input, args...);
+        }
 
-	template <class T, typename... Args>
-	static bool write(openpal::WSlice& dest, const T& value, const Args& ... args)
-	{
-		return write_one(dest, value) && write(dest, args...);
-	}
+        template <class T, typename... Args>
+        static bool write(openpal::WSlice& dest, const T& value, const Args& ... args)
+        {
+            return write_one(dest, value) && write(dest, args...);
+        }
 
-private:
+    private:
 
-	static inline bool read(openpal::RSlice& input) { return true; }
+        static inline bool read(openpal::RSlice& input)
+        {
+            return true;
+        }
 
-	static inline bool read_one(openpal::RSlice& input, uint8_t& out) 
-	{ 
-		return UInt8::read_from(input, out);
-	}
+        static inline bool read_one(openpal::RSlice& input, uint8_t& out)
+        {
+            return UInt8::read_from(input, out);
+        }
 
-	static inline bool read_one(openpal::RSlice& input, int16_t& out)
-	{
-		return Int16Type::read_from(input, out);
-	}
+        static inline bool read_one(openpal::RSlice& input, int16_t& out)
+        {
+            return Int16Type::read_from(input, out);
+        }
 
-	static inline bool read_one(openpal::RSlice& input, uint16_t& out)
-	{
-		return UInt16Type::read_from(input, out);
-	}
+        static inline bool read_one(openpal::RSlice& input, uint16_t& out)
+        {
+            return UInt16Type::read_from(input, out);
+        }
 
-	static inline bool read_one(openpal::RSlice& input, int32_t& out)
-	{
-		return Int32Type::read_from(input, out);
-	}
+        static inline bool read_one(openpal::RSlice& input, int32_t& out)
+        {
+            return Int32Type::read_from(input, out);
+        }
 
-	static inline bool read_one(openpal::RSlice& input, uint32_t& out)
-	{
-		return UInt32Type::read_from(input, out);
-	}
+        static inline bool read_one(openpal::RSlice& input, uint32_t& out)
+        {
+            return UInt32Type::read_from(input, out);
+        }
 
-	static inline bool write(openpal::WSlice& dest) { return true; }
+        static inline bool write(openpal::WSlice& dest)
+        {
+            return true;
+        }
 
-	static inline bool write_one(openpal::WSlice& dest, const uint8_t& value) 
-	{ 
-		return UInt8::write_to(dest, value);
-	}
+        static inline bool write_one(openpal::WSlice& dest, const uint8_t& value)
+        {
+            return UInt8::write_to(dest, value);
+        }
 
-	static inline bool write_one(openpal::WSlice& dest, const int16_t& value)
-	{
-		return Int16Type::write_to(dest, value);
-	}
+        static inline bool write_one(openpal::WSlice& dest, const int16_t& value)
+        {
+            return Int16Type::write_to(dest, value);
+        }
 
-	static inline bool write_one(openpal::WSlice& dest, const uint16_t& value)
-	{
-		return UInt16Type::write_to(dest, value);
-	}
+        static inline bool write_one(openpal::WSlice& dest, const uint16_t& value)
+        {
+            return UInt16Type::write_to(dest, value);
+        }
 
-	static inline bool write_one(openpal::WSlice& dest, const int32_t& value)
-	{
-		return Int32Type::write_to(dest, value);
-	}
+        static inline bool write_one(openpal::WSlice& dest, const int32_t& value)
+        {
+            return Int32Type::write_to(dest, value);
+        }
 
-	static inline bool write_one(openpal::WSlice& dest, const uint32_t& value)
-	{
-		return UInt32Type::write_to(dest, value);
-	}
-};
+        static inline bool write_one(openpal::WSlice& dest, const uint32_t& value)
+        {
+            return UInt32Type::write_to(dest, value);
+        }
+    };
 
 }
 

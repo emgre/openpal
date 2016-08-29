@@ -26,38 +26,38 @@
 
 namespace openpal
 {
-Buffer::Buffer() : Array<uint8_t, uint32_t>(0)
-{}
+    Buffer::Buffer() : Array<uint8_t, uint32_t>(0)
+    {}
 
-Buffer::Buffer(uint32_t size) : Array<uint8_t, uint32_t>(size)
-{}
+    Buffer::Buffer(uint32_t size) : Array<uint8_t, uint32_t>(size)
+    {}
 
-Buffer::Buffer(const RSlice& input) : Array<uint8_t, uint32_t>(input.length())
-{
-	auto dest = this->as_wslice();
-	input.copy_to(dest);
-}
+    Buffer::Buffer(const RSlice& input) : Array<uint8_t, uint32_t>(input.length())
+    {
+        auto dest = this->as_wslice();
+        input.copy_to(dest);
+    }
 
-RSlice Buffer::as_rslice() const
-{
-	return RSlice(this->buffer_, this->length_);
-}
+    RSlice Buffer::as_rslice() const
+    {
+        return RSlice(this->buffer_, this->length_);
+    }
 
-WSlice Buffer::as_wslice()
-{
-	return WSlice(this->buffer_, this->length());
-}
+    WSlice Buffer::as_wslice()
+    {
+        return WSlice(this->buffer_, this->length());
+    }
 
-WSlice Buffer::as_wslice(uint32_t max_size)
-{
-	if (max_size <= this->length())
-	{
-		return WSlice(this->buffer_, max_size);
-	}
-	else
-	{
-		return as_wslice();
-	}
-}
+    WSlice Buffer::as_wslice(uint32_t max_size)
+    {
+        if (max_size <= this->length())
+        {
+            return WSlice(this->buffer_, max_size);
+        }
+        else
+        {
+            return as_wslice();
+        }
+    }
 }
 

@@ -28,29 +28,29 @@
 namespace openpal
 {
 
-/** Inherited classes will not have default copy/assignment.
-*/
-class Uncopyable
-{
-protected:
-	Uncopyable() {} //allow construction/destruction
-	~Uncopyable() {}
+    /** Inherited classes will not have default copy/assignment.
+    */
+    class Uncopyable
+    {
+    protected:
+        Uncopyable() {} //allow construction/destruction
+        ~Uncopyable() {}
 
-private:
-	// prevent these functions
-	Uncopyable(const Uncopyable&) = delete;
-	Uncopyable& operator=(const Uncopyable&) = delete;
-};
+    private:
+        // prevent these functions
+        Uncopyable(const Uncopyable&) = delete;
+        Uncopyable& operator=(const Uncopyable&) = delete;
+    };
 
-class StaticOnly
-{
+    class StaticOnly
+    {
 
-private:
-	// prevent these functions
-	StaticOnly() = delete;
-	StaticOnly(const StaticOnly&) = delete;
-	StaticOnly& operator=(const StaticOnly&) = delete;
-};
+    private:
+        // prevent these functions
+        StaticOnly() = delete;
+        StaticOnly(const StaticOnly&) = delete;
+        StaticOnly& operator=(const StaticOnly&) = delete;
+    };
 
 }
 

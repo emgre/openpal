@@ -32,25 +32,25 @@
 namespace openpal
 {
 
-struct FloatByteOrder : private StaticOnly
-{
-	enum class Value : uint8_t
-	{
-	    normal,
-	    reverse,
-	    unsupported
-	};
+    struct FloatByteOrder : private StaticOnly
+    {
+        enum class Value : uint8_t
+        {
+            normal,
+            reverse,
+            unsupported
+        };
 
-	static const Value order;
+        static const Value order;
 
-private:
+    private:
 
-	static Value get_byte_order();
+        static Value get_byte_order();
 
-	static bool is_normal_byte_order();
-	static bool is_reverse_byte_order();
+        static bool is_normal_byte_order();
+        static bool is_reverse_byte_order();
 
-};
+    };
 
 }
 

@@ -30,17 +30,17 @@
 namespace openpal
 {
 
-char* allocate_copy(char const *src)
-{
-	auto size = strlen(src) + 1;
-	char* tmp = new char[size];
+    char* allocate_copy(char const* src)
+    {
+        auto size = strlen(src) + 1;
+        char* tmp = new char[size];
 #ifdef WIN32
-	strcpy_s(tmp, size, src);
+        strcpy_s(tmp, size, src);
 #else
-	strcpy(tmp, src);
+        strcpy(tmp, src);
 #endif
-	return tmp;
-}
+        return tmp;
+    }
 
 
 }

@@ -30,42 +30,42 @@
 namespace openpal
 {
 
-// Use this class to simplify writing do loops with a timeout
-// it minimizes the number of calls to get datetime and allows
-// us to easily replace the implementation later if we find an
-// even more effecient way to implement the timeout checking.
-//
-// Intended Usage:
-//
-// Timeout to(5000);
-// do{
-//	  //call some subordinate slow function
-//	  bool success = WaitForInput(to.remaining());
-//
-//		//do something on success
-//		if(success) return or break;
-//
-//		//or go back around the loop, the next_ call to
-//		//remaining will be guarnteed to be > 0
-// }while(!to.is_expired());
-class Timeout
-{
-public:
-	// constuctor, timeout will expire this many mills in the future
-	Timeout(std::chrono::steady_clock::duration timeout);
+    // Use this class to simplify writing do loops with a timeout
+    // it minimizes the number of calls to get datetime and allows
+    // us to easily replace the implementation later if we find an
+    // even more effecient way to implement the timeout checking.
+    //
+    // Intended Usage:
+    //
+    // Timeout to(5000);
+    // do{
+    //	  //call some subordinate slow function
+    //	  bool success = WaitForInput(to.remaining());
+    //
+    //		//do something on success
+    //		if(success) return or break;
+    //
+    //		//or go back around the loop, the next_ call to
+    //		//remaining will be guarnteed to be > 0
+    // }while(!to.is_expired());
+    class Timeout
+    {
+    public:
+        // constuctor, timeout will expire this many mills in the future
+        Timeout(std::chrono::steady_clock::duration timeout);
 
-	// returns whether its expired
-	bool is_expired() const;
+        // returns whether its expired
+        bool is_expired() const;
 
-	// returns how much time is left
-	std::chrono::steady_clock::duration remaining() const;
+        // returns how much time is left
+        std::chrono::steady_clock::duration remaining() const;
 
 
-private:
+    private:
 
-	std::chrono::steady_clock::time_point expire_time_;
+        std::chrono::steady_clock::time_point expire_time_;
 
-};
+    };
 
 
 }

@@ -35,99 +35,99 @@
 namespace openpal
 {
 
-/**
-* Template type for a dynamically allocated array
-*/
-template <class ValueType, class IndexType>
-class Array : public HasLength<IndexType>, private openpal::Uncopyable
-{
+    /**
+    * Template type for a dynamically allocated array
+    */
+    template <class ValueType, class IndexType>
+    class Array : public HasLength<IndexType>, private openpal::Uncopyable
+    {
 
-public:
+    public:
 
-	Array(IndexType size) :
-		HasLength<IndexType>(size),
-		buffer_(new ValueType[size]())
-	{}
+        Array(IndexType size) :
+            HasLength<IndexType>(size),
+            buffer_(new ValueType[size]())
+        {}
 
-	Array() :
-		HasLength<IndexType>(0),
-		buffer_(nullptr)
-	{}
+        Array() :
+            HasLength<IndexType>(0),
+            buffer_(nullptr)
+        {}
 
-	Array(const Array& copy) :
-		HasLength<IndexType>(copy.length()),
-		buffer_(new ValueType[copy.length()])
-	{
-		for(IndexType i = 0; i < copy.length(); ++i) buffer_[i] = copy.buffer_[i];
-	}
+        Array(const Array& copy) :
+            HasLength<IndexType>(copy.length()),
+            buffer_(new ValueType[copy.length()])
+        {
+            for(IndexType i = 0; i < copy.length(); ++i) buffer_[i] = copy.buffer_[i];
+        }
 
-	ArrayView<ValueType, IndexType> get_view() const
-	{
-		return ArrayView<ValueType, IndexType>(buffer_, this->length_);
-	}
+        ArrayView<ValueType, IndexType> get_view() const
+        {
+            return ArrayView<ValueType, IndexType>(buffer_, this->length_);
+        }
 
-	inline bool contains(IndexType index) const
-	{
-		return index < this->length_;
-	}
+        inline bool contains(IndexType index) const
+        {
+            return index < this->length_;
+        }
 
-	inline ValueType& operator[](IndexType index)
-	{
-		assert(index < this->length_);
-		return buffer_[index];
-	}
+        inline ValueType& operator[](IndexType index)
+        {
+            assert(index < this->length_);
+            return buffer_[index];
+        }
 
-	const ValueType& operator[](IndexType index) const
-	{
-		assert(index < this->length_);
-		return buffer_[index];
-	}
+        const ValueType& operator[](IndexType index) const
+        {
+            assert(index < this->length_);
+            return buffer_[index];
+        }
 
-	void resize(IndexType aSize)
-	{
-		delete[] buffer_;
-		buffer_ = new ValueType[aSize];
-		this->length_ = aSize;
-	}
+        void resize(IndexType aSize)
+        {
+            delete[] buffer_;
+            buffer_ = new ValueType[aSize];
+            this->length_ = aSize;
+        }
 
-	template <class Action>
-	void foreach(const Action& action) const
-	{
-		for(IndexType i = 0; i < this->length_; ++i) action(buffer_[i]);
-	}
+        template <class Action>
+        void foreach(const Action& action) const
+        {
+            for(IndexType i = 0; i < this->length_; ++i) action(buffer_[i]);
+        }
 
-	template <class Action>
-	void foreach(const Action& action)
-	{
-		for(IndexType i = 0; i < this->length_; ++i) action(buffer_[i]);
-	}
+        template <class Action>
+        void foreach(const Action& action)
+        {
+            for(IndexType i = 0; i < this->length_; ++i) action(buffer_[i]);
+        }
 
-	template <class Action>
-	void foreachIndex(const Action& action)
-	{
-		for(IndexType i = 0; i < this->length_; ++i) action(buffer_[i], i);
-	}
+        template <class Action>
+        void foreachIndex(const Action& action)
+        {
+            for(IndexType i = 0; i < this->length_; ++i) action(buffer_[i], i);
+        }
 
 
-	template <class Action>
-	void foreachIndex(const Action& action) const
-	{
-		for(uint32_t i = 0; i < this->length_; ++i) action(buffer_[i], i);
-	}
+        template <class Action>
+        void foreachIndex(const Action& action) const
+        {
+            for(uint32_t i = 0; i < this->length_; ++i) action(buffer_[i], i);
+        }
 
-	virtual ~Array()
-	{
-		delete[] buffer_;
-	}
+        virtual ~Array()
+        {
+            delete[] buffer_;
+        }
 
-protected:
+    protected:
 
-	ValueType* buffer_;
+        ValueType* buffer_;
 
-private:
+    private:
 
-	Array& operator=(const Array&);
-};
+        Array& operator=(const Array&);
+    };
 
 }
 

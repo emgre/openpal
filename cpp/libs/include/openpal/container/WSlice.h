@@ -32,45 +32,45 @@
 namespace openpal
 {
 
-class RSlice;
+    class RSlice;
 
-/**
-*	Represents a write-able slice of a buffer located elsewhere. Mediates writing to the buffer
-*	to prevent overruns and other errors.
-*/
-class WSlice : public HasLength<uint32_t>
-{
-public:
+    /**
+    *	Represents a write-able slice of a buffer located elsewhere. Mediates writing to the buffer
+    *	to prevent overruns and other errors.
+    */
+    class WSlice : public HasLength<uint32_t>
+    {
+    public:
 
-	static WSlice empty_slice();
+        static WSlice empty_slice();
 
-	void set_all_to(uint8_t value);
+        void set_all_to(uint8_t value);
 
-	WSlice();
-	WSlice(uint8_t* buffer, uint32_t length);
+        WSlice();
+        WSlice(uint8_t* buffer, uint32_t length);
 
-	void make_empty();
+        void make_empty();
 
-	uint32_t advance(uint32_t count);
+        uint32_t advance(uint32_t count);
 
-	WSlice skip(uint32_t count) const;
+        WSlice skip(uint32_t count) const;
 
-	RSlice as_rslice() const;
+        RSlice as_rslice() const;
 
-	operator uint8_t* ()
-	{
-		return buffer_;
-	};
+        operator uint8_t* ()
+        {
+            return buffer_;
+        };
 
-	operator uint8_t const* () const
-	{
-		return buffer_;
-	};
+        operator uint8_t const* () const
+        {
+            return buffer_;
+        };
 
-private:
+    private:
 
-	uint8_t* buffer_;
-};
+        uint8_t* buffer_;
+    };
 
 
 }

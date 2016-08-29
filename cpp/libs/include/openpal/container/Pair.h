@@ -28,18 +28,18 @@
 namespace openpal
 {
 
-template <class A, class B>
-struct Pair
-{
+    template <class A, class B>
+    struct Pair
+    {
 
-public:
+    public:
 
-	Pair(const A& first_, const B& second_) : first(first_), second(second_)
-	{}
+        Pair(const A& first_, const B& second_) : first(first_), second(second_)
+        {}
 
-	A first;
-	B second;
-};
+        A first;
+        B second;
+    };
 
 }
 

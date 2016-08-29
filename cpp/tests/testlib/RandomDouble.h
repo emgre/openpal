@@ -30,24 +30,24 @@
 namespace openpal
 {
 
-class RandomDouble
-{
+    class RandomDouble
+    {
 
-public:
-	RandomDouble() :
-		rng_(),
-		distribution_(0.0, 1.0)
-	{}
+    public:
+        RandomDouble() :
+            rng_(),
+            distribution_(0.0, 1.0)
+        {}
 
-	double next()
-	{
-		return distribution_(rng_);
-	}
+        double next()
+        {
+            return distribution_(rng_);
+        }
 
-private:
-	std::mt19937 rng_;
-	std::uniform_real_distribution<double> distribution_;
-};
+    private:
+        std::mt19937 rng_;
+        std::uniform_real_distribution<double> distribution_;
+    };
 
 }
 

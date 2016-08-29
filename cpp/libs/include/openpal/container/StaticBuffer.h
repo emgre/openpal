@@ -35,53 +35,53 @@
 namespace openpal
 {
 
-template <uint32_t SIZE>
-class StaticBuffer final
-{
+    template <uint32_t SIZE>
+    class StaticBuffer final
+    {
 
-public:
+    public:
 
-	StaticBuffer()
-	{}
+        StaticBuffer()
+        {}
 
-	RSlice as_rslice() const
-	{
-		return RSlice(buffer_, SIZE);
-	}
+        RSlice as_rslice() const
+        {
+            return RSlice(buffer_, SIZE);
+        }
 
-	RSlice as_rslice(uint32_t max_size) const
-	{
-		return RSlice(buffer_, openpal::min(SIZE, max_size));
-	}
+        RSlice as_rslice(uint32_t max_size) const
+        {
+            return RSlice(buffer_, openpal::min(SIZE, max_size));
+        }
 
-	WSlice as_wslice()
-	{
-		return WSlice(buffer_, SIZE);
-	}
+        WSlice as_wslice()
+        {
+            return WSlice(buffer_, SIZE);
+        }
 
-	WSlice GetWSlice(uint32_t max_size)
-	{
-		return WSlice(buffer_, openpal::min(SIZE, max_size));
-	}
+        WSlice GetWSlice(uint32_t max_size)
+        {
+            return WSlice(buffer_, openpal::min(SIZE, max_size));
+        }
 
-	const uint8_t* operator()() const
-	{
-		return buffer_;
-	}
+        const uint8_t* operator()() const
+        {
+            return buffer_;
+        }
 
-	uint8_t* operator()()
-	{
-		return buffer_;
-	}
+        uint8_t* operator()()
+        {
+            return buffer_;
+        }
 
-	uint32_t size() const
-	{
-		return SIZE;
-	}
+        uint32_t size() const
+        {
+            return SIZE;
+        }
 
-private:
-	uint8_t buffer_[SIZE];
-};
+    private:
+        uint8_t buffer_[SIZE];
+    };
 
 }
 

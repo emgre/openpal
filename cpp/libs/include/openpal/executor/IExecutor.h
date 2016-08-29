@@ -35,31 +35,31 @@
 namespace openpal
 {
 
-typedef std::function<void ()> action_t;
+    typedef std::function<void ()> action_t;
 
-/**
- * Interface for posting events to a queue.  Events can be posted for
- * immediate consumption or some time in the future.  Events are processed
- * in the order they are received.
- *
- */
-class IExecutor : public IMonotonicTimeSource
-{
+    /**
+     * Interface for posting events to a queue.  Events can be posted for
+     * immediate consumption or some time in the future.  Events are processed
+     * in the order they are received.
+     *
+     */
+    class IExecutor : public IMonotonicTimeSource
+    {
 
-public:
+    public:
 
-	virtual ~IExecutor() {}
+        virtual ~IExecutor() {}
 
-	/// @return a new timer based on a relative time duration
-	virtual ITimer* start(const TimeDuration &duration, const action_t &action) = 0;
+        /// @return a new timer based on a relative time duration
+        virtual ITimer* start(const TimeDuration& duration, const action_t& action) = 0;
 
-	/// @return a new timer based on an absolute timestamp of the monotonic clock
-	virtual ITimer* start(const Timestamp &expiration, const action_t &action) = 0;
+        /// @return a new timer based on an absolute timestamp of the monotonic clock
+        virtual ITimer* start(const Timestamp& expiration, const action_t& action) = 0;
 
-	/// @return Thread-safe way to post an event to be handled asynchronously
-	virtual void post(const action_t &action) = 0;
+        /// @return Thread-safe way to post an event to be handled asynchronously
+        virtual void post(const action_t& action) = 0;
 
-};
+    };
 
 }
 

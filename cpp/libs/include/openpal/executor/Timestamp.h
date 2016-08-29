@@ -32,30 +32,30 @@
 namespace openpal
 {
 
-/**
-*  Strong typing for millisecond-based monotonic timestamps
-*/
-struct Timestamp
-{
+    /**
+    *  Strong typing for millisecond-based monotonic timestamps
+    */
+    struct Timestamp
+    {
 
-public:
+    public:
 
-	static Timestamp max_value();
-	static Timestamp min_value();
+        static Timestamp max_value();
+        static Timestamp min_value();
 
-	bool is_max_value() const;
-	bool is_min_value() const;
+        bool is_max_value() const;
+        bool is_min_value() const;
 
-	Timestamp();
-	explicit Timestamp(int64_t milliseconds);
-	Timestamp add(const TimeDuration &duration) const;
+        Timestamp();
+        explicit Timestamp(int64_t milliseconds);
+        Timestamp add(const TimeDuration& duration) const;
 
-	int64_t milliseconds;
-};
+        int64_t milliseconds;
+    };
 
-bool operator==(const Timestamp& first, const Timestamp& second);
-bool operator<(const Timestamp& first, const Timestamp& second);
-bool operator>(const Timestamp& first, const Timestamp& second);
+    bool operator==(const Timestamp& first, const Timestamp& second);
+    bool operator<(const Timestamp& first, const Timestamp& second);
+    bool operator>(const Timestamp& first, const Timestamp& second);
 
 
 }

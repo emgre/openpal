@@ -27,84 +27,84 @@
 namespace openpal
 {
 
-TimerRef::TimerRef(openpal::IExecutor& executor) : executor_(&executor), timer_(nullptr)
-{}
+    TimerRef::TimerRef(openpal::IExecutor& executor) : executor_(&executor), timer_(nullptr)
+    {}
 
-TimerRef::~TimerRef()
-{
-	this->cancel();
-}
+    TimerRef::~TimerRef()
+    {
+        this->cancel();
+    }
 
 
-bool TimerRef::is_active() const
-{
-	return (timer_ != nullptr);
-}
+    bool TimerRef::is_active() const
+    {
+        return (timer_ != nullptr);
+    }
 
-Timestamp TimerRef::expires_at() const
-{
-	return timer_ ? timer_->expires_at() : Timestamp::max_value();
-}
+    Timestamp TimerRef::expires_at() const
+    {
+        return timer_ ? timer_->expires_at() : Timestamp::max_value();
+    }
 
-bool TimerRef::cancel()
-{
-	if (timer_)
-	{
-		timer_->cancel();
-		timer_ = nullptr;
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
+    bool TimerRef::cancel()
+    {
+        if (timer_)
+        {
+            timer_->cancel();
+            timer_ = nullptr;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
-bool TimerRef::start(const TimeDuration &timeout, const action_t &action)
-{
-	if (timer_)
-	{
-		return false;
-	}
-	else
-	{
-		timer_ = executor_->start(timeout, action);
-		return true;
-	}
-}
+    bool TimerRef::start(const TimeDuration& timeout, const action_t& action)
+    {
+        if (timer_)
+        {
+            return false;
+        }
+        else
+        {
+            timer_ = executor_->start(timeout, action);
+            return true;
+        }
+    }
 
-bool TimerRef::start(const Timestamp &expiration, const action_t &action)
-{
-	if (timer_)
-	{
-		return false;
-	}
-	else
-	{
-		timer_ = executor_->start(expiration, action);
-		return true;
-	}
-}
+    bool TimerRef::start(const Timestamp& expiration, const action_t& action)
+    {
+        if (timer_)
+        {
+            return false;
+        }
+        else
+        {
+            timer_ = executor_->start(expiration, action);
+            return true;
+        }
+    }
 
-void TimerRef::restart(const TimeDuration &timeout, const action_t &action)
-{
-	if (timer_)
-	{
-		timer_->cancel();
-	}
+    void TimerRef::restart(const TimeDuration& timeout, const action_t& action)
+    {
+        if (timer_)
+        {
+            timer_->cancel();
+        }
 
-	timer_ = executor_->start(timeout, action);
-}
+        timer_ = executor_->start(timeout, action);
+    }
 
-void TimerRef::restart(const Timestamp &expiration, const action_t &action)
-{
-	if (timer_)
-	{
-		timer_->cancel();
-	}
+    void TimerRef::restart(const Timestamp& expiration, const action_t& action)
+    {
+        if (timer_)
+        {
+            timer_->cancel();
+        }
 
-	timer_ = executor_->start(expiration, action);
-}
+        timer_ = executor_->start(expiration, action);
+    }
 
 }
 

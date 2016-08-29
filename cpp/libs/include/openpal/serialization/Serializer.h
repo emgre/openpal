@@ -33,52 +33,52 @@
 namespace openpal
 {
 
-template <class T>
-class Serializer
-{
-public:
+    template <class T>
+    class Serializer
+    {
+    public:
 
-	typedef bool (*read_func_t)(RSlice& buffer, T& output);
-	typedef bool (*write_func_t)(const T& value, WSlice& buffer);
+        typedef bool (*read_func_t)(RSlice& buffer, T& output);
+        typedef bool (*write_func_t)(const T& value, WSlice& buffer);
 
-	Serializer() : size_(0), read_func_(nullptr), write_func(nullptr)
-	{}
+        Serializer() : size_(0), read_func_(nullptr), write_func(nullptr)
+        {}
 
-	Serializer(uint32_t size_, read_func_t read_func, write_func_t write_func) :
-		size_(size_), read_func_(read_func), write_func(write_func)
-	{}
+        Serializer(uint32_t size_, read_func_t read_func, write_func_t write_func) :
+            size_(size_), read_func_(read_func), write_func(write_func)
+        {}
 
-	/**
-	* @return The size (in bytes) required for every call to read/write
-	*/
-	uint32_t size() const
-	{
-		return size_;
-	}
+        /**
+        * @return The size (in bytes) required for every call to read/write
+        */
+        uint32_t size() const
+        {
+            return size_;
+        }
 
-	/**
-	* reads the value and advances the read buffer
-	*/
-	bool read(RSlice &buffer, T &output) const
-	{
-		return (*read_func_)(buffer, output);
-	}
+        /**
+        * reads the value and advances the read buffer
+        */
+        bool read(RSlice& buffer, T& output) const
+        {
+            return (*read_func_)(buffer, output);
+        }
 
-	/**
-	* writes the value and advances the write buffer
-	*/
-	bool write(const T &value, WSlice &buffer) const
-	{
-		return (*write_func)(value, buffer);
-	}
+        /**
+        * writes the value and advances the write buffer
+        */
+        bool write(const T& value, WSlice& buffer) const
+        {
+            return (*write_func)(value, buffer);
+        }
 
-private:
+    private:
 
-	uint32_t size_;
-	read_func_t read_func_;
-	write_func_t write_func;
+        uint32_t size_;
+        read_func_t read_func_;
+        write_func_t write_func;
 
-};
+    };
 
 }
 

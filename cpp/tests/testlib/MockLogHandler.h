@@ -33,51 +33,51 @@
 namespace openpal
 {
 
-struct LogRecord
-{
-public:
+    struct LogRecord
+    {
+    public:
 
-	LogRecord();
-	LogRecord(ModuleId module, char const* id, LogLevel level, char const *location, char const *message);
-	
-	ModuleId		module;
-	std::string		id;
-	openpal::LogLevel	level;
-	std::string		location;
-	std::string		message;	
-};
+        LogRecord();
+        LogRecord(ModuleId module, char const* id, LogLevel level, char const* location, char const* message);
 
-class MockLogHandler : public openpal::ILogHandler
-{
+        ModuleId		module;
+        std::string		id;
+        openpal::LogLevel	level;
+        std::string		location;
+        std::string		message;
+    };
 
-public:
-	MockLogHandler(LogLevels levels = LogLevels(~0));
+    class MockLogHandler : public openpal::ILogHandler
+    {
 
-	void write_to_stdio();
+    public:
+        MockLogHandler(LogLevels levels = LogLevels(~0));
 
-	void log(const std::string &location, const std::string &msg);
+        void write_to_stdio();
 
-	void log(ModuleId module, const char* id, LogLevel level, char const *location, char const *message) override;
+        void log(const std::string& location, const std::string& msg);
 
-	int32_t pop_filter();
+        void log(ModuleId module, const char* id, LogLevel level, char const* location, char const* message) override;
 
-	bool pop_one_entry(int32_t filter);
+        int32_t pop_filter();
 
-	bool pop_until(int32_t filter);	
-	
-	int next_error_code();
-	bool get_next_entry(LogRecord &record);
-	
-	void pop(openpal::ILogHandler &log);
+        bool pop_one_entry(int32_t filter);
 
-	openpal::LogRoot root;
+        bool pop_until(int32_t filter);
 
-protected:
+        int next_error_code();
+        bool get_next_entry(LogRecord& record);
 
-	bool output_to_stdio_;
-	std::deque<LogRecord> messages_;
+        void pop(openpal::ILogHandler& log);
 
-};
+        openpal::LogRoot root;
+
+    protected:
+
+        bool output_to_stdio_;
+        std::deque<LogRecord> messages_;
+
+    };
 
 
 }

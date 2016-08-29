@@ -27,10 +27,10 @@
 namespace openpal
 {
 
-char to_hex_char(char c)
-{
-	return (c > 9) ? ('A' + (c - 10)) : ('0' + c);
-}
+    char to_hex_char(char c)
+    {
+        return (c > 9) ? ('A' + (c - 10)) : ('0' + c);
+    }
 
 }
 

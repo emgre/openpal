@@ -31,41 +31,42 @@
 
 namespace openpal
 {
-	void HexLogging::log(Logger& logger, LogLevel level, const openpal::RSlice& source, char separator, uint32_t first_row_size, uint32_t other_row_size)
-	{		
-		RSlice copy(source);
-		uint32_t row = 0;
+    void HexLogging::log(Logger& logger, LogLevel level, const openpal::RSlice& source, char separator, uint32_t first_row_size, uint32_t other_row_size)
+    {
+        RSlice copy(source);
+        uint32_t row = 0;
 
-		const auto max_first_size = bounded<uint32_t>(first_row_size, 1, max_hex_per_line);
-		const auto max_other_size = bounded<uint32_t>(other_row_size, 1, max_hex_per_line);
+        const auto max_first_size = bounded<uint32_t>(first_row_size, 1, max_hex_per_line);
+        const auto max_other_size = bounded<uint32_t>(other_row_size, 1, max_hex_per_line);
 
-		while (copy.is_not_empty())
-		{
-			const auto row_size = (row == 0) ? max_first_size : max_other_size;
-			copy = log_line(logger, level, copy, separator, row_size);
-			++row;
-		}
-	}	
+        while (copy.is_not_empty())
+        {
+            const auto row_size = (row == 0) ? max_first_size : max_other_size;
+            copy = log_line(logger, level, copy, separator, row_size);
+            ++row;
+        }
+    }
 
-	openpal::RSlice HexLogging::log_line(Logger& logger, LogLevel level, const openpal::RSlice& data, char separator, uint32_t max_row_size)
-	{
-		char buffer[max_log_entry_size];
+    openpal::RSlice HexLogging::log_line(Logger& logger, LogLevel level, const openpal::RSlice& data, char separator, uint32_t max_row_size)
+    {
+        char buffer[max_log_entry_size];
 
-		uint32_t count = 0;
+        uint32_t count = 0;
 
-		while ((count < max_row_size) && (count < data.length())) {
-			auto pos = count * 3;
-			buffer[pos] = to_hex_char((data[count] & 0xF0) >> 4);
-			buffer[pos + 1] = to_hex_char(data[count] & 0x0F);
-			buffer[pos + 2] = separator;
-			++count;
-		}
-		
-		buffer[(3 * count) - 1] = '\0';
+        while ((count < max_row_size) && (count < data.length()))
+        {
+            auto pos = count * 3;
+            buffer[pos] = to_hex_char((data[count] & 0xF0) >> 4);
+            buffer[pos + 1] = to_hex_char(data[count] & 0x0F);
+            buffer[pos + 2] = separator;
+            ++count;
+        }
 
-		logger.log(level, LOCATION, buffer);
-		
-		return data.skip(count);
-	}
+        buffer[(3 * count) - 1] = '\0';
+
+        logger.log(level, LOCATION, buffer);
+
+        return data.skip(count);
+    }
 }
 

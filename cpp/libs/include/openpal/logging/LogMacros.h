@@ -49,7 +49,7 @@
 	char message[openpal::max_log_entry_size]; \
 	SAFE_STRING_FORMAT(message, openpal::max_log_entry_size, format, ##__VA_ARGS__); \
 	logger.log(levels, LOCATION, message); } \
-
+ 
 #define SIMPLE_LOG_BLOCK(logger, levels, message) \
 		if(logger.is_enabled(levels)){ \
 			logger.log(levels, LOCATION, message); \

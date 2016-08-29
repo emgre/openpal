@@ -33,111 +33,111 @@ using namespace openpal;
 namespace openpal
 {
 
-LogRecord::LogRecord() : level(0)		
-{}
+    LogRecord::LogRecord() : level(0)
+    {}
 
-LogRecord::LogRecord(ModuleId module, char const* id, LogLevel level, char const *location, char const *message) :
-	module(module),
-	id(id),
-	level(level),
-	location(location),
-	message(message)
-{
+    LogRecord::LogRecord(ModuleId module, char const* id, LogLevel level, char const* location, char const* message) :
+        module(module),
+        id(id),
+        level(level),
+        location(location),
+        message(message)
+    {
 
-}
+    }
 
-MockLogHandler::MockLogHandler(LogLevels levels) :
-	root(ModuleId(0), this, "test", levels),
-	output_to_stdio_(false)
-{
+    MockLogHandler::MockLogHandler(LogLevels levels) :
+        root(ModuleId(0), this, "test", levels),
+        output_to_stdio_(false)
+    {
 
-}
+    }
 
 
-void MockLogHandler::log(ModuleId module, const char* id, LogLevel level, char const *location, char const *message)
-{
-	if (output_to_stdio_)
-	{
-		std::cout << message << std::endl;
-	}
+    void MockLogHandler::log(ModuleId module, const char* id, LogLevel level, char const* location, char const* message)
+    {
+        if (output_to_stdio_)
+        {
+            std::cout << message << std::endl;
+        }
 
-	messages_.push_back(
-		LogRecord(module, id, level, location, message)
-	);
-}
+        messages_.push_back(
+            LogRecord(module, id, level, location, message)
+        );
+    }
 
-int32_t MockLogHandler::pop_filter()
-{
-	if (messages_.size() > 0)
-	{
-		auto flags = messages_.front().level.value;
-		messages_.pop_front();
-		return flags;
-	}
-	else
-	{
-		return 0;
-	}
-}
+    int32_t MockLogHandler::pop_filter()
+    {
+        if (messages_.size() > 0)
+        {
+            auto flags = messages_.front().level.value;
+            messages_.pop_front();
+            return flags;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
-bool MockLogHandler::pop_one_entry(int32_t filter)
-{
-	if (messages_.size() == 1)
-	{
-		if ((messages_.front().level.value & filter) != 0)
-		{
-			messages_.pop_front();
-			return true;
-		}
-		else return false;
-	}
-	else return false;
-}
+    bool MockLogHandler::pop_one_entry(int32_t filter)
+    {
+        if (messages_.size() == 1)
+        {
+            if ((messages_.front().level.value & filter) != 0)
+            {
+                messages_.pop_front();
+                return true;
+            }
+            else return false;
+        }
+        else return false;
+    }
 
-bool MockLogHandler::pop_until(int32_t filter)
-{
-	while (!messages_.empty())
-	{
-		bool match = (messages_.front().level.value & filter) != 0;
-		messages_.pop_front();
-		if (match)
-		{
-			return true;
-		}
-	}
+    bool MockLogHandler::pop_until(int32_t filter)
+    {
+        while (!messages_.empty())
+        {
+            bool match = (messages_.front().level.value & filter) != 0;
+            messages_.pop_front();
+            if (match)
+            {
+                return true;
+            }
+        }
 
-	return false;
-}
+        return false;
+    }
 
-void MockLogHandler::log(const std::string &location, const std::string &message)
-{
-	root.logger.log(openpal::levels::event, location.c_str(), message.c_str());
-}
+    void MockLogHandler::log(const std::string& location, const std::string& message)
+    {
+        root.logger.log(openpal::levels::event, location.c_str(), message.c_str());
+    }
 
-void MockLogHandler::write_to_stdio()
-{
-	this->output_to_stdio_ = true;
-}
+    void MockLogHandler::write_to_stdio()
+    {
+        this->output_to_stdio_ = true;
+    }
 
-bool MockLogHandler::get_next_entry(LogRecord &record)
-{
-	if (messages_.empty()) return false;
-	else
-	{
-		record = messages_.front();
-		messages_.pop_front();
-		return true;
-	}
-}
+    bool MockLogHandler::get_next_entry(LogRecord& record)
+    {
+        if (messages_.empty()) return false;
+        else
+        {
+            record = messages_.front();
+            messages_.pop_front();
+            return true;
+        }
+    }
 
-void MockLogHandler::pop(openpal::ILogHandler &log)
-{
-	LogRecord rec;
-	while (get_next_entry(rec))
-	{		
-		log.log(rec.module, rec.id.c_str(), rec.level, rec.location.c_str(), rec.message.c_str());
-	}
-}
+    void MockLogHandler::pop(openpal::ILogHandler& log)
+    {
+        LogRecord rec;
+        while (get_next_entry(rec))
+        {
+            log.log(rec.module, rec.id.c_str(), rec.level, rec.location.c_str(), rec.message.c_str());
+        }
+    }
 
 }
 

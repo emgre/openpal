@@ -34,54 +34,54 @@ namespace openpal
 {
 
 
-/**
-* Interface that represents a distinct logger with an id, module, and levels
-*/
-class LogRoot : private Uncopyable
-{
+    /**
+    * Interface that represents a distinct logger with an id, module, and levels
+    */
+    class LogRoot : private Uncopyable
+    {
 
-public:
+    public:
 
-	LogRoot(ModuleId moduleid, ILogHandler* handler, char const* id, LogLevels levels);
+        LogRoot(ModuleId moduleid, ILogHandler* handler, char const* id, LogLevels levels);
 
-	LogRoot(LogRoot&& other);
+        LogRoot(LogRoot&& other);
 
-	LogRoot(const LogRoot&, char const* id);
+        LogRoot(const LogRoot&, char const* id);
 
-	~LogRoot();
+        ~LogRoot();
 
-	const char* get_id() const;
+        const char* get_id() const;
 
-	void rename(char const *id);
+        void rename(char const* id);
 
-	// create another log root, but change the id_
-	LogRoot clone(char const *id) const;
+        // create another log root, but change the id_
+        LogRoot clone(char const* id) const;
 
-	// create another log root, but change the id_ and the levels_
-	LogRoot clone(char const *id, LogLevels levels) const;
+        // create another log root, but change the id_ and the levels_
+        LogRoot clone(char const* id, LogLevels levels) const;
 
-	bool is_enabled(const LogLevel& level) const;
+        bool is_enabled(const LogLevel& level) const;
 
-	bool has_any(const LogLevel& level) const;
+        bool has_any(const LogLevel& level) const;
 
-	LogLevels get_levels() const;
-	
-	void log(const LogLevel& level, char const *location, char const *message);	
+        LogLevels get_levels() const;
 
-	void set_levels(const LogLevels& levels);	
+        void log(const LogLevel& level, char const* location, char const* message);
 
-	Logger  logger;
+        void set_levels(const LogLevels& levels);
 
-private:
+        Logger  logger;
 
-	LogRoot(ModuleId module, ILogHandler* pHandler, char const* id, LogLevels levels, bool reuseAlias);
+    private:
 
-	ModuleId		module_;
-	ILogHandler*	handler_;
-	LogLevels		levels_;
-	const char*     id_;
+        LogRoot(ModuleId module, ILogHandler* pHandler, char const* id, LogLevels levels, bool reuseAlias);
 
-};
+        ModuleId		module_;
+        ILogHandler*	handler_;
+        LogLevels		levels_;
+        const char*     id_;
+
+    };
 
 }
 

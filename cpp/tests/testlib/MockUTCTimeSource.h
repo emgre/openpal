@@ -30,21 +30,21 @@
 namespace openpal
 {
 
-struct MockUTCTimeSource : public openpal::IUTCTimeSource
-{
+    struct MockUTCTimeSource : public openpal::IUTCTimeSource
+    {
 
-public:
+    public:
 
-	MockUTCTimeSource() : time(0)
-	{}
+        MockUTCTimeSource() : time(0)
+        {}
 
-	virtual openpal::UTCTimestamp now() override final
-	{
-		return openpal::UTCTimestamp(time);
-	}
+        virtual openpal::UTCTimestamp now() override final
+        {
+            return openpal::UTCTimestamp(time);
+        }
 
-	uint64_t time;
-};
+        uint64_t time;
+    };
 
 
 }

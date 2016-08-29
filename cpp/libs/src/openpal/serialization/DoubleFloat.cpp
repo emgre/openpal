@@ -31,59 +31,59 @@
 
 namespace openpal
 {
-const double DoubleFloat::max_value(openpal::max_value<double>());
-const double DoubleFloat::min_value(openpal::min_value<double>());
+    const double DoubleFloat::max_value(openpal::max_value<double>());
+    const double DoubleFloat::min_value(openpal::min_value<double>());
 
-union DoubleFloatUnion
-{
-	uint8_t bytes[8];
-	double value;
-};
+    union DoubleFloatUnion
+    {
+        uint8_t bytes[8];
+        double value;
+    };
 
-bool DoubleFloat::read_from(RSlice& input, double& out)
-{
-	if (input.length() < size) return false;
+    bool DoubleFloat::read_from(RSlice& input, double& out)
+    {
+        if (input.length() < size) return false;
 
-	out = read(input);
-    input.advance(size);
-	return true;
-}
+        out = read(input);
+        input.advance(size);
+        return true;
+    }
 
-bool DoubleFloat::write_to(WSlice& dest, double value)
-{
-	if (dest.length() < size) return false;
+    bool DoubleFloat::write_to(WSlice& dest, double value)
+    {
+        if (dest.length() < size) return false;
 
-	write(dest, value);
-	dest.advance(size);
-	return true;
-}
+        write(dest, value);
+        dest.advance(size);
+        return true;
+    }
 
-double DoubleFloat::read(const uint8_t *data)
-{
-	if (FloatByteOrder::order == FloatByteOrder::Value::normal)
-	{
-		DoubleFloatUnion x = {{ data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7] }};
-		return x.value;
-	}
-	else
-	{
-		DoubleFloatUnion x = {{ data[7], data[6], data[5], data[4], data[3], data[2], data[1], data[0] }};
-		return x.value;
-	}
-}
+    double DoubleFloat::read(const uint8_t* data)
+    {
+        if (FloatByteOrder::order == FloatByteOrder::Value::normal)
+        {
+            DoubleFloatUnion x = {{ data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7] }};
+            return x.value;
+        }
+        else
+        {
+            DoubleFloatUnion x = {{ data[7], data[6], data[5], data[4], data[3], data[2], data[1], data[0] }};
+            return x.value;
+        }
+    }
 
-void DoubleFloat::write(uint8_t *dest, double value)
-{
-	if (FloatByteOrder::order == FloatByteOrder::Value::normal)
-	{
-		memcpy(dest, &value, size);
-	}
-	else
-	{
-		auto data = reinterpret_cast<uint8_t*>(&value);
-		uint8_t bytes[8] = { data[7], data[6], data[5], data[4], data[3], data[2], data[1], data[0] };
-		memcpy(dest, bytes, size);
-	}
-}
+    void DoubleFloat::write(uint8_t* dest, double value)
+    {
+        if (FloatByteOrder::order == FloatByteOrder::Value::normal)
+        {
+            memcpy(dest, &value, size);
+        }
+        else
+        {
+            auto data = reinterpret_cast<uint8_t*>(&value);
+            uint8_t bytes[8] = { data[7], data[6], data[5], data[4], data[3], data[2], data[1], data[0] };
+            memcpy(dest, bytes, size);
+        }
+    }
 }
 

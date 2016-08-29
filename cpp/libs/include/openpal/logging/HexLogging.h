@@ -31,32 +31,32 @@
 #include "openpal/util/Uncopyable.h"
 
 namespace openpal
-{	
-	class HexLogging : private openpal::StaticOnly
-	{
-		static const uint32_t max_hex_per_line = max_log_entry_size / 3;
+{
+    class HexLogging : private openpal::StaticOnly
+    {
+        static const uint32_t max_hex_per_line = max_log_entry_size / 3;
 
-	public:
-		
-		static void log(
-			Logger& logger,
-			LogLevel level,		
-			const RSlice& source,
-			char separator = ' ',
-			uint32_t first_row_size = max_hex_per_line,
-			uint32_t other_row_size = max_hex_per_line
-		);
+    public:
 
-	private:
+        static void log(
+            Logger& logger,
+            LogLevel level,
+            const RSlice& source,
+            char separator = ' ',
+            uint32_t first_row_size = max_hex_per_line,
+            uint32_t other_row_size = max_hex_per_line
+        );
 
-		static openpal::RSlice log_line(
-			Logger& logger,
-			LogLevel level, 			
-			const RSlice& data,
-			char separator,
-			uint32_t max_row_size
-		);
-	};
+    private:
+
+        static openpal::RSlice log_line(
+            Logger& logger,
+            LogLevel level,
+            const RSlice& data,
+            char separator,
+            uint32_t max_row_size
+        );
+    };
 
 }
 

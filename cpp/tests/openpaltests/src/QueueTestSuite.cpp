@@ -32,18 +32,18 @@ using namespace openpal;
 
 TEST_CASE(SUITE("CorrectInitialState"))
 {
-	Queue<bool, uint16_t> queue(3);
+    Queue<bool, uint16_t> queue(3);
 }
 
 TEST_CASE(SUITE("AddsUntilFull"))
 {
-	Queue<bool, uint16_t> queue(3);
+    Queue<bool, uint16_t> queue(3);
 
-	REQUIRE(queue.enqueue(true));
-	REQUIRE(queue.enqueue(false));
-	REQUIRE(queue.enqueue(true));
+    REQUIRE(queue.enqueue(true));
+    REQUIRE(queue.enqueue(false));
+    REQUIRE(queue.enqueue(true));
 
-	REQUIRE_FALSE(queue.enqueue(true));
+    REQUIRE_FALSE(queue.enqueue(true));
 }
 
 

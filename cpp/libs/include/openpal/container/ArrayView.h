@@ -32,66 +32,66 @@
 namespace openpal
 {
 
-/**
-* Acts as a safe facade around an underlying array
-*/
-template <class ValueType, class IndexType>
-class ArrayView : public HasLength<IndexType>
-{
+    /**
+    * Acts as a safe facade around an underlying array
+    */
+    template <class ValueType, class IndexType>
+    class ArrayView : public HasLength<IndexType>
+    {
 
-public:
+    public:
 
-	static ArrayView<ValueType, IndexType> empty_view()
-	{
-		return ArrayView(nullptr, 0);
-	}
+        static ArrayView<ValueType, IndexType> empty_view()
+        {
+            return ArrayView(nullptr, 0);
+        }
 
-	ArrayView(ValueType* start, IndexType length) : HasLength<IndexType>(length), buffer_(start)
-	{}
+        ArrayView(ValueType* start, IndexType length) : HasLength<IndexType>(length), buffer_(start)
+        {}
 
-	inline bool contains(IndexType index) const
-	{
-		return index < this->length_;
-	}
+        inline bool contains(IndexType index) const
+        {
+            return index < this->length_;
+        }
 
-	inline bool contains(IndexType start, IndexType stop) const
-	{
-		return (start < stop) && contains(stop);
-	}
+        inline bool contains(IndexType start, IndexType stop) const
+        {
+            return (start < stop) && contains(stop);
+        }
 
-	inline ValueType& operator[](IndexType index)
-	{
-		assert(index < this->length_);
-		return buffer_[index];
-	}
+        inline ValueType& operator[](IndexType index)
+        {
+            assert(index < this->length_);
+            return buffer_[index];
+        }
 
-	inline const ValueType& operator[](IndexType index) const
-	{
-		assert(index < this->length_);
-		return buffer_[index];
-	}
+        inline const ValueType& operator[](IndexType index) const
+        {
+            assert(index < this->length_);
+            return buffer_[index];
+        }
 
-	template <class Action>
-	void foreach(const Action& action)
-	{
-		for (IndexType i = 0; i < this->length_; ++i)
-		{
-			action(buffer_[i]);
-		}
-	}
+        template <class Action>
+        void foreach(const Action& action)
+        {
+            for (IndexType i = 0; i < this->length_; ++i)
+            {
+                action(buffer_[i]);
+            }
+        }
 
-	template <class Action>
-	void foreach_index(const Action &action)
-	{
-		for (IndexType i = 0; i < this->length_; ++i)
-		{
-			action(buffer_[i], i);
-		}
-	}
+        template <class Action>
+        void foreach_index(const Action& action)
+        {
+            for (IndexType i = 0; i < this->length_; ++i)
+            {
+                action(buffer_[i], i);
+            }
+        }
 
-private:
-	ValueType* buffer_;
-};
+    private:
+        ValueType* buffer_;
+    };
 
 
 

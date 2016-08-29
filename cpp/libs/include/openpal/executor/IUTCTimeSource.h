@@ -30,35 +30,35 @@
 namespace openpal
 {
 
-/**
-*  Interface that defines a method to get UTC timestamps
-*/
-class IUTCTimeSource
-{
+    /**
+    *  Interface that defines a method to get UTC timestamps
+    */
+    class IUTCTimeSource
+    {
 
-public:
-	/**
-	*  Returns a UTCTimestamp of the current time
-	*/
-	virtual UTCTimestamp now() = 0;
-};
+    public:
+        /**
+        *  Returns a UTCTimestamp of the current time
+        */
+        virtual UTCTimestamp now() = 0;
+    };
 
-/**
-* Mock usable for testing
-*/
-struct FixedUTCTimeSource : public IUTCTimeSource
-{
-public:
-	FixedUTCTimeSource(int64_t time): time(time)
-	{}
+    /**
+    * Mock usable for testing
+    */
+    struct FixedUTCTimeSource : public IUTCTimeSource
+    {
+    public:
+        FixedUTCTimeSource(int64_t time): time(time)
+        {}
 
-	UTCTimestamp now()
-	{
-		return UTCTimestamp (time);
-	}
+        UTCTimestamp now()
+        {
+            return UTCTimestamp (time);
+        }
 
-	int64_t time;
-};
+        int64_t time;
+    };
 
 
 }

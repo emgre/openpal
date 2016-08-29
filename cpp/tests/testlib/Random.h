@@ -30,39 +30,39 @@
 namespace openpal
 {
 
-template<class T>
-class Random
-{
+    template<class T>
+    class Random
+    {
 
-public:
-	Random(T min = std::numeric_limits<T>::min(), T max = std::numeric_limits<T>::max()) :
-		rng_(),
-		distribution_(min, max)
-	{
+    public:
+        Random(T min = std::numeric_limits<T>::min(), T max = std::numeric_limits<T>::max()) :
+            rng_(),
+            distribution_(min, max)
+        {
 
-	}
+        }
 
-	T next()
-	{
-		return distribution_(rng_);
-	}
+        T next()
+        {
+            return distribution_(rng_);
+        }
 
-private:
-	std::mt19937 rng_;
-	std::uniform_int_distribution<T> distribution_;
-};
+    private:
+        std::mt19937 rng_;
+        std::uniform_int_distribution<T> distribution_;
+    };
 
-class RandomBool : private Random<uint32_t>
-{
-public:
-	RandomBool() : Random<uint32_t>(0, 1)
-	{}
+    class RandomBool : private Random<uint32_t>
+    {
+    public:
+        RandomBool() : Random<uint32_t>(0, 1)
+        {}
 
-	bool next_bool()
-	{
-		return next() != 0;
-	}
-};
+        bool next_bool()
+        {
+            return next() != 0;
+        }
+    };
 
 
 }

@@ -29,52 +29,52 @@
 namespace openpal
 {
 
-Timestamp Timestamp::max_value()
-{
-	return Timestamp(INT64_MAX);
-}
+    Timestamp Timestamp::max_value()
+    {
+        return Timestamp(INT64_MAX);
+    }
 
-Timestamp Timestamp::min_value()
-{
-	return Timestamp(INT64_MIN);
-}
+    Timestamp Timestamp::min_value()
+    {
+        return Timestamp(INT64_MIN);
+    }
 
-bool Timestamp::is_max_value() const
-{
-	return milliseconds == INT64_MAX;
-}
+    bool Timestamp::is_max_value() const
+    {
+        return milliseconds == INT64_MAX;
+    }
 
-bool Timestamp::is_min_value() const
-{
-	return milliseconds == INT64_MIN;
-}
+    bool Timestamp::is_min_value() const
+    {
+        return milliseconds == INT64_MIN;
+    }
 
-Timestamp::Timestamp() : milliseconds(0)
-{}
+    Timestamp::Timestamp() : milliseconds(0)
+    {}
 
-Timestamp::Timestamp(int64_t aMilliseconds) : milliseconds(aMilliseconds)
-{}
+    Timestamp::Timestamp(int64_t aMilliseconds) : milliseconds(aMilliseconds)
+    {}
 
 
-Timestamp Timestamp::add(const TimeDuration &duration) const
-{
-	return Timestamp(milliseconds + duration.get_milliseconds());
-}
+    Timestamp Timestamp::add(const TimeDuration& duration) const
+    {
+        return Timestamp(milliseconds + duration.get_milliseconds());
+    }
 
-bool operator==(const Timestamp& first, const Timestamp& second)
-{
-	return first.milliseconds == second.milliseconds;
-}
+    bool operator==(const Timestamp& first, const Timestamp& second)
+    {
+        return first.milliseconds == second.milliseconds;
+    }
 
-bool operator<(const Timestamp& first, const Timestamp& second)
-{
-	return first.milliseconds < second.milliseconds;
-}
+    bool operator<(const Timestamp& first, const Timestamp& second)
+    {
+        return first.milliseconds < second.milliseconds;
+    }
 
-bool operator>(const Timestamp& first, const Timestamp& second)
-{
-	return first.milliseconds > second.milliseconds;
-}
+    bool operator>(const Timestamp& first, const Timestamp& second)
+    {
+        return first.milliseconds > second.milliseconds;
+    }
 
 }
 

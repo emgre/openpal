@@ -28,91 +28,91 @@
 namespace openpal
 {
 
-// utility class for representing a value that may or may not be set
-template <class T>
-class Option
-{
-public:
+    // utility class for representing a value that may or may not be set
+    template <class T>
+    class Option
+    {
+    public:
 
-	Option() : value_is_set_(false)
-	{}
+        Option() : value_is_set_(false)
+        {}
 
-	bool IsSet() const
-	{
-		return value_is_set_;
-	}
+        bool IsSet() const
+        {
+            return value_is_set_;
+        }
 
-	bool IsEmpty() const
-	{
-		return !value_is_set_;
-	}
+        bool IsEmpty() const
+        {
+            return !value_is_set_;
+        }
 
-	T Get() const
-	{
-		return value_;
-	}
+        T Get() const
+        {
+            return value_;
+        }
 
-	bool pop(T &output)
-	{
-		if (value_is_set_)
-		{
-			value_is_set_ = false;
-			output = value_;
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+        bool pop(T& output)
+        {
+            if (value_is_set_)
+            {
+                value_is_set_ = false;
+                output = value_;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-	void clear()
-	{
-		value_is_set_ = false;
-	}
+        void clear()
+        {
+            value_is_set_ = false;
+        }
 
-	void set(const T &value)
-	{
-		value_ = value;
-		value_is_set_ = true;
-	}
+        void set(const T& value)
+        {
+            value_ = value;
+            value_is_set_ = true;
+        }
 
-	template <class Action>
-	bool is_set_and(Action action);
+        template <class Action>
+        bool is_set_and(Action action);
 
-	template <class Action>
-	void foreach(Action action);
+        template <class Action>
+        void foreach(Action action);
 
 
-private:
+    private:
 
-	bool value_is_set_;
-	T value_;
-};
+        bool value_is_set_;
+        T value_;
+    };
 
-template <class T>
-template <class Action>
-bool Option<T>::is_set_and(Action action)
-{
-	if (value_is_set_)
-	{
-		return action(value_);
-	}
-	else
-	{
-		return false;
-	}
-}
+    template <class T>
+    template <class Action>
+    bool Option<T>::is_set_and(Action action)
+    {
+        if (value_is_set_)
+        {
+            return action(value_);
+        }
+        else
+        {
+            return false;
+        }
+    }
 
-template <class T>
-template <class Action>
-void Option<T>::foreach(Action action)
-{
-	if (value_is_set_)
-	{
-		action(value_);
-	}
-}
+    template <class T>
+    template <class Action>
+    void Option<T>::foreach(Action action)
+    {
+        if (value_is_set_)
+        {
+            action(value_);
+        }
+    }
 
 }
 

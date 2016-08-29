@@ -35,36 +35,36 @@
 namespace openpal
 {
 
-class Buffer : public Array<uint8_t, uint32_t>
-{
+    class Buffer : public Array<uint8_t, uint32_t>
+    {
 
-public:
+    public:
 
-	Buffer();
+        Buffer();
 
-	Buffer(uint32_t size);
+        Buffer(uint32_t size);
 
-	// initialize with the exact length_ and contents of the view
-	Buffer(const RSlice& input);
+        // initialize with the exact length_ and contents of the view
+        Buffer(const RSlice& input);
 
-	virtual ~Buffer() {}
+        virtual ~Buffer() {}
 
-	RSlice as_rslice() const;
+        RSlice as_rslice() const;
 
-	WSlice as_wslice();
+        WSlice as_wslice();
 
-	WSlice as_wslice(uint32_t max_size);
+        WSlice as_wslice(uint32_t max_size);
 
-	const uint8_t* operator()() const
-	{
-		return buffer_;
-	}
+        const uint8_t* operator()() const
+        {
+            return buffer_;
+        }
 
-	uint8_t* operator()()
-	{
-		return buffer_;
-	}
-};
+        uint8_t* operator()()
+        {
+            return buffer_;
+        }
+    };
 
 }
 

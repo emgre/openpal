@@ -32,42 +32,42 @@
 namespace openpal
 {
 
-/**
-* A management class to make dealing with timer pointers safer a little safer
-*
-* Holds an optional pointer to an active ITimer pointer. Acts as a safe proxy for dealing with a recurring timer instance.
-*/
-class TimerRef : openpal::Uncopyable
-{
+    /**
+    * A management class to make dealing with timer pointers safer a little safer
+    *
+    * Holds an optional pointer to an active ITimer pointer. Acts as a safe proxy for dealing with a recurring timer instance.
+    */
+    class TimerRef : openpal::Uncopyable
+    {
 
-public:
-	TimerRef(openpal::IExecutor& executor);
+    public:
+        TimerRef(openpal::IExecutor& executor);
 
-	// automatically cancels any active timers_ on destructive
-	~TimerRef();
+        // automatically cancels any active timers_ on destructive
+        ~TimerRef();
 
-	// Called to see if the timer is currently active
-	bool is_active() const;
+        // Called to see if the timer is currently active
+        bool is_active() const;
 
-	// return the expiration time, Timestamp::max_value() if not active
-	Timestamp expires_at() const;
+        // return the expiration time, Timestamp::max_value() if not active
+        Timestamp expires_at() const;
 
-	// cancels any existing timer, returning true if the timer was active, false otherwise
-	bool cancel();
+        // cancels any existing timer, returning true if the timer was active, false otherwise
+        bool cancel();
 
-	// restart the timer, return false if already active
-	bool start(const TimeDuration &timeout, const action_t &action);
-	bool start(const Timestamp &expiration, const action_t &action);
+        // restart the timer, return false if already active
+        bool start(const TimeDuration& timeout, const action_t& action);
+        bool start(const Timestamp& expiration, const action_t& action);
 
-	// start a new timer, canceling any existing timer
-	void restart(const TimeDuration &expiration, const action_t &action);
-	void restart(const Timestamp &expiration, const action_t &action);
+        // start a new timer, canceling any existing timer
+        void restart(const TimeDuration& expiration, const action_t& action);
+        void restart(const Timestamp& expiration, const action_t& action);
 
-private:
+    private:
 
-	IExecutor* executor_;
-	ITimer* timer_;
-};
+        IExecutor* executor_;
+        ITimer* timer_;
+    };
 
 }
 

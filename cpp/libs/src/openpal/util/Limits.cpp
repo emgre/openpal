@@ -32,100 +32,100 @@
 namespace openpal
 {
 
-template <>
-uint8_t min_value<uint8_t>()
-{
-	return 0;
-}
+    template <>
+    uint8_t min_value<uint8_t>()
+    {
+        return 0;
+    }
 
-template <>
-uint8_t max_value<uint8_t>()
-{
-	return UINT8_MAX;
-}
+    template <>
+    uint8_t max_value<uint8_t>()
+    {
+        return UINT8_MAX;
+    }
 
-template <>
-uint16_t min_value<uint16_t>()
-{
-	return 0;
-}
+    template <>
+    uint16_t min_value<uint16_t>()
+    {
+        return 0;
+    }
 
-template <>
-uint16_t max_value<uint16_t>()
-{
-	return UINT16_MAX;
-}
+    template <>
+    uint16_t max_value<uint16_t>()
+    {
+        return UINT16_MAX;
+    }
 
-template <>
-float min_value<float>()
-{
-	return -FLT_MAX;
-}
+    template <>
+    float min_value<float>()
+    {
+        return -FLT_MAX;
+    }
 
-template <>
-float max_value<float>()
-{
-	return FLT_MAX ;
-}
+    template <>
+    float max_value<float>()
+    {
+        return FLT_MAX ;
+    }
 
-template <>
-double min_value<double>()
-{
-	return -DBL_MAX;
-}
+    template <>
+    double min_value<double>()
+    {
+        return -DBL_MAX;
+    }
 
-template <>
-double max_value<double>()
-{
-	return DBL_MAX;
-}
+    template <>
+    double max_value<double>()
+    {
+        return DBL_MAX;
+    }
 
-template <>
-int16_t min_value<int16_t>()
-{
-	return INT16_MIN;
-}
+    template <>
+    int16_t min_value<int16_t>()
+    {
+        return INT16_MIN;
+    }
 
-template <>
-int16_t max_value<int16_t>()
-{
-	return INT16_MAX;
-}
+    template <>
+    int16_t max_value<int16_t>()
+    {
+        return INT16_MAX;
+    }
 
-template <>
-int32_t min_value<int32_t>()
-{
-	return INT32_MIN;
-}
+    template <>
+    int32_t min_value<int32_t>()
+    {
+        return INT32_MIN;
+    }
 
-template <>
-int32_t max_value<int32_t>()
-{
-	return INT32_MAX;
-}
+    template <>
+    int32_t max_value<int32_t>()
+    {
+        return INT32_MAX;
+    }
 
-template <>
-uint32_t min_value<uint32_t>()
-{
-	return 0;
-}
+    template <>
+    uint32_t min_value<uint32_t>()
+    {
+        return 0;
+    }
 
-template <>
-uint32_t max_value<uint32_t>()
-{
-	return UINT32_MAX;
-}
+    template <>
+    uint32_t max_value<uint32_t>()
+    {
+        return UINT32_MAX;
+    }
 
-template <>
-int64_t min_value<int64_t>()
-{
-	return INT64_MIN;
-}
+    template <>
+    int64_t min_value<int64_t>()
+    {
+        return INT64_MIN;
+    }
 
-template <>
-int64_t max_value<int64_t>()
-{
-	return INT64_MAX;
-}
+    template <>
+    int64_t max_value<int64_t>()
+    {
+        return INT64_MAX;
+    }
 
 }

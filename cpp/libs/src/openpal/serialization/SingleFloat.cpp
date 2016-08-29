@@ -31,60 +31,60 @@
 
 namespace openpal
 {
-const float SingleFloat::max_value(openpal::max_value<float>());
-const float SingleFloat::min_value(openpal::min_value<float>());
+    const float SingleFloat::max_value(openpal::max_value<float>());
+    const float SingleFloat::min_value(openpal::min_value<float>());
 
-union SingleFloatUnion
-{
-	uint8_t bytes[4];
-	float value;
-};
+    union SingleFloatUnion
+    {
+        uint8_t bytes[4];
+        float value;
+    };
 
 
-bool SingleFloat::read_from(RSlice& input, float& out)
-{
-	if (input.length() < size) return false;
+    bool SingleFloat::read_from(RSlice& input, float& out)
+    {
+        if (input.length() < size) return false;
 
-	out = read(input);
-    input.advance(size);
-	return true;
-}
+        out = read(input);
+        input.advance(size);
+        return true;
+    }
 
-bool SingleFloat::write_to(WSlice &dest, float value)
-{
-	if (dest.length() < size) return false;
+    bool SingleFloat::write_to(WSlice& dest, float value)
+    {
+        if (dest.length() < size) return false;
 
-	write(dest, value);
-	dest.advance(size);
-	return true;
-}
+        write(dest, value);
+        dest.advance(size);
+        return true;
+    }
 
-float SingleFloat::read(const uint8_t *data)
-{
-	if (FloatByteOrder::order == FloatByteOrder::Value::normal)
-	{
-		SingleFloatUnion x = {{ data[0], data[1], data[2], data[3] }};
-		return x.value;
-	}
-	else
-	{
-		SingleFloatUnion x = {{ data[3], data[2], data[1], data[0] }};
-		return x.value;
-	}
-}
+    float SingleFloat::read(const uint8_t* data)
+    {
+        if (FloatByteOrder::order == FloatByteOrder::Value::normal)
+        {
+            SingleFloatUnion x = {{ data[0], data[1], data[2], data[3] }};
+            return x.value;
+        }
+        else
+        {
+            SingleFloatUnion x = {{ data[3], data[2], data[1], data[0] }};
+            return x.value;
+        }
+    }
 
-void SingleFloat::write(uint8_t *dest, float value)
-{
-	if (FloatByteOrder::order == FloatByteOrder::Value::normal)
-	{
-		memcpy(dest, &value, size);
-	}
-	else
-	{
-		auto data = reinterpret_cast<uint8_t*>(&value);
-		uint8_t bytes[4] = { data[3], data[2], data[1], data[0] };
-		memcpy(dest, bytes, size);
-	}
-}
+    void SingleFloat::write(uint8_t* dest, float value)
+    {
+        if (FloatByteOrder::order == FloatByteOrder::Value::normal)
+        {
+            memcpy(dest, &value, size);
+        }
+        else
+        {
+            auto data = reinterpret_cast<uint8_t*>(&value);
+            uint8_t bytes[4] = { data[3], data[2], data[1], data[0] };
+            memcpy(dest, bytes, size);
+        }
+    }
 }
 

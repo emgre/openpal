@@ -30,7 +30,7 @@
 namespace openpal
 {
 
-char to_hex_char(char c);
+    char to_hex_char(char c);
 
 }
 

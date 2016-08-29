@@ -30,32 +30,32 @@
 namespace openpal
 {
 
-class UInt48Type
-{
+    class UInt48Type
+    {
 
-public:
+    public:
 
-	explicit UInt48Type(uint64_t value) : representation(value)
-	{}
+        explicit UInt48Type(uint64_t value) : representation(value)
+        {}
 
-	UInt48Type() : representation(0)
-	{}
+        UInt48Type() : representation(0)
+        {}
 
-	inline operator uint64_t() const
-	{
-		return representation;
-	}
+        inline operator uint64_t() const
+        {
+            return representation;
+        }
 
-	uint64_t Get() const
-	{
-		return representation;
-	}
+        uint64_t Get() const
+        {
+            return representation;
+        }
 
-private:
+    private:
 
-	uint64_t representation;
+        uint64_t representation;
 
-};
+    };
 
 }
 

@@ -34,25 +34,25 @@
 namespace openpal
 {
 
-class SingleFloat : private StaticOnly
-{
-public:
+    class SingleFloat : private StaticOnly
+    {
+    public:
 
-	static_assert(sizeof(float) == 4, "Unexpected length_ of single float");
+        static_assert(sizeof(float) == 4, "Unexpected length_ of single float");
 
-	static bool read_from(RSlice& slice, float& out);
-	static bool write_to(WSlice& dest, float value);
+        static bool read_from(RSlice& slice, float& out);
+        static bool write_to(WSlice& dest, float value);
 
-	typedef float type_t;
-	const static std::size_t size = sizeof(float);
-	const static float max_value;
-	const static float min_value;
+        typedef float type_t;
+        const static std::size_t size = sizeof(float);
+        const static float max_value;
+        const static float min_value;
 
-private:
+    private:
 
-	static float read(const uint8_t *data);
-	static void write(uint8_t *data, float value);
-};
+        static float read(const uint8_t* data);
+        static void write(uint8_t* data, float value);
+    };
 
 }
 

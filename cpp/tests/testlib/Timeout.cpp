@@ -29,20 +29,20 @@ using namespace std::chrono;
 namespace openpal
 {
 
-Timeout::Timeout(std::chrono::steady_clock::duration timeout)
-	: expire_time_(std::chrono::steady_clock::now() + timeout)
-{
+    Timeout::Timeout(std::chrono::steady_clock::duration timeout)
+        : expire_time_(std::chrono::steady_clock::now() + timeout)
+    {
 
-}
+    }
 
-bool Timeout :: is_expired() const
-{
-	return std::chrono::steady_clock::now() >= expire_time_;
-}
+    bool Timeout :: is_expired() const
+    {
+        return std::chrono::steady_clock::now() >= expire_time_;
+    }
 
-std::chrono::steady_clock::duration Timeout::remaining() const
-{
-	return expire_time_ - std::chrono::steady_clock::now();
-}
+    std::chrono::steady_clock::duration Timeout::remaining() const
+    {
+        return expire_time_ - std::chrono::steady_clock::now();
+    }
 
 }

@@ -30,16 +30,16 @@
 namespace openpal
 {
 
-/**
- * Timer are used to defer events for a later time on an executor.
- */
-class ITimer
-{
-public:
-	virtual ~ITimer() {}
-	virtual void cancel() = 0;
-	virtual Timestamp expires_at() = 0;
-};
+    /**
+     * Timer are used to defer events for a later time on an executor.
+     */
+    class ITimer
+    {
+    public:
+        virtual ~ITimer() {}
+        virtual void cancel() = 0;
+        virtual Timestamp expires_at() = 0;
+    };
 
 }
 

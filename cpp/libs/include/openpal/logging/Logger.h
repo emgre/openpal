@@ -32,33 +32,33 @@
 namespace openpal
 {
 
-const uint32_t max_log_entry_size = 120;
+    const uint32_t max_log_entry_size = 120;
 
-class LogRoot;
+    class LogRoot;
 
-/**
-* A copyable facade over a LogRoot class
-*/
-class Logger
-{
-	friend class LogRoot;
+    /**
+    * A copyable facade over a LogRoot class
+    */
+    class Logger
+    {
+        friend class LogRoot;
 
-public:
+    public:
 
-	void log(const LogLevel& level, char const *location, char const *message);
+        void log(const LogLevel& level, char const* location, char const* message);
 
-	bool is_enabled(const LogLevel& level) const;
+        bool is_enabled(const LogLevel& level) const;
 
-	bool has_any(const LogLevel& level) const;
+        bool has_any(const LogLevel& level) const;
 
-private:
+    private:
 
-	Logger() = delete;
+        Logger() = delete;
 
-	Logger(LogRoot* pRoot);
+        Logger(LogRoot* pRoot);
 
-	LogRoot* root_;
-};
+        LogRoot* root_;
+    };
 
 }
 

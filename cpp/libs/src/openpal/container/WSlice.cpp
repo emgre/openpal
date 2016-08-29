@@ -32,50 +32,50 @@
 namespace openpal
 {
 
-WSlice WSlice::empty_slice()
-{
-	return WSlice();
-}
+    WSlice WSlice::empty_slice()
+    {
+        return WSlice();
+    }
 
-WSlice::WSlice():
-	HasLength(0),
-	buffer_(nullptr)
-{}
+    WSlice::WSlice():
+        HasLength(0),
+        buffer_(nullptr)
+    {}
 
-void WSlice::set_all_to(uint8_t value)
-{
-	memset(buffer_, value, length_);
-}
+    void WSlice::set_all_to(uint8_t value)
+    {
+        memset(buffer_, value, length_);
+    }
 
-WSlice::WSlice(uint8_t* buffer, uint32_t length) :
-	HasLength(length),
-	buffer_(buffer)
-{}
+    WSlice::WSlice(uint8_t* buffer, uint32_t length) :
+        HasLength(length),
+        buffer_(buffer)
+    {}
 
-void WSlice::make_empty()
-{
-	buffer_ = nullptr;
-	length_ = 0;
-}
+    void WSlice::make_empty()
+    {
+        buffer_ = nullptr;
+        length_ = 0;
+    }
 
-uint32_t WSlice::advance(uint32_t count)
-{
-	auto num = openpal::min(count, length_);
-	buffer_ += num;
-	length_ -= num;
-	return num;
-}
+    uint32_t WSlice::advance(uint32_t count)
+    {
+        auto num = openpal::min(count, length_);
+        buffer_ += num;
+        length_ -= num;
+        return num;
+    }
 
-WSlice WSlice::skip(uint32_t count) const
-{
-	auto num = openpal::min(count, length_);
-	return WSlice(buffer_ + num, length_ - num);
-}
+    WSlice WSlice::skip(uint32_t count) const
+    {
+        auto num = openpal::min(count, length_);
+        return WSlice(buffer_ + num, length_ - num);
+    }
 
-RSlice WSlice::as_rslice() const
-{
-	return RSlice(buffer_, length_);
-}
+    RSlice WSlice::as_rslice() const
+    {
+        return RSlice(buffer_, length_);
+    }
 
 }
 

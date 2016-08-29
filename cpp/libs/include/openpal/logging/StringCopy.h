@@ -28,8 +28,8 @@
 namespace openpal
 {
 
-// Portable allocation of a copy of a cstring
-char* allocate_copy(char const *id);
+    // Portable allocation of a copy of a cstring
+    char* allocate_copy(char const* id);
 
 }
 

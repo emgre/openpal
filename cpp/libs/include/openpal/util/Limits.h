@@ -28,11 +28,11 @@
 namespace openpal
 {
 
-template <class T>
-T min_value();
+    template <class T>
+    T min_value();
 
-template <class T>
-T max_value();
+    template <class T>
+    T max_value();
 
 }
 

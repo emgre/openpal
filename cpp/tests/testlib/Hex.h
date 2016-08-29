@@ -32,32 +32,32 @@
 namespace openpal
 {
 
-/**
- * A sequence of hex values in the form "01 02 03 04" that are stored as a ByteStr.
- */
-class Hex
-{
-public:
-	Hex(const std::string& hex);
+    /**
+     * A sequence of hex values in the form "01 02 03 04" that are stored as a ByteStr.
+     */
+    class Hex
+    {
+    public:
+        Hex(const std::string& hex);
 
-	openpal::RSlice as_rslice() const
-	{
-		return buffer_.as_rslice();
-	}
+        openpal::RSlice as_rslice() const
+        {
+            return buffer_.as_rslice();
+        }
 
-	operator openpal::RSlice () const
-	{
-		return this->as_rslice();
-	}
+        operator openpal::RSlice () const
+        {
+            return this->as_rslice();
+        }
 
-private:
+    private:
 
-	openpal::Buffer buffer_;
+        openpal::Buffer buffer_;
 
-	std::string remove_spaces(const std::string& hex);
-	void remove_spaces_in_place(std::string& hex);
-	static uint32_t validate(const std::string& sequence);
-};
+        std::string remove_spaces(const std::string& hex);
+        void remove_spaces_in_place(std::string& hex);
+        static uint32_t validate(const std::string& sequence);
+    };
 
 }
 

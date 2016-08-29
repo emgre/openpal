@@ -33,89 +33,89 @@
 namespace openpal
 {
 
-LogRoot::LogRoot(ModuleId module, ILogHandler* handler, char const* id, LogLevels levels) :
-	LogRoot(module, handler, id, levels, false)
-{
+    LogRoot::LogRoot(ModuleId module, ILogHandler* handler, char const* id, LogLevels levels) :
+        LogRoot(module, handler, id, levels, false)
+    {
 
-}
+    }
 
-LogRoot::LogRoot(ModuleId module, ILogHandler* handler, char const* id, LogLevels levels, bool reuseAlias) :
-	logger(this),
-	module_(module),
-	handler_(handler),
-	levels_(levels),
-	id_((reuseAlias ? id : allocate_copy(id)))
-{}
+    LogRoot::LogRoot(ModuleId module, ILogHandler* handler, char const* id, LogLevels levels, bool reuseAlias) :
+        logger(this),
+        module_(module),
+        handler_(handler),
+        levels_(levels),
+        id_((reuseAlias ? id : allocate_copy(id)))
+    {}
 
-LogRoot::LogRoot(const LogRoot& copy, char const* id) :	
-	logger(this),
-	module_(copy.module_),
-	handler_(copy.handler_),
-	levels_(copy.levels_),
-	id_(allocate_copy(id))
-{
+    LogRoot::LogRoot(const LogRoot& copy, char const* id) :
+        logger(this),
+        module_(copy.module_),
+        handler_(copy.handler_),
+        levels_(copy.levels_),
+        id_(allocate_copy(id))
+    {
 
-}
+    }
 
-LogRoot::LogRoot(LogRoot&& other) : LogRoot(other.module_, other.handler_, other.id_, other.levels_, true)
-{
-	other.id_ = nullptr;
-	other.handler_ = nullptr;
-	other.levels_ = LogLevels(0);
-}
+    LogRoot::LogRoot(LogRoot&& other) : LogRoot(other.module_, other.handler_, other.id_, other.levels_, true)
+    {
+        other.id_ = nullptr;
+        other.handler_ = nullptr;
+        other.levels_ = LogLevels(0);
+    }
 
-LogRoot LogRoot::clone(char const *id) const
-{
-	return LogRoot(this->module_, this->handler_, id, this->levels_);
-}
+    LogRoot LogRoot::clone(char const* id) const
+    {
+        return LogRoot(this->module_, this->handler_, id, this->levels_);
+    }
 
-LogRoot LogRoot::clone(char const *id, LogLevels levels) const
-{
-	return LogRoot(this->module_, this->handler_, id, levels);
-}
+    LogRoot LogRoot::clone(char const* id, LogLevels levels) const
+    {
+        return LogRoot(this->module_, this->handler_, id, levels);
+    }
 
-LogRoot::~LogRoot()
-{
-	delete[] id_;
-}
+    LogRoot::~LogRoot()
+    {
+        delete[] id_;
+    }
 
-void LogRoot::rename(char const *id)
-{
-	delete[] id_;
-	id_ = allocate_copy(id);
-}
+    void LogRoot::rename(char const* id)
+    {
+        delete[] id_;
+        id_ = allocate_copy(id);
+    }
 
-const char* LogRoot::get_id() const
-{
-	return id_;
-}
+    const char* LogRoot::get_id() const
+    {
+        return id_;
+    }
 
-void LogRoot::log(const LogLevel& level, char const *location, char const *message)
-{
-	if (handler_)
-	{		
-		handler_->log(module_, id_, level, location, message);					
-	}
-}
+    void LogRoot::log(const LogLevel& level, char const* location, char const* message)
+    {
+        if (handler_)
+        {
+            handler_->log(module_, id_, level, location, message);
+        }
+    }
 
-bool LogRoot::is_enabled(const LogLevel& level) const
-{
-	return handler_ && (this->levels_.is_set(level));
-}
+    bool LogRoot::is_enabled(const LogLevel& level) const
+    {
+        return handler_ && (this->levels_.is_set(level));
+    }
 
-bool LogRoot::has_any(const LogLevel& level) const
-{
-	return this->levels_.is_set(level);
-}
+    bool LogRoot::has_any(const LogLevel& level) const
+    {
+        return this->levels_.is_set(level);
+    }
 
-void LogRoot::set_levels(const LogLevels &levels)
-{
-	levels_ = levels;
-}
+    void LogRoot::set_levels(const LogLevels& levels)
+    {
+        levels_ = levels;
+    }
 
-LogLevels LogRoot::get_levels() const
-{
-	return levels_;
-}
+    LogLevels LogRoot::get_levels() const
+    {
+        return levels_;
+    }
 
 }

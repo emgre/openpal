@@ -34,26 +34,26 @@ using namespace std;
 namespace openpal
 {
 
-Logger::Logger(LogRoot* pRoot_) : root_(pRoot_)
-{}
+    Logger::Logger(LogRoot* pRoot_) : root_(pRoot_)
+    {}
 
-bool Logger::is_enabled(const LogLevel& level) const
-{
-	return root_->is_enabled(level);
-}
+    bool Logger::is_enabled(const LogLevel& level) const
+    {
+        return root_->is_enabled(level);
+    }
 
-bool Logger::has_any(const LogLevel& level) const
-{
-	return root_->has_any(level);
-}
+    bool Logger::has_any(const LogLevel& level) const
+    {
+        return root_->has_any(level);
+    }
 
-void Logger::log(const LogLevel& level, char const *location, char const *message)
-{
-	if (root_->is_enabled(level))
-	{
-		root_->log(level, location, message);
-	}
-}
+    void Logger::log(const LogLevel& level, char const* location, char const* message)
+    {
+        if (root_->is_enabled(level))
+        {
+            root_->log(level, location, message);
+        }
+    }
 
 }
 

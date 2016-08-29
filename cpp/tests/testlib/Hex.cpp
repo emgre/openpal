@@ -39,57 +39,57 @@ namespace openpal
 
 
 
-Hex::Hex( const std::string& hex) :
-	buffer_(validate(remove_spaces(hex)))
-{
-	std::string s = remove_spaces(hex);
+    Hex::Hex( const std::string& hex) :
+        buffer_(validate(remove_spaces(hex)))
+    {
+        std::string s = remove_spaces(hex);
 
-	size_t size = s.size();
-	for(size_t index = 0, pos = 0; pos < size; ++index, pos += 2)
-	{
-		uint32_t val;
-		std::stringstream ss;
-		ss << std::hex << s.substr(pos, 2);
-		if((ss >> val).fail())
-		{
-			throw std::invalid_argument(hex);
-		}
-		buffer_[index] = static_cast<uint8_t>(val);
-	}
-}
+        size_t size = s.size();
+        for(size_t index = 0, pos = 0; pos < size; ++index, pos += 2)
+        {
+            uint32_t val;
+            std::stringstream ss;
+            ss << std::hex << s.substr(pos, 2);
+            if((ss >> val).fail())
+            {
+                throw std::invalid_argument(hex);
+            }
+            buffer_[index] = static_cast<uint8_t>(val);
+        }
+    }
 
-std::string Hex::remove_spaces(const std::string &hex)
-{
-	std::string copy(hex);
-	remove_spaces_in_place(copy);
-	return copy;
-}
+    std::string Hex::remove_spaces(const std::string& hex)
+    {
+        std::string copy(hex);
+        remove_spaces_in_place(copy);
+        return copy;
+    }
 
-void Hex::remove_spaces_in_place(std::string &hex)
-{
-	size_t pos = hex.find_first_of(' ');
-	if(pos != string::npos)
-	{
-		hex.replace(pos, 1, "");
-		remove_spaces_in_place(hex);
-	}
-}
+    void Hex::remove_spaces_in_place(std::string& hex)
+    {
+        size_t pos = hex.find_first_of(' ');
+        if(pos != string::npos)
+        {
+            hex.replace(pos, 1, "");
+            remove_spaces_in_place(hex);
+        }
+    }
 
-uint32_t Hex::validate(const std::string &sequence)
-{
-	//annoying when you accidentally put an 'O' instead of zero '0'
-	if(sequence.find_first_of( "oO") != string::npos)
-	{
-		throw std::invalid_argument("Sequence contains 'o' or 'O'");
-	}
+    uint32_t Hex::validate(const std::string& sequence)
+    {
+        //annoying when you accidentally put an 'O' instead of zero '0'
+        if(sequence.find_first_of( "oO") != string::npos)
+        {
+            throw std::invalid_argument("Sequence contains 'o' or 'O'");
+        }
 
-	if(sequence.size() % 2 != 0)
-	{
-		throw std::invalid_argument(sequence);
-	}
+        if(sequence.size() % 2 != 0)
+        {
+            throw std::invalid_argument(sequence);
+        }
 
-	return static_cast<uint32_t>(sequence.size() / 2);
-}
+        return static_cast<uint32_t>(sequence.size() / 2);
+    }
 
 }
 

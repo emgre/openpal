@@ -30,22 +30,22 @@
 namespace openpal
 {
 
-/**
-*  Strong typing for UTCTimestamps
-*/
-class UTCTimestamp
-{
+    /**
+    *  Strong typing for UTCTimestamps
+    */
+    class UTCTimestamp
+    {
 
-public:
-	UTCTimestamp() : ms_since_epoch(0)
-	{}
+    public:
+        UTCTimestamp() : ms_since_epoch(0)
+        {}
 
-	explicit UTCTimestamp(uint64_t ms_since_epoch) : ms_since_epoch(ms_since_epoch)
-	{}
+        explicit UTCTimestamp(uint64_t ms_since_epoch) : ms_since_epoch(ms_since_epoch)
+        {}
 
-	uint64_t ms_since_epoch;
+        uint64_t ms_since_epoch;
 
-};
+    };
 
 }
 

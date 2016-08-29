@@ -32,95 +32,95 @@
 namespace openpal
 {
 
-template <class ValueType, class IndexType>
-class Queue
-{
+    template <class ValueType, class IndexType>
+    class Queue
+    {
 
-public:
+    public:
 
-	Queue(IndexType size) : count_(0), first_(0), next_insert_(0), buffer_(size)
-	{}
+        Queue(IndexType size) : count_(0), first_(0), next_insert_(0), buffer_(size)
+        {}
 
-	IndexType size() const
-	{
-		return count_;
-	}
+        IndexType size() const
+        {
+            return count_;
+        }
 
-	IndexType capacity() const
-	{
-		return buffer_.length();
-	}
+        IndexType capacity() const
+        {
+            return buffer_.length();
+        }
 
-	bool is_empty() const
-	{
-		return count_ == 0;
-	}
+        bool is_empty() const
+        {
+            return count_ == 0;
+        }
 
-	bool is_not_empty() const
-	{
-		return count_ > 0;
-	}
+        bool is_not_empty() const
+        {
+            return count_ > 0;
+        }
 
-	bool is_full() const
-	{
-		return count_ == buffer_.length();
-	}
+        bool is_full() const
+        {
+            return count_ == buffer_.length();
+        }
 
-	void clear()
-	{
-		count_ = first_ = next_insert_ = 0;
-	}
+        void clear()
+        {
+            count_ = first_ = next_insert_ = 0;
+        }
 
-	ValueType* peek()
-	{
-		if (is_empty())
-		{
-			return nullptr;
-		}
-		else
-		{
-			return &buffer_[first_];
-		}
-	}
+        ValueType* peek()
+        {
+            if (is_empty())
+            {
+                return nullptr;
+            }
+            else
+            {
+                return &buffer_[first_];
+            }
+        }
 
-	ValueType* pop()
-	{
-		if (is_empty())
-		{
-			return nullptr;
-		}
-		else
-		{
-			IndexType ret = first_;
-			first_ = (first_ + 1) % buffer_.length();
-			--count_;
-			return &buffer_[ret];
-		}
-	}
+        ValueType* pop()
+        {
+            if (is_empty())
+            {
+                return nullptr;
+            }
+            else
+            {
+                IndexType ret = first_;
+                first_ = (first_ + 1) % buffer_.length();
+                --count_;
+                return &buffer_[ret];
+            }
+        }
 
-	bool enqueue(const ValueType &value)
-	{
-		if (is_full())
-		{
-			return false;
-		}
-		else
-		{
-			buffer_[next_insert_] = value;
-			next_insert_ = (next_insert_ + 1) % buffer_.length();
-			++count_;
-			return true;
-		}
-	}
+        bool enqueue(const ValueType& value)
+        {
+            if (is_full())
+            {
+                return false;
+            }
+            else
+            {
+                buffer_[next_insert_] = value;
+                next_insert_ = (next_insert_ + 1) % buffer_.length();
+                ++count_;
+                return true;
+            }
+        }
 
-private:
+    private:
 
-	IndexType count_;
-	IndexType first_;
-	IndexType next_insert_;
+        IndexType count_;
+        IndexType first_;
+        IndexType next_insert_;
 
-	openpal::Array<ValueType, IndexType> buffer_;
-};
+        openpal::Array<ValueType, IndexType> buffer_;
+    };
 
 }
 

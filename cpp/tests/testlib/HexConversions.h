@@ -33,19 +33,19 @@
 namespace openpal
 {
 
-std::string byte_to_hex(uint8_t b);
+    std::string byte_to_hex(uint8_t b);
 
-std::string to_hex(const uint8_t* buffer, size_t length, bool spaced = false);
+    std::string to_hex(const uint8_t* buffer, size_t length, bool spaced = false);
 
-std::string to_hex(const openpal::RSlice &buffer, bool spaced = true);
+    std::string to_hex(const openpal::RSlice& buffer, bool spaced = true);
 
-std::string append_hex(std::initializer_list<std::string> segments);
+    std::string append_hex(std::initializer_list<std::string> segments);
 
-std::string skip_bytes_hex(const std::string &input, uint32_t bytes);
+    std::string skip_bytes_hex(const std::string& input, uint32_t bytes);
 
-std::string repeat_hex(uint8_t byte, uint16_t count, bool spaced = true);
+    std::string repeat_hex(uint8_t byte, uint16_t count, bool spaced = true);
 
-std::string increment_hex(uint8_t start, uint16_t count, bool spaced = true);
+    std::string increment_hex(uint8_t start, uint16_t count, bool spaced = true);
 
 }
 

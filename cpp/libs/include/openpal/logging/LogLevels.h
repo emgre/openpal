@@ -30,81 +30,82 @@
 namespace openpal
 {
 
-struct ModuleId
-{
+    struct ModuleId
+    {
 
-public:
+    public:
 
-	ModuleId() : value(0)
-	{}
+        ModuleId() : value(0)
+        {}
 
-	explicit ModuleId(int32_t level) : value(level)
-	{}
+        explicit ModuleId(int32_t level) : value(level)
+        {}
 
-	int32_t	value;
-};
+        int32_t	value;
+    };
 
-struct LogLevel
-{
+    struct LogLevel
+    {
 
-public:
+    public:
 
-	LogLevel() : value(0)
-	{}
+        LogLevel() : value(0)
+        {}
 
-	explicit LogLevel(int32_t level) : value(level)
-	{}
+        explicit LogLevel(int32_t level) : value(level)
+        {}
 
-	LogLevel next() const
-	{
-		return LogLevel(value << 1);
-	}
+        LogLevel next() const
+        {
+            return LogLevel(value << 1);
+        }
 
-	int32_t	value;
-};
+        int32_t	value;
+    };
 
-// some default log flags
-namespace levels
-{
-	const LogLevel event = LogLevel(1);
-	const LogLevel error = event.next();
-	const LogLevel warn = error.next();
-	const LogLevel info = warn.next();
-	const LogLevel debug = info.next();
-}
+    // some default log flags
+    namespace levels
+    {
+        const LogLevel event = LogLevel(1);
+        const LogLevel error = event.next();
+        const LogLevel warn = error.next();
+        const LogLevel info = warn.next();
+        const LogLevel debug = info.next();
+    }
 
-/**
-* Strongly typed wrapper for flags bitfield
-*/
-class LogLevels
-{
+    /**
+    * Strongly typed wrapper for flags bitfield
+    */
+    class LogLevels
+    {
 
-public:
+    public:
 
-	LogLevels() : levels_(0)
-	{}
+        LogLevels() : levels_(0)
+        {}
 
-	explicit LogLevels(int32_t levels) : levels_(levels)
-	{}
+        explicit LogLevels(int32_t levels) : levels_(levels)
+        {}
 
-	static LogLevels everything() {
-		return LogLevels(~0);
-	}
+        static LogLevels everything()
+        {
+            return LogLevels(~0);
+        }
 
-	inline bool is_set(const LogLevel& level) const
-	{
-		return (level.value & levels_) != 0;
-	}	
+        inline bool is_set(const LogLevel& level) const
+        {
+            return (level.value & levels_) != 0;
+        }
 
-	int32_t levels() const
-	{
-		return levels_;
-	}
+        int32_t levels() const
+        {
+            return levels_;
+        }
 
-private:
+    private:
 
-	int32_t	levels_;
-};
+        int32_t	levels_;
+    };
 
 }
 

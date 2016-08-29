@@ -30,25 +30,25 @@
 namespace openpal
 {
 
-/**
-	This class is designed to make it easier to do simple timing tests
-*/
-class StopWatch
-{
-public:
+    /**
+    	This class is designed to make it easier to do simple timing tests
+    */
+    class StopWatch
+    {
+    public:
 
-	StopWatch();
+        StopWatch();
 
-	//get the elapsed time since creation or the last restart
-	//by default each call to elapsed restarts the timer.
-	std::chrono::steady_clock::duration elapsed(bool reset = true);
+        //get the elapsed time since creation or the last restart
+        //by default each call to elapsed restarts the timer.
+        std::chrono::steady_clock::duration elapsed(bool reset = true);
 
-	//restart or re-zero the StopWatch.
-	void restart();
+        //restart or re-zero the StopWatch.
+        void restart();
 
-private:
-	std::chrono::steady_clock::time_point start_time_;
-};
+    private:
+        std::chrono::steady_clock::time_point start_time_;
+    };
 
 
 }

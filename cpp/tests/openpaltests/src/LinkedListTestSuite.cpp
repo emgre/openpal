@@ -33,210 +33,213 @@ using namespace openpal;
 
 TEST_CASE(SUITE("CorrectInitialState"))
 {
-	LinkedList<int, uint16_t> list(3);
+    LinkedList<int, uint16_t> list(3);
 
-	REQUIRE(list.is_empty());
-	REQUIRE(!list.is_full());
-	REQUIRE(0 == list.length());
+    REQUIRE(list.is_empty());
+    REQUIRE(!list.is_full());
+    REQUIRE(0 == list.length());
 }
 
 TEST_CASE(SUITE("AddsUntilFull"))
 {
-	LinkedList<int, uint16_t> list(3);
+    LinkedList<int, uint16_t> list(3);
 
-	REQUIRE(list.add(1));
-	REQUIRE(list.add(2));
-	REQUIRE(list.add(3));
+    REQUIRE(list.add(1));
+    REQUIRE(list.add(2));
+    REQUIRE(list.add(3));
 
-	REQUIRE(list.is_full());
+    REQUIRE(list.is_full());
 
-	// adding to a full list returns a nullptr
-	REQUIRE_FALSE(list.add(4));
+    // adding to a full list returns a nullptr
+    REQUIRE_FALSE(list.add(4));
 }
 
 TEST_CASE(SUITE("CanRemoveHead"))
 {
-	LinkedList<int, uint16_t> list(3);
+    LinkedList<int, uint16_t> list(3);
 
-	auto one = list.add(1);
-	list.add(2);
-	list.add(3);
+    auto one = list.add(1);
+    list.add(2);
+    list.add(3);
 
-	list.remove(one);
+    list.remove(one);
 
-	REQUIRE(2 == list.length());
+    REQUIRE(2 == list.length());
 
-	auto four = list.add(4);
+    auto four = list.add(4);
 
-	REQUIRE(four == one); // these pointers should be the same
+    REQUIRE(four == one); // these pointers should be the same
 }
 
 TEST_CASE(SUITE("CanRemoveTail"))
 {
-	LinkedList<int, uint16_t> list(3);
+    LinkedList<int, uint16_t> list(3);
 
-	list.add(1);
-	list.add(2);
-	auto three = list.add(3);
+    list.add(1);
+    list.add(2);
+    auto three = list.add(3);
 
-	list.remove(three);
+    list.remove(three);
 
-	REQUIRE(2 == list.length());
+    REQUIRE(2 == list.length());
 
-	auto four = list.add(4);
+    auto four = list.add(4);
 
-	REQUIRE(four == three); // these pointers should be the same
+    REQUIRE(four == three); // these pointers should be the same
 }
 
 TEST_CASE(SUITE("CanRemoveMiddle"))
 {
-	LinkedList<int, uint16_t> list(3);
+    LinkedList<int, uint16_t> list(3);
 
-	list.add(1);
-	auto two = list.add(2);
-	list.add(3);
+    list.add(1);
+    auto two = list.add(2);
+    list.add(3);
 
-	list.remove(two);
+    list.remove(two);
 
-	REQUIRE(2 == list.length());
+    REQUIRE(2 == list.length());
 
-	auto four = list.add(4);
+    auto four = list.add(4);
 
-	REQUIRE(four == two); // these pointers should be the same
+    REQUIRE(four == two); // these pointers should be the same
 }
 
 TEST_CASE(SUITE("RemoveAllComplexQuery"))
 {
-	LinkedList<int, uint16_t> list(10);
+    LinkedList<int, uint16_t> list(10);
 
-	list.add(2);
-	list.add(3);
-	list.add(4);
-	list.add(7);
-	list.add(20);
-	list.add(8);
+    list.add(2);
+    list.add(3);
+    list.add(4);
+    list.add(7);
+    list.add(20);
+    list.add(8);
 
-	auto isEven = [](int num)
-	{
-		return (num % 2) == 0;
-	};
-	auto count = list.remove_all(isEven);
+    auto isEven = [](int num)
+    {
+        return (num % 2) == 0;
+    };
+    auto count = list.remove_all(isEven);
 
-	REQUIRE(count == 4);
-	REQUIRE(list.length() == 2);
+    REQUIRE(count == 4);
+    REQUIRE(list.length() == 2);
 
-	std::vector<int> remaining;
-	auto pushToVector = [&](int num)
-	{
-		remaining.push_back(num);
-	};
-	list.foreach(pushToVector);
+    std::vector<int> remaining;
+    auto pushToVector = [&](int num)
+    {
+        remaining.push_back(num);
+    };
+    list.foreach(pushToVector);
 
-	REQUIRE(remaining.size() == 2);
-	REQUIRE(remaining[0] == 3);
-	REQUIRE(remaining[1] == 7);
+    REQUIRE(remaining.size() == 2);
+    REQUIRE(remaining[0] == 3);
+    REQUIRE(remaining[1] == 7);
 }
 
 TEST_CASE(SUITE("CanIterateOverValues"))
 {
-	LinkedList<int, uint16_t> list(3);
+    LinkedList<int, uint16_t> list(3);
 
-	list.add(1);
-	list.add(2);
-	list.add(3);
+    list.add(1);
+    list.add(2);
+    list.add(3);
 
-	auto iter = list.iterate();
+    auto iter = list.iterate();
 
-	for(int i = 1; i < 4; ++i)
-	{
-		REQUIRE(iter.has_next());
-		REQUIRE(i == iter.next()->value);
-	}
+    for(int i = 1; i < 4; ++i)
+    {
+        REQUIRE(iter.has_next());
+        REQUIRE(i == iter.next()->value);
+    }
 
-	REQUIRE(!iter.has_next());
+    REQUIRE(!iter.has_next());
 }
 
 TEST_CASE(SUITE("StaticLinkedList"))
 {
-	LinkedList<int, uint16_t> list(3);
+    LinkedList<int, uint16_t> list(3);
 
-	REQUIRE(list.add(1));
-	REQUIRE(list.add(2));
-	REQUIRE(list.add(3));
-	REQUIRE_FALSE(list.add(4));
+    REQUIRE(list.add(1));
+    REQUIRE(list.add(2));
+    REQUIRE(list.add(3));
+    REQUIRE_FALSE(list.add(4));
 
-	REQUIRE(list.remove(2));
+    REQUIRE(list.remove(2));
 }
 
 TEST_CASE(SUITE("insert at front of list"))
 {
-	LinkedList<int, uint16_t> list(3);
+    LinkedList<int, uint16_t> list(3);
 
-	REQUIRE(list.add(7));
+    REQUIRE(list.add(7));
 
-	auto lessThan = [](int lhs, int rhs)
-	{
-		return lhs < rhs;
-	};
-	REQUIRE(list.insert(4, lessThan));
+    auto lessThan = [](int lhs, int rhs)
+    {
+        return lhs < rhs;
+    };
+    REQUIRE(list.insert(4, lessThan));
 
-	std::vector<int> items;
+    std::vector<int> items;
 
-	list.foreach([&](int x) {
-		items.push_back(x);
-	});
-	REQUIRE(items.size() == 2);
-	REQUIRE(items[0] == 4);
-	REQUIRE(items[1] == 7);
+    list.foreach([&](int x)
+    {
+        items.push_back(x);
+    });
+    REQUIRE(items.size() == 2);
+    REQUIRE(items[0] == 4);
+    REQUIRE(items[1] == 7);
 }
 
 TEST_CASE(SUITE("insert in center of list"))
 {
-	LinkedList<int, uint16_t> list(10);
+    LinkedList<int, uint16_t> list(10);
 
-	REQUIRE(list.add(2));
-	REQUIRE(list.add(7));
+    REQUIRE(list.add(2));
+    REQUIRE(list.add(7));
 
-	auto lessThan = [](int lhs, int rhs)
-	{
-		return lhs < rhs;
-	};
-	REQUIRE(list.insert(4, lessThan));
+    auto lessThan = [](int lhs, int rhs)
+    {
+        return lhs < rhs;
+    };
+    REQUIRE(list.insert(4, lessThan));
 
-	std::vector<int> items;
+    std::vector<int> items;
 
-	list.foreach([&](int x) {
-		items.push_back(x);
-	});
-	REQUIRE(items.size() == 3);
+    list.foreach([&](int x)
+    {
+        items.push_back(x);
+    });
+    REQUIRE(items.size() == 3);
 
-	REQUIRE(items[0] == 2);
-	REQUIRE(items[1] == 4);
-	REQUIRE(items[2] == 7);
+    REQUIRE(items[0] == 2);
+    REQUIRE(items[1] == 4);
+    REQUIRE(items[2] == 7);
 }
 
 TEST_CASE(SUITE("insert at end of list"))
 {
-	LinkedList<int, uint16_t> list(10);
+    LinkedList<int, uint16_t> list(10);
 
-	REQUIRE(list.add(2));
-	REQUIRE(list.add(4));
+    REQUIRE(list.add(2));
+    REQUIRE(list.add(4));
 
-	auto lessThan = [](int lhs, int rhs)
-	{
-		return lhs < rhs;
-	};
-	REQUIRE(list.insert(7, lessThan));
+    auto lessThan = [](int lhs, int rhs)
+    {
+        return lhs < rhs;
+    };
+    REQUIRE(list.insert(7, lessThan));
 
-	std::vector<int> items;
+    std::vector<int> items;
 
-	list.foreach([&](int x) {
-		items.push_back(x);
-	});
-	REQUIRE(items.size() == 3);
+    list.foreach([&](int x)
+    {
+        items.push_back(x);
+    });
+    REQUIRE(items.size() == 3);
 
-	REQUIRE(items[0] == 2);
-	REQUIRE(items[1] == 4);
-	REQUIRE(items[2] == 7);
+    REQUIRE(items[0] == 2);
+    REQUIRE(items[1] == 4);
+    REQUIRE(items[2] == 7);
 }
 
