@@ -72,6 +72,11 @@ namespace openpal
         return WSlice(buffer_ + num, length_ - num);
     }
 
+	WSlice WSlice::take(uint32_t count) const
+	{
+		return WSlice(buffer_, openpal::min(length_, count));
+	}
+
     RSlice WSlice::as_rslice() const
     {
         return RSlice(buffer_, length_);

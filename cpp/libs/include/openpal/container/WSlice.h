@@ -55,6 +55,8 @@ namespace openpal
 
         WSlice skip(uint32_t count) const;
 
+		WSlice take(uint32_t count) const;
+
         RSlice as_rslice() const;
 
         operator uint8_t* ()
