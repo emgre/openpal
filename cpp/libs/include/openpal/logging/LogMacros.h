@@ -46,9 +46,9 @@
 #else
 
 #define LOG_FORMAT(logger, levels, format, ...) { \
-	char message[openpal::max_log_entry_size]; \
-	SAFE_STRING_FORMAT(message, openpal::max_log_entry_size, format, ##__VA_ARGS__); \
-	logger.log(levels, LOCATION, message); } \
+	char message_buffer_some_name_no_conflict[openpal::max_log_entry_size]; \
+	SAFE_STRING_FORMAT(message_buffer_some_name_no_conflict, openpal::max_log_entry_size, format, ##__VA_ARGS__); \
+	logger.log(levels, LOCATION, message_buffer_some_name_no_conflict); } \
  
 #define SIMPLE_LOG_BLOCK(logger, levels, message) \
 		if(logger.is_enabled(levels)){ \
@@ -62,16 +62,16 @@
 
 #define FORMAT_LOG_BLOCK(logger, levels, format, ...) \
 	if(logger.is_enabled(levels)){ \
-		char message[openpal::max_log_entry_size]; \
-		SAFE_STRING_FORMAT(message, openpal::max_log_entry_size, format, ##__VA_ARGS__); \
-		logger.log(levels, LOCATION, message); \
+		char message_buffer_some_name_no_conflict[openpal::max_log_entry_size]; \
+		SAFE_STRING_FORMAT(message_buffer_some_name_no_conflict, openpal::max_log_entry_size, format, ##__VA_ARGS__); \
+		logger.log(levels, LOCATION, message_buffer_some_name_no_conflict); \
 	}
 
 #define FORMAT_LOGGER_BLOCK(pLogger, levels, format, ...) \
 	if(pLogger && pLogger->is_enabled(levels)){ \
-		char message[openpal::max_log_entry_size]; \
-		SAFE_STRING_FORMAT(message, openpal::max_log_entry_size, format, ##__VA_ARGS__); \
-		pLogger->log(levels, LOCATION, message); \
+		char message_buffer_some_name_no_conflict[openpal::max_log_entry_size]; \
+		SAFE_STRING_FORMAT(message_buffer_some_name_no_conflict, openpal::max_log_entry_size, format, ##__VA_ARGS__); \
+		pLogger->log(levels, LOCATION, message_buffer_some_name_no_conflict); \
 	}
 
 #define FORMAT_HEX_BLOCK(logger, levels, buffer, firstSize, otherSize) \
