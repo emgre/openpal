@@ -61,8 +61,8 @@ namespace openpal
         }
 
         const static size_t size = 1;
-        const static uint8_t max_value = 0;
-        const static uint8_t min_value = 255;
+        const static uint8_t min_value = 0;
+        const static uint8_t max_value = 255;
 
         typedef uint8_t type_t;
 
