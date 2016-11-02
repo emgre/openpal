@@ -35,13 +35,12 @@ namespace openpal
 
     public:
 
-        ModuleId() : value(0)
-        {}
+		ModuleId() = default;
 
         explicit ModuleId(int32_t level) : value(level)
         {}
 
-        int32_t	value;
+		int32_t	value = 0;
     };
 
     struct LogLevel
@@ -49,8 +48,7 @@ namespace openpal
 
     public:
 
-        LogLevel() : value(0)
-        {}
+		LogLevel() = default;
 
         explicit LogLevel(int32_t level) : value(level)
         {}
@@ -60,7 +58,7 @@ namespace openpal
             return LogLevel(value << 1);
         }
 
-        int32_t	value;
+		int32_t	value = 0;
     };
 
     // some default log flags
@@ -81,10 +79,9 @@ namespace openpal
 
     public:
 
-        LogLevels() : levels_(0)
-        {}
+		LogLevels() = default;
 
-        explicit LogLevels(int32_t levels) : levels_(levels)
+        explicit LogLevels(int32_t levels) : levels(levels)
         {}
 
         static LogLevels everything()
@@ -94,17 +91,12 @@ namespace openpal
 
         inline bool is_set(const LogLevel& level) const
         {
-            return (level.value & levels_) != 0;
-        }
-
-        int32_t levels() const
-        {
-            return levels_;
-        }
+            return (level.value & levels) != 0;
+        }        
 
     private:
 
-        int32_t	levels_;
+		int32_t	levels = 0;
     };
 
 }
