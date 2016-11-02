@@ -47,96 +47,41 @@ namespace openpal
     }
 
     MockLogHandler::MockLogHandler(LogLevels levels) :
-        root(ModuleId(0), this, "test", levels),
-        output_to_stdio_(false)
+		backend(std::make_shared<Backend>()),
+		logger(backend, ModuleId(0), "test", levels)
     {
 
     }
 
 
-    void MockLogHandler::log(ModuleId module, const char* id, LogLevel level, char const* location, char const* message)
-    {
-        if (output_to_stdio_)
-        {
-            std::cout << message << std::endl;
-        }
+    void MockLogHandler::Backend::log(ModuleId module, const char* id, LogLevel level, char const* location, char const* message)
+    {		
+		if (output_to_stdio)
+		{
+			std::cout << message << std::endl;
+		}
 
-        messages_.push_back(
-            LogRecord(module, id, level, location, message)
-        );
+		messages.push_back(LogRecord(module, id, level, location, message));		
     }
-
-    int32_t MockLogHandler::pop_filter()
-    {
-        if (messages_.size() > 0)
-        {
-            auto flags = messages_.front().level.value;
-            messages_.pop_front();
-            return flags;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
-    bool MockLogHandler::pop_one_entry(int32_t filter)
-    {
-        if (messages_.size() == 1)
-        {
-            if ((messages_.front().level.value & filter) != 0)
-            {
-                messages_.pop_front();
-                return true;
-            }
-            else return false;
-        }
-        else return false;
-    }
-
-    bool MockLogHandler::pop_until(int32_t filter)
-    {
-        while (!messages_.empty())
-        {
-            bool match = (messages_.front().level.value & filter) != 0;
-            messages_.pop_front();
-            if (match)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
+   
     void MockLogHandler::log(const std::string& location, const std::string& message)
     {
-        root.logger.log(openpal::levels::event, location.c_str(), message.c_str());
+        backend->log(ModuleId(0), "test", openpal::levels::event, location.c_str(), message.c_str());
     }
 
     void MockLogHandler::write_to_stdio()
     {
-        this->output_to_stdio_ = true;
-    }
-
-    bool MockLogHandler::get_next_entry(LogRecord& record)
-    {
-        if (messages_.empty()) return false;
-        else
-        {
-            record = messages_.front();
-            messages_.pop_front();
-            return true;
-        }
-    }
+        this->backend->output_to_stdio = true;
+    } 
 
     void MockLogHandler::pop(openpal::ILogHandler& log)
-    {
-        LogRecord rec;
-        while (get_next_entry(rec))
-        {
-            log.log(rec.module, rec.id.c_str(), rec.level, rec.location.c_str(), rec.message.c_str());
-        }
+    {        
+		for (auto& rec : backend->messages)
+		{
+			log.log(rec.module, rec.id.c_str(), rec.level, rec.location.c_str(), rec.message.c_str());
+		}
+
+		backend->messages.clear();
     }
 
 }

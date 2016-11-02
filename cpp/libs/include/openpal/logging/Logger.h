@@ -25,39 +25,106 @@
 #ifndef OPENPAL_LOGGER_H
 #define OPENPAL_LOGGER_H
 
-#include "LogLevels.h"
+#include "openpal/logging/ILogHandler.h"
 
-#include "openpal/util/Uncopyable.h"
+#include <memory>
+#include <string>
+
 
 namespace openpal
 {
 
     const uint32_t max_log_entry_size = 120;
-
-    class LogRoot;
-
+    
     /**
     * A copyable facade over a LogRoot class
     */
     class Logger
     {
-        friend class LogRoot;
 
-    public:
+	public:
 
-        void log(const LogLevel& level, char const* location, char const* message);
+		struct Settings
+		{
+			Settings(ModuleId module, const std::string& id, LogLevels levels) : module(module), id(id), levels(levels)
+			{}
 
-        bool is_enabled(const LogLevel& level) const;
+			ModuleId module;
+			std::string id;
+			LogLevels levels;
+		};
 
-        bool has_any(const LogLevel& level) const;
+		Logger(const std::shared_ptr<ILogHandler>& backend, ModuleId moduleid, const std::string& id, LogLevels levels) :
+			backend(backend),
+			settings(std::make_shared<Settings>(moduleid, id, levels))
+		{}
 
-    private:
+		static Logger empty()
+		{
+			return Logger(nullptr, ModuleId(0), "", LogLevels(0));
+		}
 
-        Logger() = delete;
+		void log(const openpal::LogLevel& level, const char* location, const char* message)
+		{
+			if (backend)
+			{
+				backend->log(	
+						this->settings->module,
+						this->settings->id.c_str(),
+						level,
+						location,
+						message					
+				);
+			}
+		}
 
-        Logger(LogRoot* pRoot);
+		Logger detach(const std::string& id) const
+		{
+			return Logger(this->backend, std::make_shared<Settings>(this->settings->module, id, this->settings->levels));
+		}
 
-        LogRoot* root_;
+		Logger detach(const std::string& id, LogLevels levels) const
+		{
+			return Logger(this->backend, std::make_shared<Settings>(this->settings->module, id, levels));
+		}
+
+		Logger detach(LogLevels levels) const
+		{
+			return Logger(this->backend, std::make_shared<Settings>(this->settings->module, this->settings->id, levels));
+		}
+
+		bool is_enabled(const LogLevel& level) const
+		{
+			return backend && settings->levels.is_set(level);
+		}
+
+		LogLevels get_levels() const
+		{
+			return this->settings->levels;
+		}
+
+		void set_levels(const LogLevels& filters)
+		{
+			this->settings->levels = filters;
+		}
+
+		void rename(const std::string& id)
+		{
+			this->settings->id = id;
+		}
+
+	private:
+
+		Logger(const std::shared_ptr<ILogHandler>& backend, const std::shared_ptr<Settings>& settings) :
+			backend(backend),
+			settings(settings)
+		{}
+
+		Logger() = delete;
+		Logger& operator=(const Logger&) = delete;
+
+		const std::shared_ptr<ILogHandler> backend;
+		const std::shared_ptr<Settings> settings;
     };
 
 }

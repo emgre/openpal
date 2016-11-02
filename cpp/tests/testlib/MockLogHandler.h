@@ -25,16 +25,18 @@
 #ifndef TESTLIB_LOG_TESTER_H
 #define TESTLIB_LOG_TESTER_H
 
-#include <openpal/logging/LogRoot.h>
+#include "openpal/logging/Logger.h"
 
 #include <string>
 #include <queue>
+#include <memory>
 
 namespace openpal
 {
 
     struct LogRecord
     {
+
     public:
 
         LogRecord();
@@ -42,40 +44,38 @@ namespace openpal
 
         ModuleId		module;
         std::string		id;
-        openpal::LogLevel	level;
+        openpal::LogLevel level;
         std::string		location;
         std::string		message;
     };
 
-    class MockLogHandler : public openpal::ILogHandler
+    class MockLogHandler
     {
+		struct Backend final : public openpal::ILogHandler
+		{
+			void log(ModuleId module, const char* id, LogLevel level, char const* location, char const* message) override;			
+
+			bool output_to_stdio = false;
+			std::deque<LogRecord> messages;
+		};
 
     public:
+
         MockLogHandler(LogLevels levels = LogLevels(~0));
 
         void write_to_stdio();
 
-        void log(const std::string& location, const std::string& msg);
+        void log(const std::string& location, const std::string& msg);        
 
-        void log(ModuleId module, const char* id, LogLevel level, char const* location, char const* message) override;
-
-        int32_t pop_filter();
-
-        bool pop_one_entry(int32_t filter);
-
-        bool pop_until(int32_t filter);
-
-        int next_error_code();
-        bool get_next_entry(LogRecord& record);
-
-        void pop(openpal::ILogHandler& log);
-
-        openpal::LogRoot root;
+        void pop(openpal::ILogHandler& log);        
 
     protected:
 
-        bool output_to_stdio_;
-        std::deque<LogRecord> messages_;
+		std::shared_ptr<Backend> backend;
+
+	public:
+
+		openpal::Logger logger;
 
     };
 
