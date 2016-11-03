@@ -30,7 +30,8 @@
 #include <map>
 #include <queue>
 #include <limits>
-#include <stddef.h>
+#include <memory>
+#include <cstddef>
 
 namespace openpal
 {
@@ -43,6 +44,12 @@ namespace openpal
         friend class MockTimer;
 
     public:
+
+		static std::shared_ptr<MockExecutor> Create()
+		{
+			return std::make_shared<MockExecutor>();
+		}
+
         MockExecutor();
         ~MockExecutor();
 
