@@ -42,10 +42,10 @@ namespace openpal
 
         Buffer();
 
-        Buffer(uint32_t size);
+        explicit Buffer(uint32_t size);
 
         // initialize with the exact length_ and contents of the view
-        Buffer(const RSlice& input);
+        explicit Buffer(const RSlice& input);
 
         virtual ~Buffer() {}
 

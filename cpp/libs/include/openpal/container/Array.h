@@ -44,7 +44,7 @@ namespace openpal
 
     public:
 
-        Array(IndexType size) :
+        explicit Array(IndexType size) :
             HasLength<IndexType>(size),
             buffer_(new ValueType[size]())
         {}

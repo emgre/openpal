@@ -67,9 +67,7 @@ namespace openpal
     TimeDuration TimeDuration::days(int64_t days)
     {
         return TimeDuration(static_cast<int64_t>(1000 * 60 * 60 * 24) * days);
-    }
-
-    TimeDuration::TimeDuration() : TimeDurationBase(0) {}
+    }    
 
     TimeDuration::TimeDuration(int64_t milliseconds) : TimeDurationBase(milliseconds)
     {}

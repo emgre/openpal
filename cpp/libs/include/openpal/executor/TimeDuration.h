@@ -61,7 +61,7 @@ namespace openpal
         TimeDurationBase() : milliseconds_(0)
         {}
 
-        TimeDurationBase(T milliseconds) : milliseconds_(milliseconds)
+        explicit TimeDurationBase(T milliseconds) : milliseconds_(milliseconds)
         {}
 
         T milliseconds_;
@@ -76,7 +76,7 @@ namespace openpal
 
     public:
 
-        TimeDuration();
+		TimeDuration() {}
 
         static TimeDuration min_value();
 
@@ -96,7 +96,7 @@ namespace openpal
 
     private:
 
-        TimeDuration(int64_t milliseconds);
+        explicit TimeDuration(int64_t milliseconds);
     };
 
     bool operator==(const TimeDuration& lhs, const TimeDuration& rhs);
