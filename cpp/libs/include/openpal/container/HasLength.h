@@ -33,10 +33,7 @@ namespace openpal
     {
 
     public:
-
-        HasLength(LengthType length) : length_(length)
-        {}
-
+        
         LengthType length() const
         {
             return length_;
@@ -53,6 +50,9 @@ namespace openpal
         }
 
     protected:
+
+		explicit HasLength(LengthType length) : length_(length)
+		{}
 
         LengthType length_;
 
