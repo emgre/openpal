@@ -39,10 +39,7 @@ namespace openpal
     class StaticBuffer final
     {
 
-    public:
-
-        StaticBuffer() : buffer_{0}
-        {}
+    public:        
 
         RSlice as_rslice() const
         {
@@ -80,7 +77,7 @@ namespace openpal
         }
 
     private:
-        uint8_t buffer_[SIZE];
+		uint8_t buffer_[SIZE] = { 0 };
     };
 
 }
