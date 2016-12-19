@@ -41,7 +41,7 @@ namespace openpal
 
     public:
 
-        StaticBuffer()
+        StaticBuffer() : buffer_{0}
         {}
 
         RSlice as_rslice() const
