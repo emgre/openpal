@@ -22,41 +22,104 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef TESTLIB_HEX_H
-#define TESTLIB_HEX_H
+#ifndef OPENPAL_RSEQ_H
+#define OPENPAL_RSEQ_H
 
-#include "openpal/container/Buffer.h"
+#include "HasLength.h"
 
-#include <string>
+#include "openpal/util/Comparisons.h"
+#include "openpal/container/WSlice.h"
+
+#include <cstring>
 
 namespace openpal
-{
+{    
 
     /**
-     * A sequence of hex values in the form "01 02 03 04" that are stored as a ByteStr.
-     */
-    class Hex
+    *	Represents a readonly slice of a certain type (T) with a parameterized length type (L), and a return type (R)
+    */
+	template <class T, class L, class R>
+    class RSeq : public HasLength<L>
     {
-    public:
-        Hex(const std::string& hex);
 
-        openpal::RSlice as_rslice() const
+    public:       
+
+		static R empty_slice()
+		{
+			return R(nullptr, 0);
+		}
+
+		RSeq() : HasLength(0), buffer_(nullptr)
+		{}
+
+		RSeq(T const* buffer, L length) :
+			HasLength(length),
+			buffer_(buffer)
+		{}
+
+        void make_empty()
+		{
+			buffer_ = nullptr;
+			length_ = 0;
+		}
+        
+		R take(L count) const
+		{
+			return R(buffer_, openpal::min(length_, count));
+		}
+
+		R skip(L count) const
+		{
+			auto num = openpal::min(length_, count);
+			return R(buffer_ + num, length_ - num);
+		}
+
+		R copy_to(WSlice& dest) const
+		{
+			if (dest.length() < length_)
+			{
+				return R::empty_slice();
+			}
+			else
+			{
+				WSlice copy(dest);
+				memcpy(dest, buffer_, length_);
+				dest.advance(length_);
+				return R(copy, length_);
+			}
+		}
+
+		R move_to(WSlice& dest) const
+		{
+			if (dest.length() < length_)
+			{
+				return R::empty_slice();
+			}
+			else
+			{
+				WSlice copy(dest);
+				memmove(dest, buffer_, length_);
+				dest.advance(length_);
+				return R(copy, length_);
+			}
+		}
+
+        void advance(L count)
+		{
+			auto num = openpal::min(length_, count);
+			buffer_ += num;
+			length_ -= num;
+		}
+
+        operator T const* () const
         {
-            return buffer_.as_rslice();
-        }
+            return buffer_;
+        };
 
-        operator openpal::RSlice () const
-        {
-            return this->as_rslice();
-        }		
+	protected:
 
-    protected:
+        T const* buffer_;
 
-        openpal::Buffer buffer_;
-
-        std::string remove_spaces(const std::string& hex);
-        void remove_spaces_in_place(std::string& hex);
-        static uint32_t validate(const std::string& sequence);
     };
 
 }

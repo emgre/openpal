@@ -28,8 +28,6 @@
 
 #include "openpal/container/WSlice.h"
 
-#include <cstring>
-
 namespace openpal
 {
 
@@ -38,78 +36,22 @@ namespace openpal
         return RSlice();
     }
 
-    RSlice::RSlice(): HasLength(0), buffer_(nullptr)
+    RSlice::RSlice(): RSeq()
     {}
 
-    RSlice::RSlice(uint8_t const* pBuffer, uint32_t length) :
-        HasLength(length),
-        buffer_(pBuffer)
+    RSlice::RSlice(uint8_t const* buffer, uint32_t length) : RSeq(buffer, length)        
     {}
 
-    RSlice RSlice::copy_to(WSlice& dest) const
-    {
-        if (dest.length() < length_)
-        {
-            return RSlice::empty_slice();
-        }
-        else
-        {
-            WSlice copy(dest);
-            memcpy(dest, buffer_, length_);
-            dest.advance(length_);
-            return copy.as_rslice().take(length_);
-        }
-    }
-
-    RSlice RSlice::move_to(WSlice& dest) const
-    {
-        if (dest.length() < length_)
-        {
-            return RSlice::empty_slice();
-        }
-        else
-        {
-            WSlice copy(dest);
-            memmove(dest, buffer_, length_);
-            dest.advance(length_);
-            return copy.as_rslice().take(length_);
-        }
-    }
-
-    RSlice RSlice::take(uint32_t count) const
-    {
-        return RSlice(buffer_, openpal::min(length_, count));
-    }
-
-    RSlice RSlice::skip(uint32_t count) const
-    {
-        auto num = openpal::min(length_, count);
-        return RSlice(buffer_ + num, length_ - num);
-    }
-
-    void RSlice::make_empty()
-    {
-        buffer_ = nullptr;
-        length_ = 0;
-    }
-
-    bool RSlice::equals(const RSlice& rhs) const
-    {
-        if (this->length() == rhs.length())
-        {
-            return memcmp(buffer_, rhs.buffer_, length()) == 0;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    void RSlice::advance(uint32_t count)
-    {
-        auto num = openpal::min(length_, count);
-        buffer_ += num;
-        length_ -= num;
-    }
+	bool RSlice::equals(const RSlice& rhs) const
+	{
+		if (this->length() == rhs.length())
+		{
+			return memcmp(buffer_, rhs.buffer_, length()) == 0;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 }
