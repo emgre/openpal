@@ -31,27 +31,6 @@
 namespace openpal
 {
 
-    RSlice RSlice::empty_slice()
-    {
-        return RSlice();
-    }
-
-    RSlice::RSlice(): RSeq()
-    {}
-
-    RSlice::RSlice(uint8_t const* buffer, uint32_t length) : RSeq(buffer, length)        
-    {}
-
-	bool RSlice::equals(const RSlice& rhs) const
-	{
-		if (this->length() == rhs.length())
-		{
-			return memcmp(buffer_, rhs.buffer_, length()) == 0;
-		}
-		else
-		{
-			return false;
-		}
-	}
+   
 
 }

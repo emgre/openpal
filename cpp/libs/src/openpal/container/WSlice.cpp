@@ -82,6 +82,33 @@ namespace openpal
         return RSlice(buffer_, length_);
     }
 
+	RSlice WSlice::copy_from(const RSlice& src)
+	{
+		if (src.length() > this->length_) 
+		{
+			return RSlice::empty_slice();
+		}
+		else {
+			const auto ret = this->as_rslice().take(src.length());
+			memcpy(this->buffer_, src, src.length());
+			this->advance(src.length());
+			return ret;
+		}
+	}
+
+	RSlice WSlice::move_from(const RSlice& src)
+	{
+		if(src.length() > this->length_)
+		{
+			return RSlice::empty_slice();
+		}
+		else {
+			const auto ret = this->as_rslice().take(src.length());
+			memmove(buffer_, src, src.length());
+			this->advance(src.length());
+			return ret;
+		}
+	}
 }
 
 

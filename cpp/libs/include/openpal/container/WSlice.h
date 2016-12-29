@@ -25,15 +25,12 @@
 #ifndef OPENPAL_WSLICE_H
 #define OPENPAL_WSLICE_H
 
-#include "HasLength.h"
+#include "RSlice.h"
 
 #include <cstdint>
 
 namespace openpal
 {
-
-    class RSlice;
-
     /**
     *	Represents a write-able slice of a buffer located elsewhere. Mediates writing to the buffer
     *	to prevent overruns and other errors.
@@ -68,6 +65,10 @@ namespace openpal
         {
             return buffer_;
         };
+
+		RSlice copy_from(const RSlice& src);
+
+		RSlice move_from(const RSlice& src);
 
     private:
 

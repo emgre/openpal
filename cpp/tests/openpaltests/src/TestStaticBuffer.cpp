@@ -35,14 +35,14 @@ using namespace std;
 
 TEST_CASE(SUITE("Static buffers can be copied"))
 {
-    StaticBuffer<4> buffer;
+    StaticBuffer<uint8_t, 4> buffer;
 
     buffer()[0] = 0xDE;
     buffer()[1] = 0xAD;
     buffer()[2] = 0xBE;
     buffer()[3] = 0xEF;
 
-    StaticBuffer<4> copy(buffer);
+    StaticBuffer<uint8_t, 4> copy(buffer);
     REQUIRE(copy()[0] == 0xDE);
     REQUIRE(copy()[1] == 0xAD);
     REQUIRE(copy()[2] == 0xBE);
@@ -51,14 +51,14 @@ TEST_CASE(SUITE("Static buffers can be copied"))
 
 TEST_CASE(SUITE("Static buffers can be assigned"))
 {
-    StaticBuffer<4> buffer;
+    StaticBuffer<uint8_t, 4> buffer;
 
     buffer()[0] = 0xDE;
     buffer()[1] = 0xAD;
     buffer()[2] = 0xBE;
     buffer()[3] = 0xEF;
 
-    StaticBuffer<4> copy;
+    StaticBuffer<uint8_t, 4> copy;
     copy = buffer;
     REQUIRE(copy()[0] == 0xDE);
     REQUIRE(copy()[1] == 0xAD);

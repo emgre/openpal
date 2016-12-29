@@ -26,31 +26,34 @@
 #define OPENPAL_STATICBUFFER_H
 
 #include "openpal/container/WSlice.h"
-#include "openpal/container/RSlice.h"
+#include "openpal/container/RSeq.h"
 #include "openpal/util/Comparisons.h"
 #include "openpal/util/Uncopyable.h"
+
+#include <limits>
 
 #include <cstdint>
 
 namespace openpal
 {
 
-    template <uint32_t SIZE>
+    template <class T, T SIZE>
     class StaticBuffer final
     {
+		static_assert(!std::numeric_limits<T>::is_signed && std::numeric_limits<T>::is_integer, "must be an unsigned integer");
 
     public:  
 
 		StaticBuffer() {}
 
-        RSlice as_rslice() const
+        RSeq<uint8_t, T> as_seq() const
         {
-            return RSlice(buffer_, SIZE);
+            return RSeq<uint8_t, T>(buffer_, SIZE);
         }
 
-        RSlice as_rslice(uint32_t max_size) const
+		RSeq<uint8_t, T> as_seq(T max_size) const
         {
-            return RSlice(buffer_, openpal::min(SIZE, max_size));
+			return this->as_seq().take(max_size);
         }
 
         WSlice as_wslice()
@@ -73,7 +76,7 @@ namespace openpal
             return buffer_;
         }
 
-        uint32_t size() const
+        T size() const
         {
             return SIZE;
         }

@@ -28,25 +28,25 @@
 #include "HasLength.h"
 
 #include "openpal/util/Comparisons.h"
-#include "openpal/container/WSlice.h"
 
-#include <cstring>
+#include <limits>
 
 namespace openpal
 {    
 
     /**
-    *	Represents a readonly slice of a certain type (T) with a parameterized length type (L), and a return type (R)
+    *	Represents a readonly slice of a certain type (T) with a parameterized length type (L)
     */
-	template <class T, class L, class R>
+	template <class T, class L>
     class RSeq : public HasLength<L>
     {
+		static_assert(std::numeric_limits<T>::is_integer && !std::numeric_limits<T>::is_signed, "Must be an unsigned integer");
 
     public:       
 
-		static R empty_slice()
+		static RSeq empty_slice()
 		{
-			return R(nullptr, 0);
+			return RSeq(nullptr, 0);
 		}
 
 		RSeq() : HasLength(0), buffer_(nullptr)
@@ -62,46 +62,23 @@ namespace openpal
 			buffer_ = nullptr;
 			length_ = 0;
 		}
-        
-		R take(L count) const
+
+		template <class U>
+		RSeq<T, U> widen() const
 		{
-			return R(buffer_, openpal::min(length_, count));
+			return RSeq<T, U>(buffer_, length_);
 		}
 
-		R skip(L count) const
+		template <class U>
+		RSeq<T,U> take(U count) const
+		{
+			return RSeq<T,U>(this->buffer_, (count < this->length_) ? count : static_cast<U>(this->length_));
+		}
+
+		RSeq skip(L count) const
 		{
 			auto num = openpal::min(length_, count);
-			return R(buffer_ + num, length_ - num);
-		}
-
-		R copy_to(WSlice& dest) const
-		{
-			if (dest.length() < length_)
-			{
-				return R::empty_slice();
-			}
-			else
-			{
-				WSlice copy(dest);
-				memcpy(dest, buffer_, length_);
-				dest.advance(length_);
-				return R(copy, length_);
-			}
-		}
-
-		R move_to(WSlice& dest) const
-		{
-			if (dest.length() < length_)
-			{
-				return R::empty_slice();
-			}
-			else
-			{
-				WSlice copy(dest);
-				memmove(dest, buffer_, length_);
-				dest.advance(length_);
-				return R(copy, length_);
-			}
+			return RSeq(buffer_ + num, length_ - num);
 		}
 
         void advance(L count)
@@ -111,10 +88,22 @@ namespace openpal
 			length_ -= num;
 		}
 
-        operator T const* () const
-        {
-            return buffer_;
-        };
+		operator T const* () const
+		{
+			return buffer_;
+		};
+
+		bool equals(const RSeq& rhs) const
+		{
+			if (this->length() == rhs.length())
+			{
+				return memcmp(buffer_, rhs.buffer_, length()) == 0;
+			}
+			else
+			{
+				return false;
+			}
+		}
 
 	protected:
 

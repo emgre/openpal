@@ -32,26 +32,7 @@
 namespace openpal
 {
 
-    class WSlice;
-
-    /**
-    *	Represents a readonly slice of a buffer located elsewhere. Mediates reading from the buffer
-    *	to prevent overreads and other errors.
-    */
-    class RSlice : public RSeq<uint8_t, uint32_t, RSlice>
-    {
-
-    public:
-
-        static RSlice empty_slice();
-
-        RSlice();
-
-        RSlice(uint8_t const* buffer, uint32_t length);
-
-        bool equals(const RSlice& rhs) const;
-
-    };
+	typedef RSeq<uint8_t, uint32_t> RSlice;
 
 }
 
