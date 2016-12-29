@@ -46,12 +46,12 @@ namespace openpal
 
 		StaticBuffer() {}
 
-        RSeq<uint8_t, T> as_seq() const
+        RSeq<T> as_seq() const
         {
-            return RSeq<uint8_t, T>(buffer_, SIZE);
+            return RSeq<T>(buffer_, SIZE);
         }
 
-		RSeq<uint8_t, T> as_seq(T max_size) const
+		RSeq<T> as_seq(T max_size) const
         {
 			return this->as_seq().take(max_size);
         }

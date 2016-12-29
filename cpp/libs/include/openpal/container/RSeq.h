@@ -30,17 +30,18 @@
 #include "openpal/util/Comparisons.h"
 
 #include <limits>
+#include <cstdint>
 
 namespace openpal
 {    
 
     /**
-    *	Represents a readonly slice of a certain type (T) with a parameterized length type (L)
+    *	Represents a readonly slice of bytes with a parameterized length type (L)
     */
-	template <class T, class L>
+	template <class L>
     class RSeq : public HasLength<L>
     {
-		static_assert(std::numeric_limits<T>::is_integer && !std::numeric_limits<T>::is_signed, "Must be an unsigned integer");
+		static_assert(std::numeric_limits<L>::is_integer && !std::numeric_limits<L>::is_signed, "Must be an unsigned integer");
 
     public:       
 
@@ -52,7 +53,7 @@ namespace openpal
 		RSeq() : HasLength(0), buffer_(nullptr)
 		{}
 
-		RSeq(T const* buffer, L length) :
+		RSeq(uint8_t const* buffer, L length) :
 			HasLength(length),
 			buffer_(buffer)
 		{}
@@ -64,15 +65,15 @@ namespace openpal
 		}
 
 		template <class U>
-		RSeq<T, U> widen() const
+		RSeq<U> widen() const
 		{
-			return RSeq<T, U>(buffer_, length_);
+			return RSeq<U>(buffer_, length_);
 		}
 
 		template <class U>
-		RSeq<T,U> take(U count) const
+		RSeq<U> take(U count) const
 		{
-			return RSeq<T,U>(this->buffer_, (count < this->length_) ? count : static_cast<U>(this->length_));
+			return RSeq<U>(this->buffer_, (count < this->length_) ? count : static_cast<U>(this->length_));
 		}
 
 		RSeq skip(L count) const
@@ -88,7 +89,7 @@ namespace openpal
 			length_ -= num;
 		}
 
-		operator T const* () const
+		operator uint8_t const* () const
 		{
 			return buffer_;
 		};
@@ -107,7 +108,7 @@ namespace openpal
 
 	protected:
 
-        T const* buffer_;
+		uint8_t const* buffer_;
 
     };
 

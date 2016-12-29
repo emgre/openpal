@@ -32,7 +32,7 @@
 namespace openpal
 {
 
-	typedef RSeq<uint8_t, uint32_t> RSlice;
+	typedef RSeq<uint32_t> RSlice;
 
 }
 
