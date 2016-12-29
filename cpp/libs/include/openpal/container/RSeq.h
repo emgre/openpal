@@ -63,11 +63,11 @@ namespace openpal
 			buffer_ = nullptr;
 			length_ = 0;
 		}
-
-		template <class U>
-		RSeq<U> widen() const
+		
+		RSeq<uint32_t> widen() const
 		{
-			return RSeq<U>(buffer_, length_);
+			static_assert(sizeof(uint32_t) > sizeof(L), "Old type must be smaller than uint32_t");
+			return RSeq<uint32_t>(buffer_, length_);
 		}
 
 		template <class U>
