@@ -38,7 +38,7 @@ namespace openpal
     /**
     *	Represents a readonly slice of bytes with a parameterized length type (L)
     */
-	template <class L>
+    template <class L>
     class RSeq : public HasLength<L>
     {
 		static_assert(std::numeric_limits<L>::is_integer && !std::numeric_limits<L>::is_signed, "Must be an unsigned integer");
@@ -50,24 +50,24 @@ namespace openpal
 			return RSeq(nullptr, 0);
 		}
 
-		RSeq() : HasLength(0), buffer_(nullptr)
+		RSeq() : HasLength<L>(0), buffer_(nullptr)
 		{}
 
 		RSeq(uint8_t const* buffer, L length) :
-			HasLength(length),
+			HasLength<L>(length),
 			buffer_(buffer)
 		{}
 
-        void make_empty()
+                void make_empty()
 		{
-			buffer_ = nullptr;
-			length_ = 0;
+			this->buffer_ = nullptr;
+			this->length_ = 0;
 		}
 		
 		RSeq<uint32_t> widen() const
 		{
 			static_assert(sizeof(uint32_t) > sizeof(L), "Old type must be smaller than uint32_t");
-			return RSeq<uint32_t>(buffer_, length_);
+			return RSeq<uint32_t>(this->buffer_, this->length_);
 		}
 
 		template <class U>
@@ -78,27 +78,27 @@ namespace openpal
 
 		RSeq skip(L count) const
 		{
-			auto num = openpal::min(length_, count);
-			return RSeq(buffer_ + num, length_ - num);
+			auto num = openpal::min(this->length_, count);
+			return RSeq(this->buffer_ + num, this->length_ - num);
 		}
 
-        void advance(L count)
+                void advance(L count)
 		{
-			auto num = openpal::min(length_, count);
-			buffer_ += num;
-			length_ -= num;
+			auto num = openpal::min(this->length_, count);
+			this->buffer_ += num;
+			this->length_ -= num;
 		}
 
 		operator uint8_t const* () const
 		{
-			return buffer_;
+			return this->buffer_;
 		};
 
 		bool equals(const RSeq& rhs) const
 		{
-			if (this->length() == rhs.length())
+			if (this->length_ == rhs.length_)
 			{
-				return memcmp(buffer_, rhs.buffer_, length()) == 0;
+				return memcmp(this->buffer_, rhs.buffer_, this->length_) == 0;
 			}
 			else
 			{
