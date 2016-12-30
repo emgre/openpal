@@ -40,12 +40,12 @@ namespace openpal
     public:
         Hex(const std::string& hex);
 
-        openpal::RSlice as_rslice() const
+        rseq_t as_rslice() const
         {
             return buffer_.as_rslice();
         }
 
-        operator openpal::RSlice () const
+        operator rseq_t () const
         {
             return this->as_rslice();
         }		

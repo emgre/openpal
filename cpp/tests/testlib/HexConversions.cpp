@@ -50,7 +50,7 @@ namespace openpal
         return oss.str();
     }
 
-    std::string to_hex(const RSlice& buffer, bool spaced)
+    std::string to_hex(const rseq_t& buffer, bool spaced)
     {
         return to_hex(buffer, buffer.length(), spaced);
     }

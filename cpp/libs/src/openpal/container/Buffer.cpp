@@ -32,26 +32,26 @@ namespace openpal
     Buffer::Buffer(uint32_t size) : Array<uint8_t, uint32_t>(size)
     {}
 
-    Buffer::Buffer(const RSlice& input) : Array<uint8_t, uint32_t>(input.length())
+    Buffer::Buffer(const rseq_t& input) : Array<uint8_t, uint32_t>(input.length())
     {
 		this->as_wslice().copy_from(input);
     }
 
-    RSlice Buffer::as_rslice() const
+    rseq_t Buffer::as_rslice() const
     {
-        return RSlice(this->buffer_, this->length_);
+        return rseq_t(this->buffer_, this->length_);
     }
 
-    WSlice Buffer::as_wslice()
+    wseq_t Buffer::as_wslice()
     {
-        return WSlice(this->buffer_, this->length());
+        return wseq_t(this->buffer_, this->length());
     }
 
-    WSlice Buffer::as_wslice(uint32_t max_size)
+    wseq_t Buffer::as_wslice(uint32_t max_size)
     {
         if (max_size <= this->length())
         {
-            return WSlice(this->buffer_, max_size);
+            return wseq_t(this->buffer_, max_size);
         }
         else
         {

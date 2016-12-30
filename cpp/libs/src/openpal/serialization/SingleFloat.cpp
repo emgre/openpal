@@ -41,7 +41,7 @@ namespace openpal
     };
 
 
-    bool SingleFloat::read_from(RSlice& input, float& out)
+    bool SingleFloat::read_from(rseq_t& input, float& out)
     {
         if (input.length() < size) return false;
 
@@ -50,7 +50,7 @@ namespace openpal
         return true;
     }
 
-    bool SingleFloat::write_to(WSlice& dest, float value)
+    bool SingleFloat::write_to(wseq_t& dest, float value)
     {
         if (dest.length() < size) return false;
 

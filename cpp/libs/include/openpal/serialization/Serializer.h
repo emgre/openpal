@@ -27,8 +27,8 @@
 
 #include <cstdint>
 
-#include "openpal/container/RSlice.h"
-#include "openpal/container/WSlice.h"
+
+
 
 namespace openpal
 {
@@ -38,8 +38,8 @@ namespace openpal
     {
     public:
 
-        typedef bool (*read_func_t)(RSlice& buffer, T& output);
-        typedef bool (*write_func_t)(const T& value, WSlice& buffer);
+        typedef bool (*read_func_t)(rseq_t& buffer, T& output);
+        typedef bool (*write_func_t)(const T& value, wseq_t& buffer);
 
         Serializer() : size_(0), read_func_(nullptr), write_func(nullptr)
         {}
@@ -59,7 +59,7 @@ namespace openpal
         /**
         * reads the value and advances the read buffer
         */
-        bool read(RSlice& buffer, T& output) const
+        bool read(rseq_t& buffer, T& output) const
         {
             return (*read_func_)(buffer, output);
         }
@@ -67,7 +67,7 @@ namespace openpal
         /**
         * writes the value and advances the write buffer
         */
-        bool write(const T& value, WSlice& buffer) const
+        bool write(const T& value, wseq_t& buffer) const
         {
             return (*write_func)(value, buffer);
         }

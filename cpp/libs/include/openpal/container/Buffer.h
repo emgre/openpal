@@ -27,8 +27,7 @@
 
 #include "Array.h"
 
-#include "openpal/container/WSlice.h"
-#include "openpal/container/RSlice.h"
+#include "openpal/container/SequenceTypes.h"
 
 #include <cstdint>
 
@@ -45,15 +44,15 @@ namespace openpal
         explicit Buffer(uint32_t size);
 
         // initialize with the exact length_ and contents of the view
-        explicit Buffer(const RSlice& input);
+        explicit Buffer(const rseq_t& input);
 
         virtual ~Buffer() {}
 
-        RSlice as_rslice() const;
+        rseq_t as_rslice() const;
 
-        WSlice as_wslice();
+        wseq_t as_wslice();
 
-        WSlice as_wslice(uint32_t max_size);
+        wseq_t as_wslice(uint32_t max_size);
 
         const uint8_t* operator()() const
         {

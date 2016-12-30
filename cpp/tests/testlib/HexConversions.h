@@ -25,10 +25,9 @@
 #ifndef TESTLIB_HEX_CONVERSIONS_H
 #define TESTLIB_HEX_CONVERSIONS_H
 
-#include <cstdint>
-#include <string>
+#include "openpal/container/SequenceTypes.h"
 
-#include <openpal/container/RSlice.h>
+#include <string>
 
 namespace openpal
 {
@@ -37,7 +36,7 @@ namespace openpal
 
     std::string to_hex(const uint8_t* buffer, size_t length, bool spaced = false);
 
-    std::string to_hex(const openpal::RSlice& buffer, bool spaced = true);
+    std::string to_hex(const rseq_t& buffer, bool spaced = true);
 
     std::string append_hex(std::initializer_list<std::string> segments);
 

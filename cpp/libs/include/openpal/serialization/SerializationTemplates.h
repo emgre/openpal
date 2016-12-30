@@ -28,8 +28,7 @@
 #include <cstdint>
 #include <cstring>
 
-#include "openpal/container/RSlice.h"
-#include "openpal/container/WSlice.h"
+#include "openpal/container/SequenceTypes.h"
 
 #include "openpal/util/Limits.h"
 
@@ -42,7 +41,7 @@ namespace openpal
     {
     public:
 
-        inline static bool read_from(RSlice& input, uint8_t& out)
+        inline static bool read_from(rseq_t& input, uint8_t& out)
         {
             if (input.length() < size) return false;
 
@@ -51,7 +50,7 @@ namespace openpal
             return true;
         }
 
-        static bool write_to(WSlice& dest, uint8_t value)
+        static bool write_to(wseq_t& dest, uint8_t value)
         {
             if (dest.length() < size) return false;
 
@@ -88,7 +87,7 @@ namespace openpal
 
     public:
 
-        static bool write_to(WSlice& dest, T value)
+        static bool write_to(wseq_t& dest, T value)
         {
             if (dest.length() < size) return false;
 
@@ -97,7 +96,7 @@ namespace openpal
             return true;
         }
 
-        inline static bool read_from(RSlice& input, T& out)
+        inline static bool read_from(rseq_t& input, T& out)
         {
             if (input.length() < size) return false;
 
@@ -141,7 +140,7 @@ namespace openpal
 
     public:
 
-        static bool write_to(WSlice& dest, T value)
+        static bool write_to(wseq_t& dest, T value)
         {
             if (dest.length() < size) return false;
 
@@ -150,7 +149,7 @@ namespace openpal
             return true;
         }
 
-        inline static bool read_from(RSlice& input, T& out)
+        inline static bool read_from(rseq_t& input, T& out)
         {
             if (input.length() < size) return false;
 
@@ -197,7 +196,7 @@ namespace openpal
 
     public:
 
-        inline static bool read_from(RSlice& input, UInt48Type& out)
+        inline static bool read_from(rseq_t& input, UInt48Type& out)
         {
             if (input.length() < size) return false;
 
@@ -206,7 +205,7 @@ namespace openpal
             return true;
         }
 
-        static bool write_to(WSlice& dest, UInt48Type value)
+        static bool write_to(wseq_t& dest, UInt48Type value)
         {
             if (dest.length() < size) return false;
 

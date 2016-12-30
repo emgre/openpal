@@ -38,75 +38,75 @@ namespace openpal
     public:
 
         template <class T, typename... Args>
-        static bool read(RSlice& input, T& value, Args& ... args)
+        static bool read(rseq_t& input, T& value, Args& ... args)
         {
             return read_one(input, value) && read(input, args...);
         }
 
         template <class T, typename... Args>
-        static bool write(WSlice& dest, const T& value, const Args& ... args)
+        static bool write(wseq_t& dest, const T& value, const Args& ... args)
         {
             return write_one(dest, value) && write(dest, args...);
         }
 
     private:
 
-        static inline bool read(RSlice& input)
+        static inline bool read(rseq_t& input)
         {
             return true;
         }
 
-        static inline bool read_one(RSlice& input, uint8_t& out)
+        static inline bool read_one(rseq_t& input, uint8_t& out)
         {
             return UInt8::read_from(input, out);
         }
 
-        static inline bool read_one(RSlice& input, int16_t& out)
+        static inline bool read_one(rseq_t& input, int16_t& out)
         {
             return Int16Type::read_from(input, out);
         }
 
-        static inline bool read_one(RSlice& input, uint16_t& out)
+        static inline bool read_one(rseq_t& input, uint16_t& out)
         {
             return UInt16Type::read_from(input, out);
         }
 
-        static inline bool read_one(RSlice& input, int32_t& out)
+        static inline bool read_one(rseq_t& input, int32_t& out)
         {
             return Int32Type::read_from(input, out);
         }
 
-        static inline bool read_one(RSlice& input, uint32_t& out)
+        static inline bool read_one(rseq_t& input, uint32_t& out)
         {
             return UInt32Type::read_from(input, out);
         }
 
-        static inline bool write(WSlice& dest)
+        static inline bool write(wseq_t& dest)
         {
             return true;
         }
 
-        static inline bool write_one(WSlice& dest, const uint8_t& value)
+        static inline bool write_one(wseq_t& dest, const uint8_t& value)
         {
             return UInt8::write_to(dest, value);
         }
 
-        static inline bool write_one(WSlice& dest, const int16_t& value)
+        static inline bool write_one(wseq_t& dest, const int16_t& value)
         {
             return Int16Type::write_to(dest, value);
         }
 
-        static inline bool write_one(WSlice& dest, const uint16_t& value)
+        static inline bool write_one(wseq_t& dest, const uint16_t& value)
         {
             return UInt16Type::write_to(dest, value);
         }
 
-        static inline bool write_one(WSlice& dest, const int32_t& value)
+        static inline bool write_one(wseq_t& dest, const int32_t& value)
         {
             return Int32Type::write_to(dest, value);
         }
 
-        static inline bool write_one(WSlice& dest, const uint32_t& value)
+        static inline bool write_one(wseq_t& dest, const uint32_t& value)
         {
             return UInt32Type::write_to(dest, value);
         }

@@ -40,7 +40,7 @@ namespace openpal
         double value;
     };
 
-    bool DoubleFloat::read_from(RSlice& input, double& out)
+    bool DoubleFloat::read_from(rseq_t& input, double& out)
     {
         if (input.length() < size) return false;
 
@@ -49,7 +49,7 @@ namespace openpal
         return true;
     }
 
-    bool DoubleFloat::write_to(WSlice& dest, double value)
+    bool DoubleFloat::write_to(wseq_t& dest, double value)
     {
         if (dest.length() < size) return false;
 

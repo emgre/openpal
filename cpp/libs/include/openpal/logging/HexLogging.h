@@ -26,7 +26,7 @@
 #define OPENPAL_HEXLOGGING_H
 
 #include "openpal/logging/Logger.h"
-#include "openpal/container/RSlice.h"
+#include "openpal/container/SequenceTypes.h"
 
 #include "openpal/util/Uncopyable.h"
 
@@ -41,7 +41,7 @@ namespace openpal
         static void log(
             Logger& logger,
             LogLevel level,
-            const RSlice& source,
+            const rseq_t& source,
             char separator = ' ',
             uint32_t first_row_size = max_hex_per_line,
             uint32_t other_row_size = max_hex_per_line
@@ -49,10 +49,10 @@ namespace openpal
 
     private:
 
-        static RSlice log_line(
+        static rseq_t log_line(
             Logger& logger,
             LogLevel level,
-            const RSlice& data,
+            const rseq_t& data,
             char separator,
             uint32_t max_row_size
         );

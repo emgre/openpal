@@ -27,8 +27,8 @@
 
 #include <cstdint>
 
-#include "openpal/container/WSlice.h"
-#include "openpal/container/RSlice.h"
+
+
 #include "openpal/util/Comparisons.h"
 
 namespace openpal
@@ -76,7 +76,7 @@ namespace openpal
             }
         }
 
-        volatile uint8_t get_many(WSlice& output)
+        volatile uint8_t get_many(wseq_t& output)
         {
             uint8_t num = openpal::min<uint32_t>(count(), output.length());
             for(uint8_t i = 0; i < num; ++i)
@@ -87,7 +87,7 @@ namespace openpal
             return num;
         }
 
-        volatile uint8_t put_many(RSlice& input)
+        volatile uint8_t put_many(rseq_t& input)
         {
             uint8_t num = openpal::min<uint32_t>(SIZE_POWER_OF_TWO - count(), input.length());
             for(uint8_t i = 0; i < num; ++i)

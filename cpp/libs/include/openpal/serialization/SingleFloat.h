@@ -26,8 +26,7 @@
 #define OPENPAL_SINGLE_FLOAT_H
 
 #include "openpal/util/Uncopyable.h"
-#include "openpal/container/RSlice.h"
-#include "openpal/container/WSlice.h"
+#include "openpal/container/SequenceTypes.h"
 
 #include <cstddef>
 
@@ -40,8 +39,8 @@ namespace openpal
 
         static_assert(sizeof(float) == 4, "Unexpected length_ of single float");
 
-        static bool read_from(RSlice& slice, float& out);
-        static bool write_to(WSlice& dest, float value);
+        static bool read_from(rseq_t& slice, float& out);
+        static bool write_to(wseq_t& dest, float value);
 
         typedef float type_t;
         const static std::size_t size = sizeof(float);

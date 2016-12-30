@@ -25,10 +25,11 @@
 #ifndef OPENPAL_STATICBUFFER_H
 #define OPENPAL_STATICBUFFER_H
 
-#include "openpal/container/WSlice.h"
-#include "openpal/container/RSeq.h"
+
 #include "openpal/util/Comparisons.h"
 #include "openpal/util/Uncopyable.h"
+
+#include "openpal/container/SequenceTypes.h"
 
 #include <limits>
 
@@ -56,14 +57,14 @@ namespace openpal
 			return this->as_seq().take(max_size);
         }
 
-        WSlice as_wslice()
+        wseq_t as_wseq()
         {
-            return WSlice(buffer_, SIZE);
+            return wseq_t(buffer_, SIZE);
         }
 
-        WSlice GetWSlice(uint32_t max_size)
+        wseq_t as_wseq(uint32_t max_size)
         {
-            return WSlice(buffer_, openpal::min(SIZE, max_size));
+            return wseq_t(buffer_, openpal::min(SIZE, max_size));
         }
 
         const uint8_t* operator()() const

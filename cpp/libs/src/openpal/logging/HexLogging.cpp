@@ -26,14 +26,14 @@
 
 #include "openpal/logging/LogMacros.h"
 #include "openpal/util/ToHex.h"
-#include "openpal/container/RSlice.h"
+
 #include "openpal/util/Comparisons.h"
 
 namespace openpal
 {
-    void HexLogging::log(Logger& logger, LogLevel level, const openpal::RSlice& source, char separator, uint32_t first_row_size, uint32_t other_row_size)
+    void HexLogging::log(Logger& logger, LogLevel level, const openpal::rseq_t& source, char separator, uint32_t first_row_size, uint32_t other_row_size)
     {
-        RSlice copy(source);
+        rseq_t copy(source);
         uint32_t row = 0;
 
         const auto max_first_size = bounded<uint32_t>(first_row_size, 1, max_hex_per_line);
@@ -47,7 +47,7 @@ namespace openpal
         }
     }
 
-    openpal::RSlice HexLogging::log_line(Logger& logger, LogLevel level, const openpal::RSlice& data, char separator, uint32_t max_row_size)
+    openpal::rseq_t HexLogging::log_line(Logger& logger, LogLevel level, const openpal::rseq_t& data, char separator, uint32_t max_row_size)
     {
         char buffer[max_log_entry_size];
 

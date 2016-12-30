@@ -26,8 +26,7 @@
 #define OPENPAL_DOUBLE_FLOAT_H
 
 #include "openpal/util/Uncopyable.h"
-#include "openpal/container/RSlice.h"
-#include "openpal/container/WSlice.h"
+#include "openpal/container/SequenceTypes.h"
 
 #include <cstddef>
 
@@ -40,8 +39,8 @@ namespace openpal
 
         static_assert(sizeof(double) == 8, "Unexpected length_ of double float");
 
-        static bool read_from(RSlice& buffer, double& out);
-        static bool write_to(WSlice& buffer, double value);
+        static bool read_from(rseq_t& buffer, double& out);
+        static bool write_to(wseq_t& buffer, double value);
 
         typedef double type_t;
         const static std::size_t size = sizeof(double);
