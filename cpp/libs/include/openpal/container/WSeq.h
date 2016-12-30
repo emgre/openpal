@@ -91,7 +91,7 @@ namespace openpal
 			return RSeq<L>(this->buffer_, this->length_);
 		}
 
-        operator uint8_t* ()
+        operator uint8_t* () const
         {
             return buffer_;
         };
