@@ -53,7 +53,7 @@ namespace openpal
 		WSeq()
 		{}
 
-		WSeq(uint8_t* buffer, uint32_t length) : buffer_(buffer), HasLength<L>(length)
+		WSeq(uint8_t* buffer, uint32_t length) : HasLength<L>(length), buffer_(buffer)
 		{}
 
 		void set_all_to(uint8_t value)
@@ -69,26 +69,26 @@ namespace openpal
 
 		L advance(L count)
 		{
-			auto num = openpal::min(count, length_);
-			buffer_ += num;
-			length_ -= num;
+			const auto num = openpal::min(count, this->length_);
+			this->buffer_ += num;
+			this->length_ -= num;
 			return num;
 		}
 
 		WSeq skip(uint32_t count) const
 		{
-			auto num = openpal::min(count, length_);
-			return WSeq(buffer_ + num, length_ - num);
+			const auto num = openpal::min(count, this->length_);
+			return WSeq(this->buffer_ + num, this->length_ - num);
 		}
 
 		WSeq take(uint32_t count) const
 		{
-			return WSeq(buffer_, openpal::min(length_, count));
+			return WSeq(this->buffer_, openpal::min(this->length_, count));
 		}
 
 		RSeq<L> as_rslice() const
 		{
-			return RSeq<L>(buffer_, length_);
+			return RSeq<L>(this->buffer_, this->length_);
 		}
 
         operator uint8_t* ()
