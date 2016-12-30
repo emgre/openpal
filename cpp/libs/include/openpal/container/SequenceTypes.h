@@ -22,17 +22,15 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef OPENPAL_RSLICE_H
-#define OPENPAL_RSLICE_H
+#ifndef OPENPAL_SEQUENCETYPES_H
+#define OPENPAL_SEQUENCETYPES_H
 
-#include "RSeq.h"
-
-#include <cstdint>
+#include "WSeq.h"
 
 namespace openpal
 {
-
-	typedef RSeq<uint32_t> RSlice;
+	typedef RSeq<uint32_t> rseq_t;
+	typedef WSeq<uint32_t> wseq_t;
 
 }
 
