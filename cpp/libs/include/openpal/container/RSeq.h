@@ -36,7 +36,7 @@ namespace openpal
 {    
 
     /**
-    *	Represents a readonly slice of bytes with a parameterized length type (L)
+    *	Represents a readonly sequence of bytes with a parameterized length type (L)
     */
     template <class L>
     class RSeq : public HasLength<L>
@@ -58,17 +58,11 @@ namespace openpal
 			buffer_(buffer)
 		{}
 
-                void make_empty()
-		{
+        void make_empty()
+        {
 			this->buffer_ = nullptr;
 			this->length_ = 0;
-		}
-		
-		RSeq<uint32_t> widen() const
-		{
-			static_assert(sizeof(uint32_t) > sizeof(L), "Old type must be smaller than uint32_t");
-			return RSeq<uint32_t>(this->buffer_, this->length_);
-		}
+		}			
 
 		template <class U>
 		RSeq<U> take(U count) const
@@ -82,7 +76,7 @@ namespace openpal
 			return RSeq(this->buffer_ + num, this->length_ - num);
 		}
 
-                void advance(L count)
+        void advance(L count)
 		{
 			auto num = openpal::min(this->length_, count);
 			this->buffer_ += num;
@@ -93,6 +87,12 @@ namespace openpal
 		{
 			return this->buffer_;
 		};
+
+		operator RSeq<uint32_t> () const
+		{
+			static_assert(sizeof(uint32_t) > sizeof(L), "Old type must be smaller than uint32_t");
+			return RSeq<uint32_t>(this->buffer_, this->length_);
+		}
 
 		bool equals(const RSeq& rhs) const
 		{
