@@ -32,6 +32,7 @@
 namespace openpal
 {
 
+/*
     WSlice WSlice::empty_slice()
     {
         return WSlice();
@@ -109,6 +110,8 @@ namespace openpal
 			return ret;
 		}
 	}
+*/
+
 }
 
 

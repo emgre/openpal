@@ -22,95 +22,117 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef OPENPAL_RSEQ_H
-#define OPENPAL_RSEQ_H
+#ifndef OPENPAL_WSEQ_H
+#define OPENPAL_WSEQ_H
 
-#include "HasLength.h"
+#include "RSeq.h"
 
 #include "openpal/util/Comparisons.h"
 
-#include <limits>
 #include <cstdint>
+#include <cstring>
 
 namespace openpal
-{    
-
+{
     /**
-    *	Represents a readonly sequence of bytes with a parameterized length type (L)
+    *	Represents a write-able slice of a buffer located elsewhere. Mediates writing to the buffer
+    *	to prevent overruns and other errors. Parameterized by the length type
     */
-    template <class L>
-    class RSeq : public HasLength<L>
+	template <class L>
+    class WSeq : public HasLength<L>
     {
-		static_assert(std::numeric_limits<L>::is_integer && !std::numeric_limits<L>::is_signed, "Must be an unsigned integer");
+		typedef void* (memfunc_t)(void*, const void*, size_t);
 
-    public:       
+    public:
 
-		static RSeq empty_slice()
+		static WSeq empty_slice()
 		{
-			return RSeq(nullptr, 0);
+			return WSeq();
+		}
+       
+		WSeq()
+		{}
+
+		WSeq(uint8_t* buffer, uint32_t length) : buffer_(buffer), HasLength<L>(length)
+		{}
+
+		void set_all_to(uint8_t value)
+		{
+			memset(this->buffer_, value, this->length_);
 		}
 
-		RSeq() : HasLength<L>(0)
-		{}
-
-		RSeq(uint8_t const* buffer, L length) :
-			HasLength<L>(length),
-			buffer_(buffer)
-		{}
-
-        void make_empty()
-        {
+		void make_empty()
+		{
 			this->buffer_ = nullptr;
 			this->length_ = 0;
-		}			
-
-		template <class U>
-		RSeq<U> take(U count) const
-		{
-			return RSeq<U>(this->buffer_, (count < this->length_) ? count : static_cast<U>(this->length_));
 		}
 
-		RSeq skip(L count) const
+		L advance(L count)
 		{
-			auto num = openpal::min(this->length_, count);
-			return RSeq(this->buffer_ + num, this->length_ - num);
+			auto num = openpal::min(count, length_);
+			buffer_ += num;
+			length_ -= num;
+			return num;
 		}
 
-        void advance(L count)
+		WSeq skip(uint32_t count) const
 		{
-			auto num = openpal::min(this->length_, count);
-			this->buffer_ += num;
-			this->length_ -= num;
+			auto num = openpal::min(count, length_);
+			return WSeq(buffer_ + num, length_ - num);
 		}
 
-		operator uint8_t const* () const
+		WSeq take(uint32_t count) const
 		{
-			return this->buffer_;
-		};
-
-		operator RSeq<uint32_t> () const
-		{
-			static_assert(sizeof(uint32_t) > sizeof(L), "Old type must be smaller than uint32_t");
-			return RSeq<uint32_t>(this->buffer_, this->length_);
+			return WSeq(buffer_, openpal::min(length_, count));
 		}
 
-		bool equals(const RSeq& rhs) const
+		RSeq<L> as_rslice() const
 		{
-			if (this->length_ == rhs.length_)
+			return RSeq<L>(buffer_, length_);
+		}
+
+        operator uint8_t* ()
+        {
+            return buffer_;
+        };
+
+        operator uint8_t const* () const
+        {
+            return buffer_;
+        };
+
+		RSeq<L> copy_from(const RSeq<L>& src)
+		{
+			return this->transfer_from<memcpy>(src);
+		}
+
+		RSeq<L> move_from(const RSeq<L>& src)
+		{
+			return this->transfer_from<memmove>(src);
+		}
+
+
+    private:
+
+		template <memfunc_t mem_func>
+		RSeq<L> transfer_from(const RSeq<L>& src)
+		{
+			if (src.length() > this->length_)
 			{
-				return memcmp(this->buffer_, rhs.buffer_, this->length_) == 0;
+				return RSeq<L>::empty_slice();
 			}
-			else
-			{
-				return false;
+			else {
+				const auto ret = this->as_rslice().take(src.length());
+				mem_func(buffer_, src, src.length());
+				this->advance(src.length());
+				return ret;
 			}
 		}
 
-	protected:
 
-		uint8_t const* buffer_ = nullptr;
-
+		uint8_t* buffer_ = nullptr;
     };
+
 
 }
 
