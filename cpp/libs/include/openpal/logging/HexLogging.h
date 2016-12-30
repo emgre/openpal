@@ -49,7 +49,7 @@ namespace openpal
 
     private:
 
-        static openpal::RSlice log_line(
+        static RSlice log_line(
             Logger& logger,
             LogLevel level,
             const RSlice& data,
