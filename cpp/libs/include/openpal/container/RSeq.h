@@ -45,7 +45,7 @@ namespace openpal
 
     public:       
 
-		static RSeq empty_slice()
+		static RSeq empty()
 		{
 			return RSeq(nullptr, 0);
 		}

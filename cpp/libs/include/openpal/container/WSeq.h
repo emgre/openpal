@@ -45,7 +45,7 @@ namespace openpal
 
     public:
 
-		static WSeq empty_slice()
+		static WSeq empty()
 		{
 			return WSeq();
 		}
@@ -86,7 +86,7 @@ namespace openpal
 			return WSeq(this->buffer_, openpal::min(this->length_, count));
 		}
 
-		RSeq<L> as_rslice() const
+		RSeq<L> readonly() const
 		{
 			return RSeq<L>(this->buffer_, this->length_);
 		}
@@ -119,10 +119,10 @@ namespace openpal
 		{
 			if (src.length() > this->length_)
 			{
-				return RSeq<L>::empty_slice();
+				return RSeq<L>::empty();
 			}
 			else {
-				const auto ret = this->as_rslice().take(src.length());
+				const auto ret = this->readonly().take(src.length());
 				mem_func(buffer_, src, src.length());
 				this->advance(src.length());
 				return ret;
