@@ -172,6 +172,7 @@ namespace openpal
 
 		if (result != this->timers_.end())
 		{
+			++num_timer_cancel;
 			this->timers_.erase(result);
 		}
     }
