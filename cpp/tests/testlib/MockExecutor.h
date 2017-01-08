@@ -50,9 +50,6 @@ namespace openpal
 			return std::make_shared<MockExecutor>();
 		}
 
-        MockExecutor();
-        ~MockExecutor();
-
         // Implement IExecutor
         virtual openpal::ITimer* start(const openpal::Timestamp&, const openpal::action_t& action) override;
         virtual openpal::ITimer* start(const openpal::TimeDuration&, const openpal::action_t& action) override;
@@ -104,9 +101,9 @@ namespace openpal
         void cancel(openpal::ITimer* timer);
 
         typedef std::deque<openpal::action_t> post_queue_t;
-        typedef std::vector<MockTimer*> timer_vector_t;
+        typedef std::vector<std::unique_ptr<MockTimer>> timer_vector_t;
 
-        bool post_is_synchronous_;
+		bool post_is_synchronous_ = false;
         openpal::Timestamp current_time_;
 
         post_queue_t post_queue_;
