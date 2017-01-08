@@ -92,15 +92,15 @@ namespace openpal
 
         bool advance_to_next_timer();
 
-		size_t get_num_timer_cancel() const {
-			return this->num_timer_cancel;
+		size_t num_timer_cancel() const {
+			return this->num_timer_cancel_;
 		}
 
     private:
 
         size_t check_for_expired_timers();
 
-		size_t num_timer_cancel = 0;
+		size_t num_timer_cancel_ = 0;
 
         bool find_expired_timer();
 
