@@ -29,6 +29,8 @@
 #include "openpal/executor/IExecutor.h"
 #include "openpal/util/Uncopyable.h"
 
+#include <memory>
+
 namespace openpal
 {
 
@@ -39,9 +41,10 @@ namespace openpal
     */
     class TimerRef : openpal::Uncopyable
     {
-
+		
     public:
-        TimerRef(openpal::IExecutor& executor);
+
+		TimerRef(const std::shared_ptr<openpal::IExecutor>& executor);
 
         // automatically cancels any active timers_ on destructive
         ~TimerRef();
@@ -63,12 +66,12 @@ namespace openpal
         void restart(const TimeDuration& expiration, const action_t& action);
         void restart(const Timestamp& expiration, const action_t& action);
 
-    private:
+	private:
+	
+		action_t bind_action(const action_t& action);
 
-		void on_expiration();
-
-        IExecutor* executor_;
-        ITimer* timer_;
+		const std::shared_ptr<IExecutor> executor_;
+		ITimer* timer_ = nullptr;
     };
 
 }
