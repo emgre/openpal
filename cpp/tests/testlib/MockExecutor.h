@@ -83,7 +83,9 @@ namespace openpal
             return timers_.size();
         }
 
-        openpal::Timestamp next_timer_expiration();
+		openpal::Timestamp next_timer_expiration_abs() const;
+
+		openpal::TimeDuration next_timer_expiration_rel() const;
 
         size_t advance_time(openpal::TimeDuration duration);
 
@@ -107,7 +109,7 @@ namespace openpal
         void cancel(openpal::ITimer* timer);
 
         typedef std::deque<openpal::action_t> post_queue_t;
-        typedef std::vector<std::unique_ptr<MockTimer>> timer_vector_t;
+        typedef std::vector<std::shared_ptr<MockTimer>> timer_vector_t;
 
 		bool post_is_synchronous_ = false;
         openpal::Timestamp current_time_;

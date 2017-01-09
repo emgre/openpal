@@ -30,9 +30,9 @@ using namespace openpal;
 
 namespace openpal
 {
-	openpal::Timestamp MockExecutor::next_timer_expiration()
+	openpal::Timestamp MockExecutor::next_timer_expiration_abs() const
     {
-        auto lt = [](const std::unique_ptr<MockTimer>& lhs, const std::unique_ptr<MockTimer>& rhs)
+        auto lt = [](const std::shared_ptr<MockTimer>& lhs, const std::shared_ptr<MockTimer>& rhs)
         {
             return lhs->expires_at() < rhs->expires_at();
         };
@@ -47,6 +47,23 @@ namespace openpal
         }
     }
 
+	openpal::TimeDuration MockExecutor::next_timer_expiration_rel() const
+	{
+		auto lt = [](const std::shared_ptr<MockTimer>& lhs, const std::shared_ptr<MockTimer>& rhs)
+		{
+			return lhs->expires_at() < rhs->expires_at();
+		};
+		auto min = std::min_element(timers_.begin(), timers_.end(), lt);
+		if (min == timers_.end())
+		{
+			return TimeDuration::max_value();
+		}
+		else
+		{			
+			return openpal::TimeDuration::milliseconds((*min)->expires_at().milliseconds - this->current_time_.milliseconds);
+		}
+	}
+
     size_t MockExecutor::check_for_expired_timers()
     {
         size_t count = 0;
@@ -59,18 +76,22 @@ namespace openpal
 
     bool MockExecutor::find_expired_timer()
     {
-        auto expired = [this](const std::unique_ptr<MockTimer>& timer)
+        auto expired = [this](const std::shared_ptr<MockTimer>& timer)
         {
             return timer->expires_at().milliseconds <= this->current_time_.milliseconds;
         };
+
         auto iter = std::find_if(timers_.begin(), timers_.end(), expired);
-        if (iter == timers_.end())
+        
+		if (iter == timers_.end())
         {
             return false;
         }
         else
         {
-            this->post_queue_.push_back((*iter)->action_);
+			// keep the timer alive until it's callback is completed.
+			auto action = [timer = (*iter), action = (*iter)->action_]() -> void { action(); };
+            this->post_queue_.push_back(action);
             timers_.erase(iter);
             return true;
         }
@@ -96,7 +117,8 @@ namespace openpal
         }
         else
         {
-            auto timestamp = next_timer_expiration();
+            const  auto timestamp = next_timer_expiration_abs();
+
             if (timestamp > current_time_)
             {
                 current_time_ = timestamp;
@@ -157,7 +179,7 @@ namespace openpal
 
     ITimer* MockExecutor::start(const openpal::Timestamp& time, const openpal::action_t& runnable)
     {
-        auto timer = std::unique_ptr<MockTimer>(new MockTimer(this, time, runnable));
+        auto timer = std::make_shared<MockTimer>(this, time, runnable);
 		const auto ret = timer.get();
         timers_.push_back(std::move(timer));
         return ret;
@@ -165,7 +187,7 @@ namespace openpal
 
     void MockExecutor::cancel(ITimer* timer)
     {
-		const auto result = std::find_if(this->timers_.begin(), this->timers_.end(), [timer](const std::unique_ptr<MockTimer>& item)
+		const auto result = std::find_if(this->timers_.begin(), this->timers_.end(), [timer](const std::shared_ptr<MockTimer>& item)
 		{
 			return item.get() == timer;
 		});

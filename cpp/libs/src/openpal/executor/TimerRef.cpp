@@ -105,7 +105,6 @@ namespace openpal
 
         timer_ = executor_->start(expiration, action);
     }
-
 }
 
 

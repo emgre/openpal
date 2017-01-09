@@ -65,6 +65,8 @@ namespace openpal
 
     private:
 
+		void on_expiration();
+
         IExecutor* executor_;
         ITimer* timer_;
     };
