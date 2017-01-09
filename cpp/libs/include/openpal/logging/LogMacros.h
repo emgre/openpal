@@ -39,12 +39,6 @@
 #define SAFE_STRING_FORMAT(dest, size, format, ...) snprintf(dest, size, format, ##__VA_ARGS__)
 #endif
 
-#ifdef OPENPAL_CUSTOMIZE_LOGGING
-
-#include "CustomLogMacros.h"
-
-#else
-
 #define LOG_FORMAT(logger, levels, format, ...) { \
 	char message_buffer_some_name_no_conflict[openpal::max_log_entry_size]; \
 	SAFE_STRING_FORMAT(message_buffer_some_name_no_conflict, openpal::max_log_entry_size, format, ##__VA_ARGS__); \
@@ -79,8 +73,6 @@
 		hex::log(logger, levels, buffer, firstSize, otherSize); \
 	}
 
-#endif
-
 #else
 
 #define SAFE_STRING_FORMAT(dest, length_, format, ...)
@@ -96,22 +88,5 @@
 #define FORMAT_HEX_BLOCK(logger, levels_, buffer_, firstSize, otherSize)
 
 #endif
-
-/*
-//macro to remove boiler-plate code for logging messages_
-#define SIMPLE_LOG_BLOCK(logger, severity, message) \
-	SIMPLE_LOG_BLOCK_WITH_CODE(logger, severity, message)
-
-//macro to remove boiler-plate code for logging messages_
-#define SIMPLE_LOGGER_BLOCK(pLogger, severity, message) \
-	SIMPLE_LOGGER_BLOCK_WITH_CODE(pLogger, severity, message)
-
-#define FORMAT_LOGGER_BLOCK(pLogger, levels, format, ...) \
-	FORMAT_LOGGER_BLOCK_WITH_CODE(pLogger, levels, format, ##__VA_ARGS__);
-
-
-#define FORMAT_LOG_BLOCK(logger, levels, format, ...) \
-	FORMAT_LOG_BLOCK_WITH_CODE(logger, levels, format, ##__VA_ARGS__);
-*/
 
 #endif
