@@ -44,7 +44,7 @@ namespace openpal
 		
     public:
 
-		TimerRef(const std::shared_ptr<openpal::IExecutor>& executor);
+		explicit TimerRef(const std::shared_ptr<openpal::IExecutor>& executor);
 
         // automatically cancels any active timers_ on destructive
         ~TimerRef();
