@@ -157,7 +157,7 @@ namespace openpal
 
     ITimer* MockExecutor::start(const openpal::Timestamp& time, const openpal::action_t& runnable)
     {
-        auto timer = std::make_unique<MockTimer>(this, time, runnable);
+        auto timer = std::unique_ptr<MockTimer>(new MockTimer(this, time, runnable));
 		const auto ret = timer.get();
         timers_.push_back(std::move(timer));
         return ret;
