@@ -57,21 +57,30 @@ namespace openpal
 
 			bool output_to_stdio = false;
 			std::deque<LogRecord> messages;
+
+			std::vector<std::shared_ptr<openpal::ILogHandler>> handlers;
 		};
 
     public:
 
-        MockLogHandler(LogLevels levels = LogLevels(~0));
+        MockLogHandler(LogLevels levels = LogLevels(0));
 
         void write_to_stdio();
 
+		void log_everything();
+
         void log(const std::string& location, const std::string& msg);        
 
-        void pop(openpal::ILogHandler& log);        
+        void pop(openpal::ILogHandler& log);
+
+		void add_backend(const std::shared_ptr<ILogHandler>& dest)
+		{
+			backend->handlers.push_back(dest);
+		}
 
     protected:
 
-		std::shared_ptr<Backend> backend;
+		const std::shared_ptr<Backend> backend;
 
 	public:
 

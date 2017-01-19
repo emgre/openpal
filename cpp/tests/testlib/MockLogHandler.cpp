@@ -61,7 +61,12 @@ namespace openpal
 			std::cout << message << std::endl;
 		}
 
-		messages.push_back(LogRecord(module, id, level, location, message));		
+		for (auto& handler : handlers)
+		{
+			handler->log(module, id, level, location, message);
+		}
+
+		messages.push_back(LogRecord(module, id, level, location, message));	
     }
    
     void MockLogHandler::log(const std::string& location, const std::string& message)
@@ -72,7 +77,12 @@ namespace openpal
     void MockLogHandler::write_to_stdio()
     {
         this->backend->output_to_stdio = true;
-    } 
+    }
+
+	void MockLogHandler::log_everything()
+	{
+		this->logger.set_levels(LogLevels(~0));
+	}
 
     void MockLogHandler::pop(openpal::ILogHandler& log)
     {        
