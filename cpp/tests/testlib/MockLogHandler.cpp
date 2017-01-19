@@ -66,7 +66,10 @@ namespace openpal
 			handler->log(module, id, level, location, message);
 		}
 
-		messages.push_back(LogRecord(module, id, level, location, message));	
+		if (save_messages)
+		{
+			messages.push_back(LogRecord(module, id, level, location, message));
+		}		
     }
    
     void MockLogHandler::log(const std::string& location, const std::string& message)

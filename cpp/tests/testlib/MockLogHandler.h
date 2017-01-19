@@ -56,6 +56,8 @@ namespace openpal
 			void log(ModuleId module, const char* id, LogLevel level, char const* location, char const* message) override;			
 
 			bool output_to_stdio = false;
+			bool save_messages = false;
+
 			std::deque<LogRecord> messages;
 
 			std::vector<std::shared_ptr<openpal::ILogHandler>> handlers;
