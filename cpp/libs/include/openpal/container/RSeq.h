@@ -31,6 +31,7 @@
 
 #include <limits>
 #include <cstdint>
+#include <cstring>
 
 namespace openpal
 {    
