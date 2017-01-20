@@ -65,7 +65,7 @@ namespace openpal
 
     public:
 
-        MockLogHandler(LogLevels levels = LogLevels(0));
+        MockLogHandler(const char* id = "test", LogLevels levels = LogLevels(0));
 
         void write_to_stdio();
 

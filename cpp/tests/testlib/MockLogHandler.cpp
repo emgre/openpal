@@ -46,9 +46,9 @@ namespace openpal
 
     }
 
-    MockLogHandler::MockLogHandler(LogLevels levels) :
+    MockLogHandler::MockLogHandler(const char* id, LogLevels levels) :
 		backend(std::make_shared<Backend>()),
-		logger(backend, ModuleId(0), "test", levels)
+		logger(backend, ModuleId(0), id, levels)
     {
 
     }
