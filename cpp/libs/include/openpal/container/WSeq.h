@@ -75,6 +75,17 @@ namespace openpal
 			return num;
 		}
 
+		bool put(uint8_t byte)
+		{
+			if (this->length_ == 0) return false;
+			else {
+				this->buffer_[0] = byte;
+				++this->buffer_;
+				--this->length_;
+				return true;
+			}
+		}
+
 		WSeq skip(uint32_t count) const
 		{
 			const auto num = openpal::min(count, this->length_);
