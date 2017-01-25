@@ -107,11 +107,6 @@ namespace openpal
             return buffer_;
         };
 
-        operator uint8_t const* () const
-        {
-            return buffer_;
-        };
-
 		RSeq<L> copy_from(const RSeq<L>& src)
 		{
 			return this->transfer_from<memcpy>(src);
