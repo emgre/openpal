@@ -44,7 +44,7 @@ namespace openpal
 		static std::string concatenate(Args... args)
 		{
 			std::ostringstream oss;
-			append(oss, args);
+			append(oss, args...);
 			return oss.str();
 		}
 		
@@ -54,7 +54,7 @@ namespace openpal
 		static void append(std::ostringstream& oss, const T& first, Args... args)
 		{
 			oss << first;
-			append(oss, args);			
+			append(oss, args...);			
 		}
 		
 		static void append(std::ostringstream& oss) {}
