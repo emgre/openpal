@@ -87,7 +87,7 @@ namespace openpal
 		template <typename... Args>
 		Logger detach_and_append(Args... args) const
 		{			
-			return detach(Strings::concatenate(args...));			
+			return detach(Strings::concatenate(this->settings->id, args...));
 		}
 
 		Logger detach(const std::string& id, LogLevels levels) const
