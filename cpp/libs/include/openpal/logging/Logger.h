@@ -29,7 +29,7 @@
 
 #include <memory>
 #include <string>
-
+#include <sstream>
 
 namespace openpal
 {
@@ -81,6 +81,13 @@ namespace openpal
 		Logger detach(const std::string& id) const
 		{
 			return Logger(this->backend, std::make_shared<Settings>(this->settings->module, id, this->settings->levels));
+		}
+
+		Logger detach_and_append(const std::string& id) const
+		{
+			std::ostringstream oss;
+			oss << this->settings->id << id;
+			return Logger(this->backend, std::make_shared<Settings>(this->settings->module, oss.str(), this->settings->levels));
 		}
 
 		Logger detach(const std::string& id, LogLevels levels) const
