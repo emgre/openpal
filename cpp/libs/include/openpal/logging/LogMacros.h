@@ -68,11 +68,6 @@
 		pLogger->log(levels, LOCATION, message_buffer_some_name_no_conflict); \
 	}
 
-#define FORMAT_HEX_BLOCK(logger, levels, buffer, firstSize, otherSize) \
-	if(logger.has_any(levels)){ \
-		hex::log(logger, levels, buffer, firstSize, otherSize); \
-	}
-
 #else
 
 #define SAFE_STRING_FORMAT(dest, length_, format, ...)

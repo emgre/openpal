@@ -92,7 +92,23 @@ namespace openpal
         inline bool is_set(const LogLevel& level) const
         {
             return (level.value & levels) != 0;
-        }        
+        }
+
+		LogLevels& operator|=(const LogLevels& other)
+		{
+			this->levels |= other.levels;
+			return *this;
+		}
+
+		LogLevels operator|(const LogLevels& other) const
+		{
+			return LogLevels(this->levels | other.levels);
+		}
+
+		inline int32_t get_value() const
+		{
+			return levels;
+		}
 
     private:
 
