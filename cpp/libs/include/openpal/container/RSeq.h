@@ -71,6 +71,13 @@ namespace openpal
 			return RSeq<U>(this->buffer_, (count < this->length_) ? count : static_cast<U>(this->length_));
 		}
 
+		template <class U>
+		RSeq<U> widen() const
+		{
+			static_assert(sizeof(U) > sizeof(L), "old type must be smaller than new type");
+			return RSeq<U>(this->buffer_, this->length_);
+		}
+
 		RSeq skip(L count) const
 		{
 			auto num = openpal::min(this->length_, count);
