@@ -61,6 +61,11 @@ namespace openpal
             for(IndexType i = 0; i < copy.length(); ++i) buffer_[i] = copy.buffer_[i];
         }
 
+		virtual ~Array()
+		{
+			delete[] buffer_;
+		}
+
         ArrayView<ValueType, IndexType> get_view() const
         {
             return ArrayView<ValueType, IndexType>(buffer_, this->length_);
@@ -113,12 +118,7 @@ namespace openpal
         void foreachIndex(const Action& action) const
         {
             for(uint32_t i = 0; i < this->length_; ++i) action(buffer_[i], i);
-        }
-
-        virtual ~Array()
-        {
-            delete[] buffer_;
-        }
+        }       
 
     protected:
 
