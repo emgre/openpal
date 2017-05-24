@@ -64,19 +64,11 @@ namespace openpal
 			this->buffer_ = nullptr;
 			this->length_ = 0;
 		}			
-
-		template <class U>
-		RSeq<U> take(U count) const
+		
+		RSeq take(L count) const
 		{
-			return RSeq<U>(this->buffer_, (count < this->length_) ? count : static_cast<U>(this->length_));
-		}
-
-		template <class U>
-		RSeq<U> widen() const
-		{
-			static_assert(sizeof(U) > sizeof(L), "old type must be smaller than new type");
-			return RSeq<U>(this->buffer_, this->length_);
-		}
+			return RSeq(this->buffer_, (count < this->length_) ? count : this->length_);
+		}		
 
 		RSeq skip(L count) const
 		{
@@ -94,13 +86,7 @@ namespace openpal
 		operator uint8_t const* () const
 		{
 			return this->buffer_;
-		};
-
-		operator RSeq<uint32_t> () const
-		{
-			static_assert(sizeof(uint32_t) > sizeof(L), "Old type must be smaller than uint32_t");
-			return RSeq<uint32_t>(this->buffer_, this->length_);
-		}
+		};		
 
 		bool equals(const RSeq& rhs) const
 		{
