@@ -76,13 +76,13 @@ namespace openpal
         {
             *(start) = value;
         }
-    };
+    };	
 
     template <class T, uint8_t B0, uint8_t B1>
     class Bit16
     {
 
-        static_assert(sizeof(T) == 2, "bad size");
+        static_assert(sizeof(T) == 2, "bad size");		
         static_assert((B0 < sizeof(T)) && (B1 < sizeof(T)) && (B0 != B1), "bad config");
 
     public:
@@ -189,6 +189,75 @@ namespace openpal
     template <class T, uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3>
     const T Bit32<T, B0, B1, B2, B3>::min_value = openpal::min_value<T>();
 
+	template <class T, uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3, uint8_t B4, uint8_t B5, uint8_t B6, uint8_t B7>
+	class Bit64
+	{
+		static_assert(sizeof(T) == 8, "bad size");
+		static_assert(
+			(B0 < sizeof(T)) && (B1 < sizeof(T)) && (B2 < sizeof(T)) && (B3 < sizeof(T)) && (B4 < sizeof(T)) && (B5 < sizeof(T)) && (B6 < sizeof(T)) && (B7 < sizeof(T)),
+			"bad config"
+		);
+
+	public:
+
+		static bool write_to(wseq_t& dest, T value)
+		{
+			if (dest.length() < size) return false;
+
+			write(dest, value);
+			dest.advance(size);
+			return true;
+		}
+
+		inline static bool read_from(rseq_t& input, T& out)
+		{
+			if (input.length() < size) return false;
+
+			out = read(input);
+			input.advance(size);
+			return true;
+		}
+
+		typedef T type_t;
+
+		const static size_t size = sizeof(T);
+		const static T max_value;
+		const static T min_value;
+
+	private:
+
+		static T read(const uint8_t* data)
+		{
+			return	(static_cast<T>(data[B0]) << 0) |
+				(static_cast<T>(data[B1]) << 8) |
+				(static_cast<T>(data[B2]) << 16) |
+				(static_cast<T>(data[B3]) << 24) |
+				(static_cast<T>(data[B4]) << 32) |
+				(static_cast<T>(data[B5]) << 40) |
+				(static_cast<T>(data[B6]) << 48) |
+				(static_cast<T>(data[B7]) << 56);
+		}
+
+		static void write(uint8_t* data, T value)
+		{
+			data[B0] = static_cast<uint8_t>(value & 0xFF);
+			data[B1] = static_cast<uint8_t>((value >> 8) & 0xFF);
+			data[B2] = static_cast<uint8_t>((value >> 16) & 0xFF);
+			data[B3] = static_cast<uint8_t>((value >> 24) & 0xFF);
+			data[B4] = static_cast<uint8_t>((value >> 32) & 0xFF);
+			data[B5] = static_cast<uint8_t>((value >> 40) & 0xFF);
+			data[B6] = static_cast<uint8_t>((value >> 48) & 0xFF);
+			data[B7] = static_cast<uint8_t>((value >> 56) & 0xFF);
+		}
+	};
+
+	template <class T, uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3, uint8_t B4, uint8_t B5, uint8_t B6, uint8_t B7>
+	const T Bit64<T, B0, B1, B2, B3, B4, B5, B6, B7>::max_value = openpal::max_value<T>();
+
+	template <class T, uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3, uint8_t B4, uint8_t B5, uint8_t B6, uint8_t B7>
+	const T Bit64<T, B0, B1, B2, B3, B4, B5, B6, B7>::min_value = openpal::min_value<T>();
+
+
     template <uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3, uint8_t B4, uint8_t B5>
     class UBit48
     {
@@ -249,6 +318,8 @@ namespace openpal
             data[B5] = static_cast<uint8_t>((value >> 40) & 0xFF);
         }
     };
+
+	
 
 }
 

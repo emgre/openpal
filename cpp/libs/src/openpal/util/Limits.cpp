@@ -128,4 +128,16 @@ namespace openpal
         return INT64_MAX;
     }
 
+	template <>
+	uint64_t min_value<uint64_t>()
+	{
+		return 0;
+	}
+
+	template <>
+	uint64_t max_value<uint64_t>()
+	{
+		return UINT64_MAX;
+	}
+
 }

@@ -30,13 +30,16 @@
 namespace openpal
 {
 
-    typedef Bit16<int16_t, 0, 1>			Int16;
-    typedef Bit16<uint16_t, 0, 1>			UInt16;
-    typedef Bit32<int32_t, 0, 1, 2, 3>		Int32;
-    typedef Bit32<uint32_t, 0, 1, 2, 3>		UInt32;
-    typedef UBit48<	0, 1, 2, 3, 4, 5>		UInt48;
+    typedef Bit16<int16_t, 0, 1>						Int16;
+    typedef Bit16<uint16_t, 0, 1>						UInt16;
+    typedef Bit32<int32_t, 0, 1, 2, 3>					Int32;
+    typedef Bit32<uint32_t, 0, 1, 2, 3>					UInt32;
+	typedef Bit64<int32_t, 0, 1, 2, 3, 4, 5, 6, 7>		Int64;
+	typedef Bit64<uint32_t, 0, 1, 2, 3, 4, 5, 6, 7>		UInt64;
 
-    typedef EndianHelpers<Int16, UInt16, Int32, UInt32>	BigEndian;
+    typedef UBit48<	0, 1, 2, 3, 4, 5>					UInt48;
+
+    typedef EndianHelpers<Int16, UInt16, Int32, UInt32, Int64, UInt64>	LittleEndian;
 
 }
 
