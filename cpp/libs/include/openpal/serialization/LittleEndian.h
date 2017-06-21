@@ -34,8 +34,8 @@ namespace openpal
     typedef Bit16<uint16_t, 0, 1>						UInt16;
     typedef Bit32<int32_t, 0, 1, 2, 3>					Int32;
     typedef Bit32<uint32_t, 0, 1, 2, 3>					UInt32;
-	typedef Bit64<int32_t, 0, 1, 2, 3, 4, 5, 6, 7>		Int64;
-	typedef Bit64<uint32_t, 0, 1, 2, 3, 4, 5, 6, 7>		UInt64;
+	typedef Bit64<int64_t, 0, 1, 2, 3, 4, 5, 6, 7>		Int64;
+	typedef Bit64<uint64_t, 0, 1, 2, 3, 4, 5, 6, 7>		UInt64;
 
     typedef UBit48<	0, 1, 2, 3, 4, 5>					UInt48;
 
