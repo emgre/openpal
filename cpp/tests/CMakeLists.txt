@@ -9,17 +9,11 @@ set(openpal_tests_headers
     ./testlib/HexConversions.h
     ./testlib/MockExecutor.h
     ./testlib/MockLogHandler.h
-    ./testlib/MockUTCTimeSource.h
-    ./testlib/Random.h
-    ./testlib/RandomDouble.h
-    ./testlib/StopWatch.h
-    ./testlib/Timeout.h
+    ./testlib/MockUTCTimeSource.h    
 )
 
 set(openpal_tests_src
-    ./openpaltests/src/CatchTestStart.cpp
-    ./openpaltests/src/LinkedListTestSuite.cpp
-    ./openpaltests/src/QueueTestSuite.cpp
+    ./openpaltests/src/CatchTestStart.cpp    
     ./openpaltests/src/TestBigEndianSerialization.cpp
     ./openpaltests/src/TestFloatSerialization.cpp
     ./openpaltests/src/TestLittleEndianSerialization.cpp
@@ -28,9 +22,7 @@ set(openpal_tests_src
     ./testlib/Hex.cpp
     ./testlib/HexConversions.cpp
     ./testlib/MockExecutor.cpp
-    ./testlib/MockLogHandler.cpp
-    ./testlib/StopWatch.cpp
-    ./testlib/Timeout.cpp
+    ./testlib/MockLogHandler.cpp    
 )
 
 add_executable(openpal_tests ${openpal_tests_headers} ${openpal_tests_src})

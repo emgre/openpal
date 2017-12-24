@@ -4,12 +4,7 @@ set(openpal_public_headers
     ./include/openpal/container/Array.h
     ./include/openpal/container/ArrayView.h
     ./include/openpal/container/Buffer.h
-    ./include/openpal/container/HasLength.h
-    ./include/openpal/container/LinkedList.h
-    ./include/openpal/container/Option.h
-    ./include/openpal/container/Pair.h
-    ./include/openpal/container/Queue.h
-    ./include/openpal/container/RingBuffer.h
+    ./include/openpal/container/HasLength.h    
     ./include/openpal/container/RSeq.h
     ./include/openpal/container/SequenceTypes.h
     ./include/openpal/container/StaticBuffer.h
