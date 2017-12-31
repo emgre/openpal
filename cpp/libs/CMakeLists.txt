@@ -11,12 +11,10 @@ set(openpal_public_headers
     ./include/openpal/container/WSeq.h
 
     ./include/openpal/executor/IExecutor.h
-    ./include/openpal/executor/IMonotonicTimeSource.h
+    ./include/openpal/executor/ISteadyTimeSource.h
     ./include/openpal/executor/ITimer.h
-    ./include/openpal/executor/IUTCTimeSource.h
-    ./include/openpal/executor/TimeDuration.h
-    ./include/openpal/executor/TimerRef.h
-    ./include/openpal/executor/Timestamp.h
+    ./include/openpal/executor/IUTCTimeSource.h            
+	./include/openpal/executor/Typedefs.h
     ./include/openpal/executor/UTCTimestamp.h
 
     ./include/openpal/logging/HexLogging.h
@@ -45,11 +43,7 @@ set(openpal_public_headers
 )
 
 set(openpal_src
-    ./src/openpal/container/Buffer.cpp
-
-    ./src/openpal/executor/TimeDuration.cpp
-    ./src/openpal/executor/TimerRef.cpp
-    ./src/openpal/executor/Timestamp.cpp
+    ./src/openpal/container/Buffer.cpp    
 
     ./src/openpal/logging/HexLogging.cpp
 

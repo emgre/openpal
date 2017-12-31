@@ -25,7 +25,7 @@
 #ifndef OPENPAL_ITIMER_H
 #define OPENPAL_ITIMER_H
 
-#include "Timestamp.h"
+#include "Typedefs.h"
 
 namespace openpal
 {
@@ -36,9 +36,10 @@ namespace openpal
     class ITimer
     {
     public:
-        virtual ~ITimer() {}
+		virtual ~ITimer() = default;
+
         virtual void cancel() = 0;
-        virtual Timestamp expires_at() = 0;
+        virtual timestamp_t expires_at() = 0;
     };
 
 }

@@ -22,85 +22,18 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef OPENPAL_TIMEDURATION_H
-#define OPENPAL_TIMEDURATION_H
+#ifndef OPENPAL_TYPEDEFS_H
+#define OPENPAL_TYPEDEFS_H
 
-#include <cstdint>
+#include <chrono>
+#include <functional>
 
 namespace openpal
-{
+{   
+	typedef std::chrono::steady_clock::time_point timestamp_t;
+	typedef std::chrono::steady_clock::duration duration_t;
 
-    template <class T>
-    class TimeDurationBase
-    {
-
-    public:
-
-        T get_milliseconds() const
-        {
-            return milliseconds_;
-        }
-
-        bool is_negative() const
-        {
-            return milliseconds_ < 0;
-        }
-
-        bool is_postive() const
-        {
-            return milliseconds_ > 0;
-        }
-
-        operator T() const
-        {
-            return milliseconds_;
-        }
-
-    protected:
-
-        TimeDurationBase() : milliseconds_(0)
-        {}
-
-        explicit TimeDurationBase(T milliseconds) : milliseconds_(milliseconds)
-        {}
-
-        T milliseconds_;
-    };
-
-
-    /**
-    *  Strong typing for millisecond based time durations
-    */
-    class TimeDuration : public TimeDurationBase<int64_t>
-    {
-
-    public:
-
-		TimeDuration() {}
-
-        static TimeDuration min_value();
-
-        static TimeDuration max_value();
-
-        static TimeDuration zero_value();
-
-        static TimeDuration milliseconds(int64_t milliseconds);
-
-        static TimeDuration seconds(int64_t seconds);
-
-        static TimeDuration minutes(int64_t minutes);
-
-        static TimeDuration hours(int64_t hours);
-
-        static TimeDuration days(int64_t days);
-
-    private:
-
-        explicit TimeDuration(int64_t milliseconds);
-    };
-
-    bool operator==(const TimeDuration& lhs, const TimeDuration& rhs);
-
+	typedef std::function<void()> action_t;
 }
 
 #endif

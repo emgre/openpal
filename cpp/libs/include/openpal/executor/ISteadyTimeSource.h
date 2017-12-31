@@ -22,56 +22,22 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef OPENPAL_TIMERREF_H
-#define OPENPAL_TIMERREF_H
+#ifndef OPENPAL_ISTEADYTIMESOURCE_H
+#define OPENPAL_ISTEADYTIMESOURCE_H
 
-#include "openpal/executor/ITimer.h"
-#include "openpal/executor/IExecutor.h"
-#include "openpal/util/Uncopyable.h"
-
-#include <memory>
+#include "Typedefs.h"
 
 namespace openpal
 {
 
-    /**
-    * A management class to make dealing with timer pointers safer a little safer
-    *
-    * Holds an optional pointer to an active ITimer pointer. Acts as a safe proxy for dealing with a recurring timer instance.
-    */
-    class TimerRef : openpal::Uncopyable
+    class ISteadyTimeSource
     {
-		
     public:
 
-		explicit TimerRef(const std::shared_ptr<openpal::IExecutor>& executor);
+		virtual ~ISteadyTimeSource() = default;
 
-        // automatically cancels any active timers_ on destructive
-        ~TimerRef();
-
-        // Called to see if the timer is currently active
-        bool is_active() const;
-
-        // return the expiration time, Timestamp::max_value() if not active
-        Timestamp expires_at() const;
-
-        // cancels any existing timer, returning true if the timer was active, false otherwise
-        bool cancel();
-
-        // restart the timer, return false if already active
-        bool start(const TimeDuration& timeout, const action_t& action);
-        bool start(const Timestamp& expiration, const action_t& action);
-
-        // start a new timer, canceling any existing timer
-        void restart(const TimeDuration& expiration, const action_t& action);
-        void restart(const Timestamp& expiration, const action_t& action);
-
-	private:
-	
-		action_t bind_action(const action_t& action);
-
-		const std::shared_ptr<IExecutor> executor_;
-		ITimer* timer_ = nullptr;
+        /// @return a non-absolute timestamp for the monotonic time source
+        virtual timestamp_t get_time() = 0;
     };
 
 }
