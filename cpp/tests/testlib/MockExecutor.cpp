@@ -28,7 +28,7 @@
 
 namespace openpal
 {
-	timestamp_t MockExecutor::next_timer_expiration_abs() const
+	steady_time_t MockExecutor::next_timer_expiration_abs() const
     {
         auto lt = [](const std::shared_ptr<MockTimer>& lhs, const std::shared_ptr<MockTimer>& rhs)
         {
@@ -37,7 +37,7 @@ namespace openpal
         auto min = std::min_element(this->timers.begin(), this->timers.end(), lt);
         if (min == this->timers.end())
         {
-            return timestamp_t();
+            return steady_time_t();
         }
         else
         {
@@ -45,7 +45,7 @@ namespace openpal
         }
     }
 
-	timestamp_t MockExecutor::next_timer_expiration_rel() const
+	steady_time_t MockExecutor::next_timer_expiration_rel() const
 	{
 		auto lt = [](const std::shared_ptr<MockTimer>& lhs, const std::shared_ptr<MockTimer>& rhs)
 		{
@@ -54,11 +54,11 @@ namespace openpal
 		auto min = std::min_element(this->timers.begin(), this->timers.end(), lt);
 		if (min == this->timers.end())
 		{
-			return timestamp_t::max();
+			return steady_time_t::max();
 		}
 		else
 		{					
-			return timestamp_t((*min)->expires_at() - this->current_time);			
+			return steady_time_t((*min)->expires_at() - this->current_time);
 		}
 	}
 
@@ -88,7 +88,7 @@ namespace openpal
         else
         {
 			// keep the timer alive until it's callback is completed.
-			auto action = [timer = (*iter), action = (*iter)->action_]() -> void { action(); };
+			auto action = [timer = (*iter), action = (*iter)->action]() -> void { action(); };
             this->post_queue.push_back(action);
 			this->timers.erase(iter);
             return true;
@@ -154,33 +154,25 @@ namespace openpal
     }
 
     void MockExecutor::post(const openpal::action_t& runnable)
-    {
-        if (post_is_synchronous_)
-        {
-            runnable();
-        }
-        else
-        {
-            this->post_queue.push_back(runnable);
-        }
+    {        
+        this->post_queue.push_back(runnable);        
     }
 
-	timestamp_t MockExecutor::get_time()
+	steady_time_t MockExecutor::get_time()
     {
         return current_time;
     }
 
-    ITimer* MockExecutor::start(const duration_t& delay, const openpal::action_t& runnable)
+    Timer MockExecutor::start(const duration_t& delay, const openpal::action_t& runnable)
     {
         return start(current_time + delay, runnable);
     }
 
-    ITimer* MockExecutor::start(const timestamp_t& time, const openpal::action_t& runnable)
+    Timer MockExecutor::start(const steady_time_t& time, const openpal::action_t& runnable)
     {
-        auto timer = std::make_shared<MockTimer>(this, time, runnable);
-		const auto ret = timer.get();
-        this->timers.push_back(std::move(timer));
-        return ret;
+        const auto timer = std::make_shared<MockTimer>(this, time, runnable);		
+        this->timers.push_back(timer);
+        return Timer(timer);
     }
 
     void MockExecutor::cancel(ITimer* timer)
@@ -197,22 +189,22 @@ namespace openpal
 		}
     }
 
-    MockTimer::MockTimer(MockExecutor* source, const timestamp_t& time, const openpal::action_t& runnable) :
-        time_(time),
-        source_(source),
-        action_(runnable)
+    MockTimer::MockTimer(MockExecutor* source, const steady_time_t& time, const openpal::action_t& runnable) :
+        time(time),
+        source(source),
+        action(runnable)
     {
 
     }
 
     void MockTimer::cancel()
     {
-        source_->cancel(this);
+        source->cancel(this);
     }
 
-	timestamp_t MockTimer::expires_at()
+	steady_time_t MockTimer::expires_at()
     {
-        return this->time_;
+        return this->time;
     }
 
 }

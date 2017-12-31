@@ -39,7 +39,7 @@ namespace openpal
 		virtual ~ITimer() = default;
 
         virtual void cancel() = 0;
-        virtual timestamp_t expires_at() = 0;
+        virtual steady_time_t expires_at() = 0;
     };
 
 }

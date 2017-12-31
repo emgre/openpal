@@ -27,7 +27,6 @@
 
 #include <openpal/executor/IExecutor.h>
 
-#include <map>
 #include <queue>
 #include <limits>
 #include <memory>
@@ -39,7 +38,7 @@ namespace openpal
     class MockTimer;
 
     /** @section desc Test class that doles out MockTimer* */
-    class MockExecutor final : public openpal::IExecutor
+    class MockExecutor final : public IExecutor
     {
         friend class MockTimer;
 
@@ -51,16 +50,10 @@ namespace openpal
 		}
 
         // Implement IExecutor
-        virtual openpal::ITimer* start(const duration_t&, const openpal::action_t& action) override;
-        virtual openpal::ITimer* start(const timestamp_t&, const openpal::action_t& action) override;
-        virtual void post(const openpal::action_t& action) override;
-        virtual timestamp_t get_time() override;
-
-        /** Turns the auto-post feature on/off. When Auto post is on, post() is executed synchronously */
-        void set_auto_post(bool auto_post)
-        {
-            this->post_is_synchronous_ = auto_post;
-        }
+        virtual Timer start(const duration_t&, const action_t& action) override;
+        virtual Timer start(const steady_time_t&, const action_t& action) override;
+        virtual void post(const action_t& action) override;
+        virtual steady_time_t get_time() override;
 
         /**	@return true if an action was run. */
         bool run_one();
@@ -83,9 +76,9 @@ namespace openpal
             return this->timers.size();
         }
 
-		timestamp_t next_timer_expiration_abs() const;
+		steady_time_t next_timer_expiration_abs() const;
 
-		timestamp_t next_timer_expiration_rel() const;
+		steady_time_t next_timer_expiration_rel() const;
 
         size_t advance_time(duration_t duration);
 
@@ -106,34 +99,33 @@ namespace openpal
 
         bool find_expired_timer();
 
-        void cancel(openpal::ITimer* timer);
+        void cancel(ITimer* timer);
 
-        typedef std::deque<openpal::action_t> post_queue_t;
+        typedef std::deque<action_t> post_queue_t;
         typedef std::vector<std::shared_ptr<MockTimer>> timer_vector_t;
-
-		bool post_is_synchronous_ = false;
-        timestamp_t current_time;
+		
+		steady_time_t current_time;
 
         post_queue_t post_queue;
         timer_vector_t timers;
     };
 
     /** @section desc Test timer class used in conjunction with MockExecutor */
-    class MockTimer final : public openpal::ITimer
+    class MockTimer final : public ITimer
     {
         friend class MockExecutor;
 
     public:
-        MockTimer(MockExecutor*, const timestamp_t&, const openpal::action_t& action);
+        MockTimer(MockExecutor*, const steady_time_t&, const action_t& action);
 
-        //implement ITimer
+        // implement ITimer
         void cancel() override;
-		timestamp_t expires_at() override;
+		steady_time_t expires_at() override;
 
     private:
-		timestamp_t time_;
-        MockExecutor* source_;
-        openpal::action_t action_;
+		steady_time_t time;
+        MockExecutor* source;
+        action_t action;
     };
 
 }

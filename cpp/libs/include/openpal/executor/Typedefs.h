@@ -30,7 +30,7 @@
 
 namespace openpal
 {   
-	typedef std::chrono::steady_clock::time_point timestamp_t;
+	typedef std::chrono::steady_clock::time_point steady_time_t;
 	typedef std::chrono::steady_clock::duration duration_t;
 
 	typedef std::function<void()> action_t;

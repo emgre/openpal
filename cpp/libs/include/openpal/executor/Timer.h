@@ -22,38 +22,54 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef OPENPAL_IEXECUTOR_H
-#define OPENPAL_IEXECUTOR_H
+#ifndef OPENPAL_TIMER_H
+#define OPENPAL_TIMER_H
 
-#include "Timer.h"
-#include "ISteadyTimeSource.h"
+#include "ITimer.h"
+
+#include <memory>
 
 namespace openpal
 {
-   
+
     /**
-	 * Interface that abstracts an event loop.
-	 *	 
-     * Events can be posted for to execute immediately or some time in the future.  Events 
-	 * are processed in the order they are posted.
-     *
+     * Timer is a wrapper around an implementation of ITimer
      */
-    class IExecutor : public ISteadyTimeSource
+    class Timer final
     {
-
     public:
+		
+		Timer(const std::shared_ptr<ITimer>& timer) : timer(timer)
+		{}
 
-        virtual ~IExecutor() {}
+		inline bool cancel()
+		{
+			if (auto impl = timer.lock())
+			{
+				impl->cancel();
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+        
+		inline steady_time_t expires_at()
+		{
+			if (auto impl = timer.lock())
+			{
+				return impl->expires_at();
+			}
+			else
+			{
+				return steady_time_t::min();
+			}
+		}
 
-        /// @return start a new timer based on a relative time duration		
-        virtual Timer start(const duration_t& duration, const action_t& action) = 0;
+	private:
 
-        /// @return start a new timer based on an absolute timestamp of the steady clock
-        virtual Timer start(const steady_time_t& expiration, const action_t& action) = 0;
-
-        /// @return Thread-safe way to post an event to be handled asynchronously
-        virtual void post(const action_t& action) = 0;
-
+		std::weak_ptr<ITimer> timer;
     };
 
 }
