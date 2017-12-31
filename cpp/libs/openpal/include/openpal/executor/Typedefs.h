@@ -22,28 +22,18 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef OPENPAL_IUTCTIMESOURCE_H
-#define OPENPAL_IUTCTIMESOURCE_H
+#ifndef OPENPAL_TYPEDEFS_H
+#define OPENPAL_TYPEDEFS_H
 
-#include "Typedefs.h"
+#include <chrono>
+#include <functional>
 
 namespace openpal
-{
+{   
+	typedef std::function<void()> action_t;
 
-    /**
-    *  Interface that defines a method to get UTC timestamps
-    */
-    class ISystemTimeSource
-    {
-
-    public:
-        /**
-        *  Returns a UTCTimestamp of the current time
-        */
-        virtual system_time_t now() = 0;
-    };
-   
+	typedef std::chrono::steady_clock::duration duration_t;
+	typedef std::chrono::steady_clock::time_point steady_time_t;	
 }
 
 #endif
-
