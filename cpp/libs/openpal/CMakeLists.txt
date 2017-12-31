@@ -12,7 +12,8 @@ set(openpal_public_headers
 
     ./include/openpal/executor/IExecutor.h
     ./include/openpal/executor/ISteadyTimeSource.h
-    ./include/openpal/executor/ITimer.h            
+    ./include/openpal/executor/ITimer.h
+	./include/openpal/executor/MockExecutor.h
 	./include/openpal/executor/Timer.h
 	./include/openpal/executor/Typedefs.h    
 

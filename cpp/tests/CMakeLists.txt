@@ -6,8 +6,7 @@ set(openpal_tests_headers
     ./catch/catch.hpp
 
     ./testlib/Hex.h
-    ./testlib/HexConversions.h
-    ./testlib/MockExecutor.h
+    ./testlib/HexConversions.h    
     ./testlib/MockLogHandler.h
     ./testlib/MockUTCTimeSource.h    
 )
@@ -17,11 +16,11 @@ set(openpal_tests_src
     ./openpaltests/src/TestBigEndianSerialization.cpp
     ./openpaltests/src/TestFloatSerialization.cpp
     ./openpaltests/src/TestLittleEndianSerialization.cpp
+	./openpaltests/src/TestMockExecutor.cpp
     ./openpaltests/src/TestStaticBuffer.cpp
 
     ./testlib/Hex.cpp
-    ./testlib/HexConversions.cpp
-    ./testlib/MockExecutor.cpp
+    ./testlib/HexConversions.cpp    
     ./testlib/MockLogHandler.cpp    
 )
 
