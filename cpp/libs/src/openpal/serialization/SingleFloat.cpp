@@ -24,15 +24,15 @@
  */
 #include "openpal/serialization/SingleFloat.h"
 
-#include "openpal/util/Limits.h"
 #include "openpal/serialization/FloatByteOrder.h"
 
 #include <cstring>
+#include <limits>
 
 namespace openpal
 {
-    const float SingleFloat::max_value(openpal::max_value<float>());
-    const float SingleFloat::min_value(openpal::min_value<float>());
+    const float SingleFloat::max_value(std::numeric_limits<float>::max());
+    const float SingleFloat::min_value(-std::numeric_limits<float>::max());
 
     union SingleFloatUnion
     {

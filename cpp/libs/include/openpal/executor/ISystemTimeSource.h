@@ -22,18 +22,28 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef OPENPAL_LIMITS_H
-#define OPENPAL_LIMITS_H
+#ifndef OPENPAL_IUTCTIMESOURCE_H
+#define OPENPAL_IUTCTIMESOURCE_H
+
+#include "Typedefs.h"
 
 namespace openpal
 {
 
-    template <class T>
-    T min_value();
+    /**
+    *  Interface that defines a method to get UTC timestamps
+    */
+    class ISystemTimeSource
+    {
 
-    template <class T>
-    T max_value();
-
+    public:
+        /**
+        *  Returns a UTCTimestamp of the current time
+        */
+        virtual system_time_t now() = 0;
+    };
+   
 }
 
 #endif
+

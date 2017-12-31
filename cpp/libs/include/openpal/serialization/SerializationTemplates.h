@@ -30,8 +30,6 @@
 
 #include "openpal/container/SequenceTypes.h"
 
-#include "openpal/util/Limits.h"
-
 #include "UInt48Type.h"
 
 namespace openpal
@@ -127,10 +125,10 @@ namespace openpal
     };
 
     template <class T, uint8_t B0, uint8_t B1>
-    const T Bit16<T, B0, B1>::max_value = openpal::max_value<T>();
+    const T Bit16<T, B0, B1>::max_value = std::numeric_limits<T>::max();
 
     template <class T, uint8_t B0, uint8_t B1>
-    const T Bit16<T, B0, B1>::min_value = openpal::min_value<T>();
+    const T Bit16<T, B0, B1>::min_value = std::numeric_limits<T>::min();
 
     template <class T, uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3>
     class Bit32
@@ -184,10 +182,10 @@ namespace openpal
     };
 
     template <class T, uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3>
-    const T Bit32<T, B0, B1, B2, B3>::max_value = openpal::max_value<T>();
+    const T Bit32<T, B0, B1, B2, B3>::max_value = std::numeric_limits<T>::max();
 
     template <class T, uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3>
-    const T Bit32<T, B0, B1, B2, B3>::min_value = openpal::min_value<T>();
+    const T Bit32<T, B0, B1, B2, B3>::min_value = std::numeric_limits<T>::min();
 
 	template <class T, uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3, uint8_t B4, uint8_t B5, uint8_t B6, uint8_t B7>
 	class Bit64
@@ -252,10 +250,10 @@ namespace openpal
 	};
 
 	template <class T, uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3, uint8_t B4, uint8_t B5, uint8_t B6, uint8_t B7>
-	const T Bit64<T, B0, B1, B2, B3, B4, B5, B6, B7>::max_value = openpal::max_value<T>();
+	const T Bit64<T, B0, B1, B2, B3, B4, B5, B6, B7>::max_value = std::numeric_limits<T>::max();
 
 	template <class T, uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3, uint8_t B4, uint8_t B5, uint8_t B6, uint8_t B7>
-	const T Bit64<T, B0, B1, B2, B3, B4, B5, B6, B7>::min_value = openpal::min_value<T>();
+	const T Bit64<T, B0, B1, B2, B3, B4, B5, B6, B7>::min_value = std::numeric_limits<T>::min();
 
 
     template <uint8_t B0, uint8_t B1, uint8_t B2, uint8_t B3, uint8_t B4, uint8_t B5>

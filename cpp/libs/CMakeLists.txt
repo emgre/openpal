@@ -13,10 +13,9 @@ set(openpal_public_headers
     ./include/openpal/executor/IExecutor.h
     ./include/openpal/executor/ISteadyTimeSource.h
     ./include/openpal/executor/ITimer.h
-    ./include/openpal/executor/IUTCTimeSource.h            
+    ./include/openpal/executor/ISystemTimeSource.h            
 	./include/openpal/executor/Timer.h
-	./include/openpal/executor/Typedefs.h
-    ./include/openpal/executor/UTCTimestamp.h
+	./include/openpal/executor/Typedefs.h    
 
     ./include/openpal/logging/HexLogging.h
     ./include/openpal/logging/ILogHandler.h
@@ -36,9 +35,7 @@ set(openpal_public_headers
     ./include/openpal/serialization/SingleFloat.h
     ./include/openpal/serialization/UInt48Type.h
 
-    ./include/openpal/util/Comparisons.h
-    ./include/openpal/util/Limits.h
-    ./include/openpal/util/SequenceNum.h
+    ./include/openpal/util/Comparisons.h       
     ./include/openpal/util/ToHex.h
     ./include/openpal/util/Uncopyable.h
 )
@@ -51,8 +48,7 @@ set(openpal_src
     ./src/openpal/serialization/DoubleFloat.cpp
     ./src/openpal/serialization/FloatByteOrder.cpp
     ./src/openpal/serialization/SingleFloat.cpp
-
-    ./src/openpal/util/Limits.cpp
+    
     ./src/openpal/util/ToHex.cpp
 )
 
