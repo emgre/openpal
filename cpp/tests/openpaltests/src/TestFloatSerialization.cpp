@@ -24,8 +24,8 @@
  */
 #include <catch.hpp>
 
-#include <testlib/Hex.h>
-#include <testlib/HexConversions.h>
+#include <openpal/mock/Hex.h>
+#include <openpal/mock/HexConversions.h>
 
 #include <openpal/container/Buffer.h>
 #include <openpal/serialization/FloatByteOrder.h>

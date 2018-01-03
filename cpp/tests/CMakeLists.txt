@@ -2,11 +2,7 @@ cmake_minimum_required (VERSION 3.8)
 
 enable_testing()
 
-set(openpal_tests_headers
-    ./catch/catch.hpp
-    ./testlib/Hex.h
-    ./testlib/HexConversions.h        
-)
+set(openpal_tests_headers ./catch/catch.hpp)
 
 set(openpal_tests_src
     ./openpaltests/src/CatchTestStart.cpp    
@@ -14,10 +10,7 @@ set(openpal_tests_src
     ./openpaltests/src/TestFloatSerialization.cpp
     ./openpaltests/src/TestLittleEndianSerialization.cpp
 	./openpaltests/src/TestMockExecutor.cpp
-    ./openpaltests/src/TestStaticBuffer.cpp
-
-    ./testlib/Hex.cpp
-    ./testlib/HexConversions.cpp    
+    ./openpaltests/src/TestStaticBuffer.cpp    
 )
 
 add_executable(openpal_tests ${openpal_tests_headers} ${openpal_tests_src})

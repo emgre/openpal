@@ -22,11 +22,10 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "Hex.h"
+#include "openpal/mock/Hex.h"
 
-#include <openpal/util/ToHex.h>
-
-#include "HexConversions.h"
+#include "openpal/mock/ToHex.h"
+#include "openpal/mock/HexConversions.h"
 
 #include <exception>
 #include <stdexcept>
@@ -36,9 +35,6 @@ using namespace std;
 
 namespace openpal
 {
-
-
-
     Hex::Hex( const std::string& hex) :
         buffer_(validate(remove_spaces(hex)))
     {

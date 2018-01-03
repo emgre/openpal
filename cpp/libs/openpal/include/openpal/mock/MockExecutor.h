@@ -25,7 +25,7 @@
 #ifndef OPENPAL_MOCKEXECUTOR_H
 #define OPENPAL_MOCKEXECUTOR_H
 
-#include "IExecutor.h"
+#include "openpal/executor/IExecutor.h"
 
 #include <queue>
 #include <limits>

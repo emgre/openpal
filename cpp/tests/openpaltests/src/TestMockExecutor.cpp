@@ -24,7 +24,7 @@
  */
 #include <catch.hpp>
 
-#include <openpal/executor/MockExecutor.h>
+#include <openpal/mock/MockExecutor.h>
 
 using namespace openpal;
 
