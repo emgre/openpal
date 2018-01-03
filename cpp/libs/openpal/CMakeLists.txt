@@ -1,8 +1,6 @@
 cmake_minimum_required (VERSION 3.8)
 
-set(openpal_public_headers
-    ./include/openpal/container/Array.h
-    ./include/openpal/container/ArrayView.h
+set(openpal_public_headers    
     ./include/openpal/container/Buffer.h
     ./include/openpal/container/HasLength.h    
     ./include/openpal/container/RSeq.h

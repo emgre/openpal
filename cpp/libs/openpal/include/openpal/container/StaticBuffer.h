@@ -38,7 +38,7 @@
 namespace openpal
 {
 
-    template <class T, T SIZE>
+    template <class T, T LENGTH>
     class StaticBuffer final
     {
         static_assert(!std::numeric_limits<T>::is_signed&& std::numeric_limits<T>::is_integer, "must be an unsigned integer");
@@ -47,44 +47,34 @@ namespace openpal
 
         StaticBuffer() {}
 
-        RSeq<T> as_seq() const
+        inline RSeq<T> as_seq() const
         {
-            return RSeq<T>(buffer_, SIZE);
+            return RSeq<T>(this->buffer, LENGTH);
         }
 
-        RSeq<T> as_seq(T max_size) const
+        inline RSeq<T> as_seq(T max_size) const
         {
             return this->as_seq().take(max_size);
         }
 
-        wseq_t as_wseq()
+        inline wseq_t as_wseq()
         {
-            return wseq_t(buffer_, SIZE);
+            return wseq_t(this->buffer, LENGTH);
         }
 
-        wseq_t as_wseq(uint32_t max_size)
+        inline wseq_t as_wseq(uint32_t max_size)
         {
-            return wseq_t(buffer_, openpal::min(SIZE, max_size));
+            return wseq_t(this->buffer, openpal::min(LENGTH, max_size));
         }
 
-        const uint8_t* operator()() const
+        inline T length() const
         {
-            return buffer_;
-        }
-
-        uint8_t* operator()()
-        {
-            return buffer_;
-        }
-
-        T size() const
-        {
-            return SIZE;
+            return LENGTH;
         }
 
     private:
 
-        uint8_t buffer_[SIZE] = { 0 };
+        uint8_t buffer[LENGTH] = { 0 };
     };
 
 }

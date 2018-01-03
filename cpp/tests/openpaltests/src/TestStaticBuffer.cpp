@@ -28,41 +28,45 @@
 
 using namespace openpal;
 
-using namespace std;
-
-
 #define SUITE(name) "StaticBuffer - " name
 
 TEST_CASE(SUITE("Static buffers can be copied"))
 {
     StaticBuffer<uint8_t, 4> buffer;
 
-    buffer()[0] = 0xDE;
-    buffer()[1] = 0xAD;
-    buffer()[2] = 0xBE;
-    buffer()[3] = 0xEF;
+    {
+        auto dest = buffer.as_wseq();
+        dest[0] = 0xDE;
+        dest[1] = 0xAD;
+        dest[2] = 0xBE;
+        dest[3] = 0xEF;
+    }
 
     StaticBuffer<uint8_t, 4> copy(buffer);
-    REQUIRE(copy()[0] == 0xDE);
-    REQUIRE(copy()[1] == 0xAD);
-    REQUIRE(copy()[2] == 0xBE);
-    REQUIRE(copy()[3] == 0xEF);
+    auto view = copy.as_seq();
+
+    REQUIRE(view[0] == 0xDE);
+    REQUIRE(view[1] == 0xAD);
+    REQUIRE(view[2] == 0xBE);
+    REQUIRE(view[3] == 0xEF);
 }
 
 TEST_CASE(SUITE("Static buffers can be assigned"))
 {
     StaticBuffer<uint8_t, 4> buffer;
+    auto dest = buffer.as_wseq();
 
-    buffer()[0] = 0xDE;
-    buffer()[1] = 0xAD;
-    buffer()[2] = 0xBE;
-    buffer()[3] = 0xEF;
+    dest[0] = 0xDE;
+    dest[1] = 0xAD;
+    dest[2] = 0xBE;
+    dest[3] = 0xEF;
 
     StaticBuffer<uint8_t, 4> copy;
     copy = buffer;
-    REQUIRE(copy()[0] == 0xDE);
-    REQUIRE(copy()[1] == 0xAD);
-    REQUIRE(copy()[2] == 0xBE);
-    REQUIRE(copy()[3] == 0xEF);
+    auto view = copy.as_seq();
+    REQUIRE(view[0] == 0xDE);
+    REQUIRE(view[1] == 0xAD);
+    REQUIRE(view[2] == 0xBE);
+    REQUIRE(view[3] == 0xEF);
 }
 
