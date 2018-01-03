@@ -44,7 +44,7 @@ namespace openpal
 
     public:
 
-		StrandExecutor(const std::shared_ptr<asio::io_service>& io_service) :
+        StrandExecutor(const std::shared_ptr<asio::io_service>& io_service) :
             io_service(io_service),
             strand(*io_service)
         {}
@@ -71,7 +71,7 @@ namespace openpal
         // we hold a shared_ptr to the io_service so that it cannot dissapear while the strand is still executing
         const std::shared_ptr<asio::io_service> io_service;
 
-	public:
+    public:
 
         asio::strand strand;
     };
