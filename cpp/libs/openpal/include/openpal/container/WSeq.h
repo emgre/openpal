@@ -58,7 +58,7 @@ namespace openpal
 
         void set_all_to(uint8_t value)
         {
-            memset(this->buffer_, value, this->length_);
+            memset(this->buffer_, value, this->length());
         }
 
         void make_empty()
@@ -69,15 +69,15 @@ namespace openpal
 
         L advance(L count)
         {
-            const auto num = openpal::min(count, this->length_);
+            const auto num = openpal::min(count, this->length());
             this->buffer_ += num;
-            this->length_ -= num;
+            this->m_length -= num;
             return num;
         }
 
         bool put(uint8_t byte)
         {
-            if (this->length_ == 0) return false;
+            if (this->length() == 0) return false;
             else
             {
                 this->buffer_[0] = byte;
@@ -100,7 +100,7 @@ namespace openpal
 
         RSeq<L> readonly() const
         {
-            return RSeq<L>(this->buffer_, this->length_);
+            return RSeq<L>(this->buffer_, this->length());
         }
 
         operator uint8_t* () const
@@ -124,7 +124,7 @@ namespace openpal
         template <memfunc_t mem_func>
         RSeq<L> transfer_from(const RSeq<L>& src)
         {
-            if (src.length() > this->length_)
+            if (src.length() > this->length())
             {
                 return RSeq<L>::empty();
             }

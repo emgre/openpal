@@ -25,44 +25,47 @@
 #ifndef OPENPAL_BUFFER_H
 #define OPENPAL_BUFFER_H
 
-#include "Array.h"
-
 #include "openpal/container/SequenceTypes.h"
+#include "openpal/util/Uncopyable.h"
 
-#include <cstdint>
+#include <memory>
 
 namespace openpal
 {
-
-    class Buffer : public Array<uint8_t, uint32_t>
+    class Buffer : public HasLength<uint32_t>, private Uncopyable
     {
 
     public:
 
-        Buffer();
+        Buffer() : HasLength(0)
+        {}
 
-        explicit Buffer(uint32_t size);
+        ~Buffer() = default;
 
-        // initialize with the exact length_ and contents of the view
-        explicit Buffer(const rseq_t& input);
+        explicit Buffer(uint32_t length) :
+            HasLength(length),
+            bytes(std::make_unique<uint8_t[]>(length))
+        {}
 
-        virtual ~Buffer() {}
-
-        rseq_t as_rslice() const;
-
-        wseq_t as_wslice();
-
-        wseq_t as_wslice(uint32_t max_size);
-
-        const uint8_t* operator()() const
+        // initialize with the exact length and contents
+        explicit Buffer(const rseq_t& input) : Buffer(input.length())
         {
-            return buffer_;
+            this->as_wslice().copy_from(input);
         }
 
-        uint8_t* operator()()
+        inline rseq_t as_rslice() const
         {
-            return buffer_;
+            return rseq_t(this->bytes.get(), this->length());
         }
+
+        inline wseq_t as_wslice()
+        {
+            return wseq_t(this->bytes.get(), this->length());
+        }
+
+    private:
+
+        std::unique_ptr <uint8_t[]> bytes;
     };
 
 }

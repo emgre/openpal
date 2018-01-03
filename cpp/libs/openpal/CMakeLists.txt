@@ -32,9 +32,7 @@ set(openpal_public_headers
     ./include/openpal/util/Uncopyable.h
 )
 
-set(openpal_src
-    ./src/openpal/container/Buffer.cpp       
-
+set(openpal_src    
 	./src/openpal/mock/Hex.cpp
 	./src/openpal/mock/HexConversions.cpp	
 

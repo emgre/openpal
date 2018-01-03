@@ -67,20 +67,20 @@ namespace openpal
 
         RSeq take(L count) const
         {
-            return RSeq(this->buffer_, (count < this->length_) ? count : this->length_);
+            return RSeq(this->buffer_, (count < this->length()) ? count : this->length());
         }
 
         RSeq skip(L count) const
         {
-            auto num = openpal::min(this->length_, count);
-            return RSeq(this->buffer_ + num, this->length_ - num);
+            auto num = openpal::min(this->length(), count);
+            return RSeq(this->buffer_ + num, this->length() - num);
         }
 
         void advance(L count)
         {
-            auto num = openpal::min(this->length_, count);
+            auto num = openpal::min(this->length(), count);
             this->buffer_ += num;
-            this->length_ -= num;
+            this->m_length -= num;
         }
 
         operator uint8_t const* () const

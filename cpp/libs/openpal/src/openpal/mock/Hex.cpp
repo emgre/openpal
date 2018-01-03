@@ -36,7 +36,7 @@ using namespace std;
 namespace openpal
 {
     Hex::Hex( const std::string& hex) :
-        buffer_(validate(remove_spaces(hex)))
+        buffer(validate(remove_spaces(hex)))
     {
         std::string s = remove_spaces(hex);
 
@@ -50,7 +50,7 @@ namespace openpal
             {
                 throw std::invalid_argument(hex);
             }
-            buffer_[index] = static_cast<uint8_t>(val);
+            buffer.as_wslice()[index] = static_cast<uint8_t>(val);
         }
     }
 

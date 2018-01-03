@@ -42,7 +42,7 @@ namespace openpal
 
         rseq_t as_rslice() const
         {
-            return buffer_.as_rslice();
+            return buffer.as_rslice();
         }
 
         operator rseq_t () const
@@ -52,7 +52,7 @@ namespace openpal
 
     protected:
 
-        openpal::Buffer buffer_;
+        openpal::Buffer buffer;
 
         std::string remove_spaces(const std::string& hex);
         void remove_spaces_in_place(std::string& hex);

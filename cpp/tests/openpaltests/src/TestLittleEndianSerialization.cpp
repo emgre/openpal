@@ -50,7 +50,7 @@ bool TestReadWrite(typename T::type_t value, std::initializer_list<uint8_t> expe
 
     for (auto& byte : expected)
     {
-        if (buffer[i] != byte)
+        if (buffer.as_rslice()[i] != byte)
         {
             return false;
         }

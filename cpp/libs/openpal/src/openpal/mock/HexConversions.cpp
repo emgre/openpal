@@ -90,7 +90,7 @@ namespace openpal
 
         for (uint16_t i = 0; i < count; ++i)
         {
-            buffer[i] = start;
+            buffer.as_wslice()[i] = start;
             ++start;
         }
 

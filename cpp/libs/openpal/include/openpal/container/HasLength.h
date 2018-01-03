@@ -28,35 +28,35 @@
 namespace openpal
 {
 
-    template <class LengthType>
+    template <class L>
     class HasLength
     {
 
     public:
 
-        LengthType length() const
+        inline L length() const
         {
-            return length_;
+            return m_length;
         }
 
-        bool is_empty() const
+        inline bool is_empty() const
         {
-            return length_ == 0;
+            return m_length == 0;
         }
 
-        bool is_not_empty() const
+        inline bool is_not_empty() const
         {
-            return length_ != 0;
+            return m_length != 0;
         }
 
     protected:
 
         HasLength() {}
 
-        explicit HasLength(LengthType length) : length_(length)
+        explicit HasLength(L length) : m_length(length)
         {}
 
-        LengthType length_ = 0;
+        L m_length = 0;
 
     };
 
