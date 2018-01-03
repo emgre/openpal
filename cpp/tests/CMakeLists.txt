@@ -4,11 +4,8 @@ enable_testing()
 
 set(openpal_tests_headers
     ./catch/catch.hpp
-
     ./testlib/Hex.h
-    ./testlib/HexConversions.h    
-    ./testlib/MockLogHandler.h
-    ./testlib/MockUTCTimeSource.h    
+    ./testlib/HexConversions.h        
 )
 
 set(openpal_tests_src
@@ -21,7 +18,6 @@ set(openpal_tests_src
 
     ./testlib/Hex.cpp
     ./testlib/HexConversions.cpp    
-    ./testlib/MockLogHandler.cpp    
 )
 
 add_executable(openpal_tests ${openpal_tests_headers} ${openpal_tests_src})
