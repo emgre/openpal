@@ -19,25 +19,25 @@
  * to you under the terms of the License.
  */
 
-#include "openpal/executor/asio/BasicExecutor.h"
+#include "asiopal/StrandExecutor.h"
 
 #include "ASIOTimer.h"
 
 namespace openpal
 {
 
-    Timer BasicExecutor::start(const duration_t& duration, const action_t& action)
+    Timer StrandExecutor::start(const duration_t& duration, const action_t& action)
     {
-        return this->start(this->get_time() + duration, action);
+        return this->start(get_time() + duration, action);
     }
 
-    Timer BasicExecutor::start(const steady_time_t& expiration, const action_t& action)
+    Timer StrandExecutor::start(const steady_time_t& expiration, const action_t& action)
     {
         const auto timer = ASIOTimer::create(this->io_service);
 
         timer->impl.expires_at(expiration);
 
-        // neither the executor nor the timer can be deleted while the timer is still active
+        // neither this executor nor the timer can be deleted while the timer is still active
         auto callback = [timer, action, self = shared_from_this()](const std::error_code & ec)
         {
             if (!ec)   // an error indicate timer was canceled
@@ -46,17 +46,22 @@ namespace openpal
             }
         };
 
-        timer->impl.async_wait(callback);
+        timer->impl.async_wait(strand.wrap(callback));
 
         return Timer(timer);
     }
 
-    void BasicExecutor::post(const action_t& action)
+    void StrandExecutor::post(const action_t& action)
     {
-        this->io_service->post(action);
+        auto callback = [action, self = shared_from_this()]()
+        {
+            action();
+        };
+
+        strand.post(callback);
     }
 
-    steady_time_t BasicExecutor::get_time()
+    steady_time_t StrandExecutor::get_time()
     {
         return std::chrono::steady_clock::now();
     }

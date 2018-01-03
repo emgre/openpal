@@ -38,29 +38,6 @@ set(openpal_src
     ./src/openpal/serialization/SingleFloat.cpp       
 )
 
-# append asio components in case we want to make this optional in the future
-set(openpal_public_headers
-    ${openpal_public_headers}
-	./include/openpal/executor/asio/BasicExecutor.h
-	./include/openpal/executor/asio/StrandExecutor.h
-	./include/openpal/executor/asio/ThreadPool.h
-)
-
-set(openpal_src 
-    ${openpal_src}
-	./src/openpal/executor/asio/ASIOTimer.h
-	./src/openpal/executor/asio/BasicExecutor.cpp
-    ./src/openpal/executor/asio/StrandExecutor.cpp
-	./src/openpal/executor/asio/ThreadPool.cpp
-)
-
 add_library(openpal ${openpal_public_headers} ${openpal_src})
 target_compile_features(openpal PUBLIC cxx_std_14)
 target_include_directories(openpal PUBLIC ./include)
-
-# this could be optional too
-target_include_directories(openpal PUBLIC ${CMAKE_SOURCE_DIR}/deps/asio/asio/include)
-target_compile_definitions(openpal PUBLIC -DASIO_STANDALONE -DASIO_HAS_STD_SYSTEM_ERROR)
-if(WIN32)
-    target_compile_definitions(openpal PUBLIC -D_WIN32_WINNT=0x0501)
-endif()

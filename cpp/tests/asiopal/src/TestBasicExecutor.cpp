@@ -24,7 +24,7 @@
 */
 #include <catch.hpp>
 
-#include <openpal/executor/asio/BasicExecutor.h>
+#include <asiopal/BasicExecutor.h>
 
 using namespace openpal;
 

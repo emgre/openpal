@@ -24,8 +24,8 @@
 */
 #include <catch.hpp>
 
-#include <openpal/executor/asio/ThreadPool.h>
-#include <openpal/executor/asio/StrandExecutor.h>
+#include <asiopal/ThreadPool.h>
+#include <asiopal/StrandExecutor.h>
 
 using namespace std;
 using namespace std::chrono;
