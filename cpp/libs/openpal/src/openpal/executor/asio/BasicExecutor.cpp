@@ -19,48 +19,47 @@
  * to you under the terms of the License.
  */
 
-#include "openpal/executor/ITimer.h"
+#include "openpal/executor/asio/BasicExecutor.h"
 
-#include "openpal/util/Uncopyable.h"
-
-#include <asio.hpp>
+#include "ASIOTimer.h"
 
 namespace openpal
 {
 
-    class ASIOTimer final : public openpal::ITimer, private openpal::Uncopyable
+    Timer BasicExecutor::start(const duration_t& duration, const action_t& action)
     {
-        friend class Executor;
+        return this->start(this->get_time() + duration, action);
+    }
 
-    public:
+    Timer BasicExecutor::start(const steady_time_t& expiration, const action_t& action)
+    {
+        const auto timer = ASIOTimer::create(this->io_service);
 
-        ASIOTimer(const std::shared_ptr<asio::io_service>& io_service) :
-            impl(*io_service),
-            io_service(io_service)
-        {}
+        timer->impl.expires_at(expiration);
 
-        static std::shared_ptr<ASIOTimer> create(const std::shared_ptr<asio::io_service>& io_service)
+        // neither the executor nor the timer can be deleted while the timer is still active
+        auto callback = [timer, action, self = shared_from_this()](const std::error_code & ec)
         {
-            return std::make_shared<ASIOTimer>(io_service);
-        }
+            if (!ec)   // an error indicate timer was canceled
+            {
+                action();
+            }
+        };
 
-        virtual void cancel() override
-        {
-            std::error_code ec;
-            impl.cancel(ec);
-        }
+        timer->impl.async_wait(callback);
 
-        virtual steady_time_t expires_at() override
-        {
-            return impl.expires_at();
-        }
+        return Timer(timer);
+    }
 
-        asio::basic_waitable_timer<std::chrono::steady_clock> impl;
+    void BasicExecutor::post(const action_t& action)
+    {
+        this->io_service->post(action);
+    }
 
-    private:
-
-        const std::shared_ptr<asio::io_service> io_service;
-    };
+    steady_time_t BasicExecutor::get_time()
+    {
+        return std::chrono::steady_clock::now();
+    }
 
 }
 

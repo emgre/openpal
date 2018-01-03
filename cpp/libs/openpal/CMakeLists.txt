@@ -41,6 +41,7 @@ set(openpal_src
 # append asio components in case we want to make this optional in the future
 set(openpal_public_headers
     ${openpal_public_headers}
+	./include/openpal/executor/asio/BasicExecutor.h
 	./include/openpal/executor/asio/StrandExecutor.h
 	./include/openpal/executor/asio/ThreadPool.h
 )
@@ -48,6 +49,7 @@ set(openpal_public_headers
 set(openpal_src 
     ${openpal_src}
 	./src/openpal/executor/asio/ASIOTimer.h
+	./src/openpal/executor/asio/BasicExecutor.cpp
     ./src/openpal/executor/asio/StrandExecutor.cpp
 	./src/openpal/executor/asio/ThreadPool.cpp
 )

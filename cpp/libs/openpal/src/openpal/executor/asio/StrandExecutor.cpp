@@ -33,7 +33,7 @@ namespace openpal
 
     Timer StrandExecutor::start(const steady_time_t& expiration, const action_t& action)
     {
-        const auto timer = std::make_shared<ASIOTimer>(*this->io_service);
+        const auto timer = ASIOTimer::create(this->io_service);
 
         timer->impl.expires_at(expiration);
 
