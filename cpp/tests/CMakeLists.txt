@@ -15,6 +15,11 @@ set(openpal_tests_src
     ./openpaltests/src/TestStaticBuffer.cpp    
 )
 
+set(openpal_tests_src
+    ${openpal_tests_src}
+    ./openpaltests/src/asio/TestStrandExecutor.cpp	
+)
+
 add_executable(openpal_tests ${openpal_tests_headers} ${openpal_tests_src})
 target_compile_features(openpal_tests PRIVATE cxx_std_14)
 target_link_libraries(openpal_tests PRIVATE openpal)
