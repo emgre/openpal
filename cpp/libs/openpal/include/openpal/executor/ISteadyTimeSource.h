@@ -34,7 +34,7 @@ namespace openpal
     {
     public:
 
-		virtual ~ISteadyTimeSource() = default;
+        virtual ~ISteadyTimeSource() = default;
 
         /// @return a non-absolute timestamp for the monotonic time source
         virtual steady_time_t get_time() = 0;

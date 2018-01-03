@@ -81,15 +81,15 @@ namespace openpal
             return UInt32Type::read_from(input, out);
         }
 
-		static inline bool read_one(rseq_t& input, int64_t& out)
-		{
-			return Int64Type::read_from(input, out);
-		}
+        static inline bool read_one(rseq_t& input, int64_t& out)
+        {
+            return Int64Type::read_from(input, out);
+        }
 
-		static inline bool read_one(rseq_t& input, uint64_t& out)
-		{
-			return UInt64Type::read_from(input, out);
-		}
+        static inline bool read_one(rseq_t& input, uint64_t& out)
+        {
+            return UInt64Type::read_from(input, out);
+        }
 
         static inline bool write(wseq_t& dest)
         {
@@ -121,15 +121,15 @@ namespace openpal
             return UInt32Type::write_to(dest, value);
         }
 
-		static inline bool write_one(wseq_t& dest, const int64_t& value)
-		{
-			return Int64Type::write_to(dest, value);
-		}
+        static inline bool write_one(wseq_t& dest, const int64_t& value)
+        {
+            return Int64Type::write_to(dest, value);
+        }
 
-		static inline bool write_one(wseq_t& dest, const uint64_t& value)
-		{
-			return UInt64Type::write_to(dest, value);
-		}
+        static inline bool write_one(wseq_t& dest, const uint64_t& value)
+        {
+            return UInt64Type::write_to(dest, value);
+        }
     };
 
 }

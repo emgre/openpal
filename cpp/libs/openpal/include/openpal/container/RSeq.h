@@ -34,7 +34,7 @@
 #include <cstring>
 
 namespace openpal
-{    
+{
 
     /**
     *	Represents a readonly sequence of bytes with a parameterized length type (L)
@@ -42,67 +42,67 @@ namespace openpal
     template <class L>
     class RSeq : public HasLength<L>
     {
-		static_assert(std::numeric_limits<L>::is_integer && !std::numeric_limits<L>::is_signed, "Must be an unsigned integer");
+        static_assert(std::numeric_limits<L>::is_integer&& !std::numeric_limits<L>::is_signed, "Must be an unsigned integer");
 
-    public:       
+    public:
 
-		static RSeq empty()
-		{
-			return RSeq(nullptr, 0);
-		}
+        static RSeq empty()
+        {
+            return RSeq(nullptr, 0);
+        }
 
-		RSeq() : HasLength<L>(0)
-		{}
+        RSeq() : HasLength<L>(0)
+        {}
 
-		RSeq(uint8_t const* buffer, L length) :
-			HasLength<L>(length),
-			buffer_(buffer)
-		{}
+        RSeq(uint8_t const* buffer, L length) :
+            HasLength<L>(length),
+            buffer_(buffer)
+        {}
 
         void make_empty()
         {
-			this->buffer_ = nullptr;
-			this->length_ = 0;
-		}			
-		
-		RSeq take(L count) const
-		{
-			return RSeq(this->buffer_, (count < this->length_) ? count : this->length_);
-		}		
+            this->buffer_ = nullptr;
+            this->length_ = 0;
+        }
 
-		RSeq skip(L count) const
-		{
-			auto num = openpal::min(this->length_, count);
-			return RSeq(this->buffer_ + num, this->length_ - num);
-		}
+        RSeq take(L count) const
+        {
+            return RSeq(this->buffer_, (count < this->length_) ? count : this->length_);
+        }
+
+        RSeq skip(L count) const
+        {
+            auto num = openpal::min(this->length_, count);
+            return RSeq(this->buffer_ + num, this->length_ - num);
+        }
 
         void advance(L count)
-		{
-			auto num = openpal::min(this->length_, count);
-			this->buffer_ += num;
-			this->length_ -= num;
-		}
+        {
+            auto num = openpal::min(this->length_, count);
+            this->buffer_ += num;
+            this->length_ -= num;
+        }
 
-		operator uint8_t const* () const
-		{
-			return this->buffer_;
-		};		
+        operator uint8_t const* () const
+        {
+            return this->buffer_;
+        };
 
-		bool equals(const RSeq& rhs) const
-		{
-			if (this->length_ == rhs.length_)
-			{
-				return memcmp(this->buffer_, rhs.buffer_, this->length_) == 0;
-			}
-			else
-			{
-				return false;
-			}
-		}
+        bool equals(const RSeq& rhs) const
+        {
+            if (this->length_ == rhs.length_)
+            {
+                return memcmp(this->buffer_, rhs.buffer_, this->length_) == 0;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-	protected:
+    protected:
 
-		uint8_t const* buffer_ = nullptr;
+        uint8_t const* buffer_ = nullptr;
 
     };
 

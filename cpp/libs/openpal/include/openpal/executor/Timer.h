@@ -38,38 +38,38 @@ namespace openpal
     class Timer final
     {
     public:
-		
-		Timer(const std::shared_ptr<ITimer>& timer) : timer(timer)
-		{}
 
-		inline bool cancel()
-		{
-			if (auto impl = timer.lock())
-			{
-				impl->cancel();
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-        
-		inline steady_time_t expires_at()
-		{
-			if (auto impl = timer.lock())
-			{
-				return impl->expires_at();
-			}
-			else
-			{
-				return steady_time_t::min();
-			}
-		}
+        Timer(const std::shared_ptr<ITimer>& timer) : timer(timer)
+        {}
 
-	private:
+        inline bool cancel()
+        {
+            if (auto impl = timer.lock())
+            {
+                impl->cancel();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-		std::weak_ptr<ITimer> timer;
+        inline steady_time_t expires_at()
+        {
+            if (auto impl = timer.lock())
+            {
+                return impl->expires_at();
+            }
+            else
+            {
+                return steady_time_t::min();
+            }
+        }
+
+    private:
+
+        std::weak_ptr<ITimer> timer;
     };
 
 }

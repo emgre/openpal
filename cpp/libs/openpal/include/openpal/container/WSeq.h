@@ -38,105 +38,107 @@ namespace openpal
     *	Represents a write-able slice of a buffer located elsewhere. Mediates writing to the buffer
     *	to prevent overruns and other errors. Parameterized by the length type
     */
-	template <class L>
+    template <class L>
     class WSeq : public HasLength<L>
     {
-		typedef void* (memfunc_t)(void*, const void*, size_t);
+        typedef void* (memfunc_t)(void*, const void*, size_t);
 
     public:
 
-		static WSeq empty()
-		{
-			return WSeq();
-		}
-       
-		WSeq()
-		{}
+        static WSeq empty()
+        {
+            return WSeq();
+        }
 
-		WSeq(uint8_t* buffer, uint32_t length) : HasLength<L>(length), buffer_(buffer)
-		{}
+        WSeq()
+        {}
 
-		void set_all_to(uint8_t value)
-		{
-			memset(this->buffer_, value, this->length_);
-		}
+        WSeq(uint8_t* buffer, uint32_t length) : HasLength<L>(length), buffer_(buffer)
+        {}
 
-		void make_empty()
-		{
-			this->buffer_ = nullptr;
-			this->length_ = 0;
-		}
+        void set_all_to(uint8_t value)
+        {
+            memset(this->buffer_, value, this->length_);
+        }
 
-		L advance(L count)
-		{
-			const auto num = openpal::min(count, this->length_);
-			this->buffer_ += num;
-			this->length_ -= num;
-			return num;
-		}
+        void make_empty()
+        {
+            this->buffer_ = nullptr;
+            this->length_ = 0;
+        }
 
-		bool put(uint8_t byte)
-		{
-			if (this->length_ == 0) return false;
-			else {
-				this->buffer_[0] = byte;
-				++this->buffer_;
-				--this->length_;
-				return true;
-			}
-		}
+        L advance(L count)
+        {
+            const auto num = openpal::min(count, this->length_);
+            this->buffer_ += num;
+            this->length_ -= num;
+            return num;
+        }
 
-		WSeq skip(uint32_t count) const
-		{
-			const auto num = openpal::min(count, this->length_);
-			return WSeq(this->buffer_ + num, this->length_ - num);
-		}
+        bool put(uint8_t byte)
+        {
+            if (this->length_ == 0) return false;
+            else
+            {
+                this->buffer_[0] = byte;
+                ++this->buffer_;
+                --this->length_;
+                return true;
+            }
+        }
 
-		WSeq take(uint32_t count) const
-		{
-			return WSeq(this->buffer_, openpal::min(this->length_, count));
-		}
+        WSeq skip(uint32_t count) const
+        {
+            const auto num = openpal::min(count, this->length_);
+            return WSeq(this->buffer_ + num, this->length_ - num);
+        }
 
-		RSeq<L> readonly() const
-		{
-			return RSeq<L>(this->buffer_, this->length_);
-		}
+        WSeq take(uint32_t count) const
+        {
+            return WSeq(this->buffer_, openpal::min(this->length_, count));
+        }
+
+        RSeq<L> readonly() const
+        {
+            return RSeq<L>(this->buffer_, this->length_);
+        }
 
         operator uint8_t* () const
         {
             return buffer_;
         };
 
-		RSeq<L> copy_from(const RSeq<L>& src)
-		{
-			return this->transfer_from<memcpy>(src);
-		}
+        RSeq<L> copy_from(const RSeq<L>& src)
+        {
+            return this->transfer_from<memcpy>(src);
+        }
 
-		RSeq<L> move_from(const RSeq<L>& src)
-		{
-			return this->transfer_from<memmove>(src);
-		}
+        RSeq<L> move_from(const RSeq<L>& src)
+        {
+            return this->transfer_from<memmove>(src);
+        }
 
 
     private:
 
-		template <memfunc_t mem_func>
-		RSeq<L> transfer_from(const RSeq<L>& src)
-		{
-			if (src.length() > this->length_)
-			{
-				return RSeq<L>::empty();
-			}
-			else {
-				const auto ret = this->readonly().take(src.length());
-				mem_func(buffer_, src, src.length());
-				this->advance(src.length());
-				return ret;
-			}
-		}
+        template <memfunc_t mem_func>
+        RSeq<L> transfer_from(const RSeq<L>& src)
+        {
+            if (src.length() > this->length_)
+            {
+                return RSeq<L>::empty();
+            }
+            else
+            {
+                const auto ret = this->readonly().take(src.length());
+                mem_func(buffer_, src, src.length());
+                this->advance(src.length());
+                return ret;
+            }
+        }
 
 
-		uint8_t* buffer_ = nullptr;
+        uint8_t* buffer_ = nullptr;
     };
 
 

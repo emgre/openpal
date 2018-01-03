@@ -41,20 +41,20 @@ namespace openpal
     template <class T, T SIZE>
     class StaticBuffer final
     {
-		static_assert(!std::numeric_limits<T>::is_signed && std::numeric_limits<T>::is_integer, "must be an unsigned integer");
+        static_assert(!std::numeric_limits<T>::is_signed&& std::numeric_limits<T>::is_integer, "must be an unsigned integer");
 
-    public:  
+    public:
 
-		StaticBuffer() {}
+        StaticBuffer() {}
 
         RSeq<T> as_seq() const
         {
             return RSeq<T>(buffer_, SIZE);
         }
 
-		RSeq<T> as_seq(T max_size) const
+        RSeq<T> as_seq(T max_size) const
         {
-			return this->as_seq().take(max_size);
+            return this->as_seq().take(max_size);
         }
 
         wseq_t as_wseq()
@@ -84,7 +84,7 @@ namespace openpal
 
     private:
 
-		uint8_t buffer_[SIZE] = { 0 };
+        uint8_t buffer_[SIZE] = { 0 };
     };
 
 }

@@ -30,12 +30,12 @@
 
 namespace openpal
 {
-   
+
     /**
-	 * Interface that abstracts an event loop.
-	 *	 
-     * Events can be posted for to execute immediately or some time in the future.  Events 
-	 * are processed in the order they are posted.
+     * Interface that abstracts an event loop.
+     *
+     * Events can be posted for to execute immediately or some time in the future.  Events
+     * are processed in the order they are posted.
      *
      */
     class IExecutor : public ISteadyTimeSource
@@ -45,7 +45,7 @@ namespace openpal
 
         virtual ~IExecutor() {}
 
-        /// @return start a new timer based on a relative time duration		
+        /// @return start a new timer based on a relative time duration
         virtual Timer start(const duration_t& duration, const action_t& action) = 0;
 
         /// @return start a new timer based on an absolute timestamp of the steady clock

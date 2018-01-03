@@ -63,7 +63,7 @@ namespace openpal
     std::string append_hex(std::initializer_list<std::string> segments)
     {
         ostringstream oss;
-        for (auto & str : segments)
+        for (auto& str : segments)
         {
             oss << str;
         }

@@ -34,7 +34,7 @@ namespace openpal
 
     Buffer::Buffer(const rseq_t& input) : Array<uint8_t, uint32_t>(input.length())
     {
-		this->as_wslice().copy_from(input);
+        this->as_wslice().copy_from(input);
     }
 
     rseq_t Buffer::as_rslice() const

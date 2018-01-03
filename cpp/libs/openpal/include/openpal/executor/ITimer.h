@@ -36,7 +36,7 @@ namespace openpal
     class ITimer
     {
     public:
-		virtual ~ITimer() = default;
+        virtual ~ITimer() = default;
 
         virtual void cancel() = 0;
         virtual steady_time_t expires_at() = 0;

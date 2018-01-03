@@ -29,8 +29,8 @@
 
 namespace openpal
 {
-	typedef RSeq<uint32_t> rseq_t;
-	typedef WSeq<uint32_t> wseq_t;
+    typedef RSeq<uint32_t> rseq_t;
+    typedef WSeq<uint32_t> wseq_t;
 
 }
 

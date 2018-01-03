@@ -48,7 +48,7 @@ namespace openpal
         operator rseq_t () const
         {
             return this->as_rslice();
-        }		
+        }
 
     protected:
 
