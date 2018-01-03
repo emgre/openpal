@@ -24,7 +24,6 @@
  */
 #include <catch.hpp>
 
-#include <openpal/mock/Hex.h>
 #include <openpal/mock/HexConversions.h>
 
 #include <openpal/container/Buffer.h>

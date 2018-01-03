@@ -7,7 +7,9 @@ set(openpal_tests_headers ./catch/catch.hpp)
 set(openpal_tests_src
     ./openpaltests/src/CatchTestStart.cpp    
     ./openpaltests/src/TestBigEndianSerialization.cpp
+	./openpaltests/src/TestBuffer.cpp
     ./openpaltests/src/TestFloatSerialization.cpp
+	./openpaltests/src/TestHexConversions.cpp
     ./openpaltests/src/TestLittleEndianSerialization.cpp
 	./openpaltests/src/TestMockExecutor.cpp
     ./openpaltests/src/TestStaticBuffer.cpp    

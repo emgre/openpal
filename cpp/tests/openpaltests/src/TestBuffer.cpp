@@ -22,43 +22,25 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef TESTLIB_HEX_H
-#define TESTLIB_HEX_H
+#include <catch.hpp>
 
-#include "openpal/container/Buffer.h"
+#include <openpal/mock/HexConversions.h>
 
-#include <string>
+using namespace openpal;
 
-namespace openpal
+#define SUITE(name) "Buffer - " name
+
+TEST_CASE(SUITE("Empty Buffer can be constructed"))
 {
-
-    /**
-     * A sequence of hex values in the form "01 02 03 04" that are stored as a ByteStr.
-     */
-    class Hex
-    {
-    public:
-        Hex(const std::string& hex);
-
-        rseq_t as_rslice() const
-        {
-            return buffer.as_rslice();
-        }
-
-        operator rseq_t () const
-        {
-            return this->as_rslice();
-        }
-
-    protected:
-
-        openpal::Buffer buffer;
-
-        std::string remove_spaces(const std::string& hex);
-        void remove_spaces_in_place(std::string& hex);
-        static uint32_t validate(const std::string& sequence);
-    };
-
+    Buffer buffer;
+    REQUIRE(buffer.length() == 0);
+    REQUIRE(buffer.is_empty());
 }
 
-#endif
+TEST_CASE(SUITE("Buffer is initialized to all zeros"))
+{
+    Buffer buffer(3);
+    REQUIRE(buffer.length() == 3);
+    REQUIRE(to_hex(buffer.as_rslice()) == "00 00 00");
+}
+

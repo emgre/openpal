@@ -26,12 +26,13 @@
 #define TESTLIB_HEX_CONVERSIONS_H
 
 #include "openpal/container/SequenceTypes.h"
+#include "openpal/container/Buffer.h"
 
 #include <string>
+#include <memory>
 
 namespace openpal
 {
-
     char to_hex_char(char c);
 
     std::string byte_to_hex(uint8_t b);
@@ -42,12 +43,11 @@ namespace openpal
 
     std::string append_hex(std::initializer_list<std::string> segments);
 
-    std::string skip_bytes_hex(const std::string& input, uint32_t bytes);
-
     std::string repeat_hex(uint8_t byte, uint16_t count, bool spaced = true);
 
     std::string increment_hex(uint8_t start, uint16_t count, bool spaced = true);
 
+    std::unique_ptr<Buffer> from_hex(const std::string& hex);
 }
 
 #endif

@@ -13,8 +13,7 @@ set(openpal_public_headers
     ./include/openpal/executor/ITimer.h	
 	./include/openpal/executor/Timer.h
 	./include/openpal/executor/Typedefs.h       
-
-	./include/openpal/mock/Hex.h
+	
 	./include/openpal/mock/HexConversions.h
 	./include/openpal/mock/MockExecutor.h	
 
@@ -31,8 +30,7 @@ set(openpal_public_headers
     ./include/openpal/util/Uncopyable.h
 )
 
-set(openpal_src    
-	./src/openpal/mock/Hex.cpp
+set(openpal_src    	
 	./src/openpal/mock/HexConversions.cpp	
 
     ./src/openpal/serialization/DoubleFloat.cpp

@@ -24,8 +24,6 @@
  */
 #include "openpal/mock/HexConversions.h"
 
-#include "openpal/mock/Hex.h"
-
 #include <sstream>
 
 using namespace std;
@@ -66,18 +64,13 @@ namespace openpal
     std::string append_hex(std::initializer_list<std::string> segments)
     {
         ostringstream oss;
+
         for (auto& str : segments)
         {
             oss << str;
         }
-        Hex output(oss.str());
-        return to_hex(output.as_rslice());
-    }
 
-    std::string skip_bytes_hex(const std::string& input, uint32_t bytes)
-    {
-        Hex buffer(input);
-        return to_hex(buffer.as_rslice().skip(bytes));
+        return to_hex(from_hex(oss.str())->as_rslice());
     }
 
     std::string repeat_hex(uint8_t byte, uint16_t count, bool spaced)
@@ -100,5 +93,56 @@ namespace openpal
         return to_hex(buffer.as_rslice(), spaced);
     }
 
+    void remove_spaces_in_place(std::string& hex)
+    {
+        size_t pos = hex.find_first_of(' ');
+        if (pos != string::npos)
+        {
+            hex.replace(pos, 1, "");
+            remove_spaces_in_place(hex);
+        }
+    }
+
+    std::string remove_spaces(const std::string& hex)
+    {
+        std::string copy(hex);
+        remove_spaces_in_place(copy);
+        return copy;
+    }
+
+    std::unique_ptr<Buffer> from_hex(const std::string& hex)
+    {
+        // create a copy of the string without space
+        const std::string copy = remove_spaces(hex);
+
+        //annoying when you accidentally put an 'O' instead of zero '0'
+        if (copy.find_first_of("oO") != string::npos)
+        {
+            throw std::invalid_argument("Sequence contains 'o' or 'O'");
+        }
+
+        if (copy.size() % 2 != 0)
+        {
+            throw std::invalid_argument(hex);
+        }
+
+        const auto num_bytes = static_cast<uint32_t>(copy.size() / 2);
+
+        auto buffer = std::make_unique<Buffer>(num_bytes);
+
+        for (size_t index = 0, pos = 0; pos < copy.size(); ++index, pos += 2)
+        {
+            uint32_t val;
+            std::stringstream ss;
+            ss << std::hex << copy.substr(pos, 2);
+            if ((ss >> val).fail())
+            {
+                throw std::invalid_argument(hex);
+            }
+            buffer->as_wslice()[index] = static_cast<uint8_t>(val);
+        }
+
+        return std::move(buffer);
+    }
 }
 

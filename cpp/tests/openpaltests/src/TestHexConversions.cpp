@@ -22,70 +22,36 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "openpal/mock/Hex.h"
+#include <catch.hpp>
 
-#include "openpal/mock/HexConversions.h"
+#include <openpal/mock/HexConversions.h>
 
-#include <exception>
 #include <stdexcept>
-#include <sstream>
 
-using namespace std;
+using namespace openpal;
 
-namespace openpal
+#define SUITE(name) "HexConversion - " name
+
+TEST_CASE(SUITE("can parse bytes from hex"))
 {
-    Hex::Hex( const std::string& hex) :
-        buffer(validate(remove_spaces(hex)))
-    {
-        std::string s = remove_spaces(hex);
+    std::string input("CA FE 01 02");
 
-        size_t size = s.size();
-        for(size_t index = 0, pos = 0; pos < size; ++index, pos += 2)
-        {
-            uint32_t val;
-            std::stringstream ss;
-            ss << std::hex << s.substr(pos, 2);
-            if((ss >> val).fail())
-            {
-                throw std::invalid_argument(hex);
-            }
-            buffer.as_wslice()[index] = static_cast<uint8_t>(val);
-        }
-    }
+    auto bytes = from_hex(input);
 
-    std::string Hex::remove_spaces(const std::string& hex)
-    {
-        std::string copy(hex);
-        remove_spaces_in_place(copy);
-        return copy;
-    }
-
-    void Hex::remove_spaces_in_place(std::string& hex)
-    {
-        size_t pos = hex.find_first_of(' ');
-        if(pos != string::npos)
-        {
-            hex.replace(pos, 1, "");
-            remove_spaces_in_place(hex);
-        }
-    }
-
-    uint32_t Hex::validate(const std::string& sequence)
-    {
-        //annoying when you accidentally put an 'O' instead of zero '0'
-        if(sequence.find_first_of( "oO") != string::npos)
-        {
-            throw std::invalid_argument("Sequence contains 'o' or 'O'");
-        }
-
-        if(sequence.size() % 2 != 0)
-        {
-            throw std::invalid_argument(sequence);
-        }
-
-        return static_cast<uint32_t>(sequence.size() / 2);
-    }
-
+    REQUIRE(input == to_hex(bytes->as_rslice()));
 }
 
+TEST_CASE(SUITE("throws on invalid characters"))
+{
+    try
+    {
+        // letter 'O'
+        from_hex("0A OC");
+        REQUIRE(false);
+    }
+    catch (const std::invalid_argument&)
+    {
+
+    }
+}
 
