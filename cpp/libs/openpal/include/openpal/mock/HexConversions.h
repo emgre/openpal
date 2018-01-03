@@ -32,6 +32,8 @@
 namespace openpal
 {
 
+    char to_hex_char(char c);
+
     std::string byte_to_hex(uint8_t b);
 
     std::string to_hex(const uint8_t* buffer, size_t length, bool spaced = false);

@@ -14,8 +14,9 @@ set(openpal_public_headers
 	./include/openpal/executor/Timer.h
 	./include/openpal/executor/Typedefs.h       
 
-	./include/openpal/mock/MockExecutor.h
-	./include/openpal/mock/ToHex.h
+	./include/openpal/mock/Hex.h
+	./include/openpal/mock/HexConversions.h
+	./include/openpal/mock/MockExecutor.h	
 
     ./include/openpal/serialization/BigEndian.h
     ./include/openpal/serialization/DoubleFloat.h
@@ -36,9 +37,7 @@ set(openpal_src
 
     ./src/openpal/serialization/DoubleFloat.cpp
     ./src/openpal/serialization/FloatByteOrder.cpp
-    ./src/openpal/serialization/SingleFloat.cpp
-    
-    ./src/openpal/util/ToHex.cpp
+    ./src/openpal/serialization/SingleFloat.cpp       
 )
 
 add_library(openpal ${openpal_public_headers} ${openpal_src})

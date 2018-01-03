@@ -25,7 +25,6 @@
 #include "openpal/mock/HexConversions.h"
 
 #include "openpal/mock/Hex.h"
-#include "openpal/mock/ToHex.h"
 
 #include <sstream>
 
@@ -34,6 +33,10 @@ using namespace openpal;
 
 namespace openpal
 {
+    char to_hex_char(char c)
+    {
+        return (c > 9) ? ('A' + (c - 10)) : ('0' + c);
+    }
 
     std::string to_hex(const uint8_t* buffer, size_t aLength, bool spaced)
     {
