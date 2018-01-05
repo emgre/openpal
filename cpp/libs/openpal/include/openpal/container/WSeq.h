@@ -64,7 +64,7 @@ namespace openpal
         void make_empty()
         {
             this->buffer_ = nullptr;
-            this->length_ = 0;
+            this->m_length = 0;
         }
 
         L advance(L count)
@@ -82,20 +82,20 @@ namespace openpal
             {
                 this->buffer_[0] = byte;
                 ++this->buffer_;
-                --this->length_;
+                --this->m_length;
                 return true;
             }
         }
 
         WSeq skip(uint32_t count) const
         {
-            const auto num = openpal::min(count, this->length_);
-            return WSeq(this->buffer_ + num, this->length_ - num);
+            const auto num = openpal::min(count, this->m_length);
+            return WSeq(this->buffer_ + num, this->m_length - num);
         }
 
         WSeq take(uint32_t count) const
         {
-            return WSeq(this->buffer_, openpal::min(this->length_, count));
+            return WSeq(this->buffer_, openpal::min(this->m_length, count));
         }
 
         RSeq<L> readonly() const
