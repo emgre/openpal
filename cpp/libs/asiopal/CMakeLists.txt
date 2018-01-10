@@ -13,10 +13,12 @@ set(asiopal_src
 	./src/ThreadPool.cpp
 )
 
+find_package(Threads)
+
 add_library(asiopal ${asiopal_public_headers} ${asiopal_src})
 target_compile_features(asiopal PUBLIC cxx_std_14)
 target_include_directories(asiopal PUBLIC ./include)
-target_link_libraries(asiopal PUBLIC openpal)
+target_link_libraries(asiopal PUBLIC openpal Threads::Threads)
 
 # Add asio dependency
 if(TARGET asio)
