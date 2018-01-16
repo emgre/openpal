@@ -90,9 +90,9 @@ namespace openpal
 
         bool equals(const RSeq& rhs) const
         {
-            if (this->length_ == rhs.length_)
+            if (this->m_length == rhs.m_length)
             {
-                return memcmp(this->buffer_, rhs.buffer_, this->length_) == 0;
+                return memcmp(this->buffer_, rhs.buffer_, this->m_length) == 0;
             }
             else
             {
